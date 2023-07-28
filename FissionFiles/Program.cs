@@ -1,3 +1,5 @@
+using FissionFiles.Repositories;
+
 namespace FissionFiles
 {
     public class Program
@@ -10,6 +12,7 @@ namespace FissionFiles
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

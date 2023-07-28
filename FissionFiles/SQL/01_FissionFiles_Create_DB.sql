@@ -24,35 +24,35 @@ CREATE TABLE [UserType] (
 
 CREATE TABLE [Users] (
   [id] integer PRIMARY KEY IDENTITY,
-  [firstName] varchar(255),
-  [lastName] varchar(255),
-  [displayName] varchar(255),
-  [userTypeId] integer,
-  [email] varchar(255),
-  [creationDate] date,
-  [avatar] varchar(255),
-  [bio] varchar(255),
-  [isActive] bit,
+  [firstName] varchar(50) NOT NULL,
+  [lastName] varchar(50) NOT NULL,
+  [displayName] varchar(50) NOT NULL,
+  [userTypeId] integer NOT NULL,
+  [email] varchar(555) NOT NULL,
+  [creationDate] datetime NOT NULL,
+  [avatar] nvarchar(255),
+  [bio] varchar(555) NOT NULL,
+  [isActive] bit NOT NULL DEFAULT(1),
 
   CONSTRAINT [FK_Users_UserType] FOREIGN KEY ([userTypeId]) REFERENCES [UserType] ([id])
 );
 
 CREATE TABLE [Scientist] (
   [id] integer PRIMARY KEY IDENTITY,
-  [fullName] varchar(255),
-  [description] varchar(MAX),
-  [imageUrl] varchar(255),
-  [title] varchar(255),
-  [achievements] varchar(MAX)
+  [fullName] varchar(255) NOT NULL,
+  [description] varchar(MAX) NOT NULL,
+  [imageUrl] varchar(255) NOT NULL,
+  [title] varchar(255) NOT NULL,
+  [achievements] varchar(MAX) NOT NULL
 );
 
 CREATE TABLE [Forums] (
   [id] integer PRIMARY KEY IDENTITY,
-  [userId] integer,
-  [moderatorId] integer,
-  [name] varchar(255),
-  [description] varchar(MAX),
-  [isActive] bit,
+  [userId] integer NOT NULL,
+  [moderatorId] integer NOT NULL,
+  [name] varchar(255) NOT NULL,
+  [description] varchar(MAX) NOT NULL,
+  [isActive] bit NOT NULL,
 
   CONSTRAINT [FK_Forums_Users] FOREIGN KEY ([userId]) REFERENCES [Users] ([id]),
   CONSTRAINT [FK_Forums_Moderator] FOREIGN KEY ([moderatorId]) REFERENCES [Users] ([id])
@@ -60,13 +60,13 @@ CREATE TABLE [Forums] (
 
 CREATE TABLE [Posts] (
   [id] integer PRIMARY KEY IDENTITY,
-  [userId] integer,
-  [forumId] integer,
-  [title] varchar(255),
-  [timestamp] date,
-  [content] varchar(MAX),
-  [headerImage] varchar(255),
-  [isDeleted] bit,
+  [userId] integer NOT NULL,
+  [forumId] integer NOT NULL,
+  [title] varchar(255) NOT NULL,
+  [timestamp] datetime NOT NULL,
+  [content] varchar(MAX) NOT NULL,
+  [headerImage] varchar(255) NOT NULL,
+  [isDeleted] bit NOT NULL DEFAULT(0),
 
   CONSTRAINT [FK_Posts_Users] FOREIGN KEY ([userId]) REFERENCES [Users] ([id]),
   CONSTRAINT [FK_Posts_Forums] FOREIGN KEY ([forumId]) REFERENCES [Forums] ([id])
@@ -74,12 +74,12 @@ CREATE TABLE [Posts] (
 
 CREATE TABLE [Comments] (
   [id] integer PRIMARY KEY IDENTITY,
-  [userId] integer,
-  [postId] integer,
-  [timestamp] date,
-  [content] varchar(MAX),
-  [isDeleted] bit,
-  [isRemoved] bit,
+  [userId] integer NOT NULL,
+  [postId] integer NOT NULL,
+  [timestamp] datetime NOT NULL,
+  [content] varchar(MAX) NOT NULL,
+  [isDeleted] bit NOT NULL DEFAULT(0),
+  [isRemoved] bit NOT NULL DEFAULT(0),
 
   CONSTRAINT [FK_Comments_Users] FOREIGN KEY ([userId]) REFERENCES [Users] ([id]),
   CONSTRAINT [FK_Comments_Posts] FOREIGN KEY ([postId]) REFERENCES [Posts] ([id])
@@ -87,21 +87,21 @@ CREATE TABLE [Comments] (
 
 CREATE TABLE [TimelineEvent] (
   [id] integer PRIMARY KEY IDENTITY,
-  [scientistId] integer,
-  [eventName] varchar(255),
-  [description] varchar(MAX),
-  [date] date,
+  [scientistId] integer NOT NULL,
+  [eventName] varchar(255) NOT NULL,
+  [description] varchar(MAX) NOT NULL,
+  [date] datetime,
 
   CONSTRAINT [FK_TimelineEvent_Scientist] FOREIGN KEY ([scientistId]) REFERENCES [Scientist] ([id])
 );
 
 CREATE TABLE [Article] (
   [id] integer PRIMARY KEY IDENTITY,
-  [userId] integer,
-  [title] varchar(255),
-  [content] varchar(MAX),
-  [author] varchar(255),
-  [publicationDate] date,
+  [userId] integer NOT NULL,
+  [title] varchar(255) NOT NULL,
+  [content] varchar(MAX) NOT NULL,
+  [author] varchar(255) NOT NULL,
+  [publicationDate] datetime  NOT NULL,
 
   CONSTRAINT [FK_Article_Users] FOREIGN KEY ([userId]) REFERENCES [Users] ([id])
 );
