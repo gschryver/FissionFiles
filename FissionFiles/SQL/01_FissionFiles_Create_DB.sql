@@ -31,7 +31,7 @@ CREATE TABLE [Users] (
   [email] varchar(555) NOT NULL,
   [creationDate] datetime NOT NULL,
   [avatar] nvarchar(255),
-  [bio] varchar(555) NOT NULL,
+  [bio] varchar(555),
   [isActive] bit NOT NULL DEFAULT(1),
 
   CONSTRAINT [FK_Users_UserType] FOREIGN KEY ([userTypeId]) REFERENCES [UserType] ([id])

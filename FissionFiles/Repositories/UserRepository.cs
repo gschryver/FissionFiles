@@ -54,6 +54,35 @@ namespace FissionFiles.Repositories
             }
         }
 
+        // Registration 
+        public void RegisterUser(User user)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                INSERT INTO Users (firstName, lastName, displayName, userTypeId, email, creationDate, avatar, bio, isActive)
+                OUTPUT INSERTED.ID
+                VALUES (@FirstName, @LastName, @DisplayName, @UserTypeId, @Email, @CreationDate, @Avatar, @Bio, @IsActive)";
+
+                    DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", user.LastName);
+                    DbUtils.AddParameter(cmd, "@DisplayName", user.DisplayName);
+                    DbUtils.AddParameter(cmd, "@UserTypeId", 2); // Defaulting userTypeId to 2
+                    DbUtils.AddParameter(cmd, "@Email", user.Email);
+                    DbUtils.AddParameter(cmd, "@CreationDate", DateTime.Now); 
+                    DbUtils.AddParameter(cmd, "@Avatar", "default.jpg"); 
+                    DbUtils.AddParameter(cmd, "@Bio", ""); 
+                    DbUtils.AddParameter(cmd, "@IsActive", true); // Defaulting isActive to true
+
+                    user.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+
 
     }
 }

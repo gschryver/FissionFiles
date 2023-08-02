@@ -1,4 +1,5 @@
-﻿using FissionFiles.Repositories;
+﻿using FissionFiles.Models;
+using FissionFiles.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,20 @@ namespace FissionFiles.Controllers
                 return NotFound();
             }
             return Ok(user);
+        }
+
+        [HttpPost("Register")]
+        public ActionResult Register(User user)
+        {
+            try
+            {
+                _userRepository.RegisterUser(user);
+                return CreatedAtAction(nameof(GetByEmail), new { email = user.Email }, user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }
