@@ -30,8 +30,8 @@ CREATE TABLE [Users] (
   [userTypeId] integer NOT NULL,
   [email] varchar(555) NOT NULL,
   [creationDate] datetime NOT NULL,
-  [avatar] nvarchar(255),
-  [bio] varchar(555),
+  [avatar] nvarchar(255) DEFAULT('default.jpg'),
+  [bio] varchar(555) NULL,
   [isActive] bit NOT NULL DEFAULT(1),
 
   CONSTRAINT [FK_Users_UserType] FOREIGN KEY ([userTypeId]) REFERENCES [UserType] ([id])
