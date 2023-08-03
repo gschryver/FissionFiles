@@ -1,17 +1,23 @@
 import React, { useState, useContext } from "react";
-import { NavLink as RRNavLink } from "react-router-dom";
+import { NavLink as RRNavLink, useNavigate } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavLink } from "react-bootstrap";
 import { UserContext } from "../managers/UserManager";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
   const toggle = () => setIsOpen(!isOpen);
 
 
   const isAdmin = user && user.userTypeId === 1;
   console.log("isAdmin", isAdmin)
 
+  const handleLogout = () => {
+    logout().then(() => {
+      navigate('/'); // Redirect to home page after logout
+    });
+  };
 
   return (
     <Navbar bg="light" expand="md">
@@ -40,17 +46,7 @@ export default function Header() {
                   My Profile
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink
-                  as="a"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    logout();
-                  }}
-                >
-                  Logout
-                </NavLink>
-              </NavItem>
+              <button onClick={handleLogout}>Logout</button>
             </>
           )}
           {!user && (

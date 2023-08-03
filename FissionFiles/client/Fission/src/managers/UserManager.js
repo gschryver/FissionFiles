@@ -29,9 +29,13 @@ export const UserProvider = (props) => {
 
   // Logout Functionality
   const logout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
+    return new Promise((resolve) => {
+      localStorage.removeItem("user");
+      setUser(null);
+      resolve(); 
+    });
   };
+  
 
   // Get User Status
   const getUserStatus = (email) => {
