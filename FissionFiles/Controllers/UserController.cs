@@ -42,5 +42,29 @@ namespace FissionFiles.Controllers
             }
         }
 
+        [HttpGet("GetById/{id}")]
+        public ActionResult GetById(int id)
+        {
+            var user = _userRepository.GetById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        [HttpGet("GetAllUsers")]
+        public ActionResult GetAllUsers()
+        {
+            var users = _userRepository.GetAllUsers();
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return Ok(users);
+        }
+
     }
 }

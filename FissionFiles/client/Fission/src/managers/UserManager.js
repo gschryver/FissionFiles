@@ -64,8 +64,31 @@ export const UserProvider = (props) => {
       });
   };
 
+  // Profile Stuff 
+  const getUserById = (id) => {
+    return fetch(`${apiUrl}/api/user/GetById/${id}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch user');
+        }
+        return res.json();
+      });
+  };
+
+  // User List 
+  const getUsers = () => {
+    return fetch(`${apiUrl}/api/User/GetAllUsers`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch users');
+        }
+        return res.json();
+      });
+  };
+  
+
   return (
-    <UserContext.Provider value={{ user, login, logout, getUserStatus, register }}>
+    <UserContext.Provider value={{ user, login, logout, getUserStatus, register, getUserById, getUsers }}>
       {props.children}
     </UserContext.Provider>
   );

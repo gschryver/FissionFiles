@@ -8,6 +8,11 @@ export default function Header() {
   const { user, logout } = useContext(UserContext);
   const toggle = () => setIsOpen(!isOpen);
 
+
+  const isAdmin = user && user.userTypeId === 1;
+  console.log("isAdmin", isAdmin)
+
+
   return (
     <Navbar bg="light" expand="md">
       <Navbar.Brand as={RRNavLink} to="/">
@@ -21,6 +26,18 @@ export default function Header() {
               <NavItem>
                 <NavLink as={RRNavLink} to="/">
                   Home
+                </NavLink>
+              </NavItem>
+              {isAdmin && (
+                <NavItem>
+                  <NavLink as={RRNavLink} to="/users">
+                    User List
+                  </NavLink>
+                </NavItem>
+              )}
+              <NavItem>
+                <NavLink as={RRNavLink} to={`/user/${user.id}`}>
+                  My Profile
                 </NavLink>
               </NavItem>
               <NavItem>
