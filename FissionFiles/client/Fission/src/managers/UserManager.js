@@ -85,10 +85,27 @@ export const UserProvider = (props) => {
         return res.json();
       });
   };
+
+  // Update User Information
+  const updateUser = (user) => {
+    return fetch(`${apiUrl}/api/User/UpdateUser`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to update user');
+        }
+        return res.json();
+      });
+  };
   
 
   return (
-    <UserContext.Provider value={{ user, login, logout, getUserStatus, register, getUserById, getUsers }}>
+    <UserContext.Provider value={{ user, login, logout, getUserStatus, register, getUserById, getUsers, updateUser }}>
       {props.children}
     </UserContext.Provider>
   );

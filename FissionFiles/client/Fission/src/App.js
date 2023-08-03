@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 import ApplicationViews from "./components/ApplicationViews";
-import Authorize from './components/Authorize';
+import AuthenticatedRoutes from './components/Authenticated';
 import Header from './components/Header';
 import { UserProvider, UserContext } from "./managers/UserManager";
 // import react-bootstrap css
@@ -33,7 +33,7 @@ function AppContent() {
   return (
     <Router>
       <Header />
-      {user ? <ApplicationViews /> : <Authorize />}
+      {user ? <AuthenticatedRoutes /> : <ApplicationViews />}
     </Router>
   );
 }

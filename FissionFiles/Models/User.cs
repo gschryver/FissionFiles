@@ -18,7 +18,7 @@ namespace FissionFiles.Models
         public string DisplayName { get; set; }
 
         [ForeignKey("UserType")]
-        public int UserTypeId { get; set; }
+        public int? UserTypeId { get; set; }
 
         public string Email { get; set; }
 
@@ -29,7 +29,7 @@ namespace FissionFiles.Models
 
         public bool IsActive { get; set; }
 
-        public UserType UserType { get; set; }
+        public UserType? UserType { get; set; }
 
         public List<Post> Posts { get; set; }
 

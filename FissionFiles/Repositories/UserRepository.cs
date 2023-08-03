@@ -259,7 +259,61 @@ namespace FissionFiles.Repositories
             }
 
             return users;
-        }   
+        }
+
+        // Update user
+        public void UpdateUser(User user)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    // Fetch the existing user from the database by their ID
+                    var existingUser = GetById(user.Id);
+
+                    // Update only the fields that can be edited
+                    existingUser.FirstName = user.FirstName;
+                    existingUser.LastName = user.LastName;
+                    existingUser.Email = user.Email;
+                    existingUser.Avatar = user.Avatar;
+                    existingUser.Bio = user.Bio;
+
+                    // Check if UserTypeId is present in the incoming user object and update if necessary
+                    if (user.UserType != null && user.UserTypeId.HasValue)
+                    {
+                        existingUser.UserType = user.UserType;
+                        existingUser.UserTypeId = user.UserTypeId;
+                    }
+
+                    cmd.CommandText = @"
+                UPDATE Users
+                SET firstName = @FirstName, 
+                    lastName = @LastName, 
+                    email = @Email,
+                    avatar = @Avatar,
+                    bio = @Bio";
+
+                    if (existingUser.UserType != null && existingUser.UserTypeId.HasValue)
+                    {
+                        cmd.CommandText += ", userTypeId = @UserTypeId";
+                        DbUtils.AddParameter(cmd, "@UserTypeId", existingUser.UserTypeId);
+                    }
+
+                    cmd.CommandText += " WHERE id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@FirstName", existingUser.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", existingUser.LastName);
+                    DbUtils.AddParameter(cmd, "@Email", existingUser.Email);
+                    DbUtils.AddParameter(cmd, "@Avatar", existingUser.Avatar);
+                    DbUtils.AddParameter(cmd, "@Bio", existingUser.Bio);
+                    DbUtils.AddParameter(cmd, "@Id", existingUser.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
 
     }

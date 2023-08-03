@@ -66,5 +66,19 @@ namespace FissionFiles.Controllers
             return Ok(users);
         }
 
+        [HttpPut("UpdateUser")]
+        public ActionResult UpdateUser(User user)
+        {
+            try
+            {
+                _userRepository.UpdateUser(user);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

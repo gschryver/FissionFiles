@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Row, Col, Card} from 'react-bootstrap';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { UserContext } from '../../managers/UserManager';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
   const { getUserById } = useContext(UserContext);
@@ -24,6 +25,9 @@ const UserProfile = () => {
               <Card.Title>{profile.displayName}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">{profile.userType.name}</Card.Subtitle>
               <Card.Text>{profile.bio}</Card.Text>
+              <Link to={`/edit-profile/${userId}`}>
+                <Button variant="primary">Edit Profile</Button>
+              </Link>
             </Card.Body>
           </Card>
         </Col>

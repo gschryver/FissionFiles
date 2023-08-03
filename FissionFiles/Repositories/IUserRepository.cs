@@ -11,5 +11,6 @@ namespace FissionFiles.Repositories
         public List<Post> GetPostsByUserId(int userId);
         public List<Article> GetArticlesByUserId(int userId);
         public List<User> GetAllUsers();
+        void UpdateUser(User user);
     }
 }
