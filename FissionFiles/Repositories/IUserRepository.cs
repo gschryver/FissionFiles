@@ -12,5 +12,6 @@ namespace FissionFiles.Repositories
         public List<Article> GetArticlesByUserId(int userId);
         public List<User> GetAllUsers();
         void UpdateUser(User user);
+        void DeleteUser(int userId);
     }
 }

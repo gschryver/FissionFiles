@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { UserContext } from '../../managers/UserManager';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
-  const { getUserById } = useContext(UserContext);
+  const { getUserById, deleteUser, logout } = useContext(UserContext);
   const [profile, setProfile] = useState(null);
   const { userId } = useParams();
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
     getUserById(userId).then(setProfile);
@@ -15,6 +17,21 @@ const UserProfile = () => {
 
   if (!profile) return <div>Loading...</div>;
 
+  // delete profile 
+  const handleDelete = () => {
+    const confirmDelete = window.confirm('This cannot be undone. Are you sure you want to delete your account?');
+    if (confirmDelete) {
+      deleteUser(userId)
+        .then(() => {
+          logout(); 
+          navigate('/login'); 
+        })
+        .catch(error => {
+          console.error('Failed to delete user:', error);
+        });
+    }
+  };
+  
   return (
     <Container>
       <Row>
@@ -27,6 +44,7 @@ const UserProfile = () => {
               <Card.Text>{profile.bio}</Card.Text>
               <Link to={`/edit-profile/${userId}`}>
                 <Button variant="primary">Edit Profile</Button>
+                <Button variant="danger" onClick={handleDelete}>Delete Profile</Button>
               </Link>
             </Card.Body>
           </Card>

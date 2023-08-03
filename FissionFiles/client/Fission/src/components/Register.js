@@ -11,16 +11,12 @@ const Register = () => {
     displayName: "",
     email: "",
     creationDate: new Date(),
-    avatar: "default.jpg", 
+    avatar: "default.jpg",
     bio: "",
     isActive: true,
-    userType: {
-        id: 2,
-        name: "User",
-        users: [],
-    },
+    userTypeId: 2, 
+    articles: [],
     posts: [],
-    articles: []
   });
 
   const [error, setError] = useState("");
@@ -35,7 +31,6 @@ const Register = () => {
 
     register(user)
       .then(() => {
-        // Redirect or update UI to reflect successful registration
       })
       .catch((err) => {
         setError("Registration failed");

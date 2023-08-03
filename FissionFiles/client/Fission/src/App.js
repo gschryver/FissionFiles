@@ -1,16 +1,17 @@
 import React, { useContext, useEffect } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom"; 
 import ApplicationViews from "./components/ApplicationViews";
 import AuthenticatedRoutes from './components/Authenticated';
 import Header from './components/Header';
 import { UserProvider, UserContext } from "./managers/UserManager";
-// import react-bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (
         <UserProvider>
-            <AppContent />
+            <BrowserRouter> 
+                <AppContent />
+            </BrowserRouter>
         </UserProvider>
     );
 }
@@ -31,10 +32,10 @@ function AppContent() {
   }, []); 
 
   return (
-    <Router>
+    <>
       <Header />
       {user ? <AuthenticatedRoutes /> : <ApplicationViews />}
-    </Router>
+    </>
   );
 }
 

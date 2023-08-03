@@ -1,17 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../managers/UserManager';
 
 const UserList = () => {
   const { getUsers, user } = useContext(UserContext);
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (user && user.userTypeId !== 1) { 
+      navigate('/not-authorized'); 
     } else {
       getUsers().then(setUsers);
     }
-  }, [getUsers, user]);
+  }, [getUsers, user, navigate]);
 
   return (
     <div>

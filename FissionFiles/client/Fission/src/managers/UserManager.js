@@ -64,26 +64,24 @@ export const UserProvider = (props) => {
       });
   };
 
-  // Profile Stuff 
+  // Profile Stuff
   const getUserById = (id) => {
-    return fetch(`${apiUrl}/api/user/GetById/${id}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch user');
-        }
-        return res.json();
-      });
+    return fetch(`${apiUrl}/api/user/GetById/${id}`).then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to fetch user");
+      }
+      return res.json();
+    });
   };
 
-  // User List 
+  // User List
   const getUsers = () => {
-    return fetch(`${apiUrl}/api/User/GetAllUsers`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch users');
-        }
-        return res.json();
-      });
+    return fetch(`${apiUrl}/api/User/GetAllUsers`).then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to fetch users");
+      }
+      return res.json();
+    });
   };
 
   // Update User Information
@@ -94,18 +92,43 @@ export const UserProvider = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to update user');
-        }
-        return res.json();
-      });
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to update user");
+      }
+      return res.json();
+    });
   };
-  
+
+  // Delete User Profile
+  const deleteUser = (id) => {
+    return fetch(`${apiUrl}/api/User/DeleteUser/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to delete user");
+      }
+      return res.ok;
+    });
+  };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, getUserStatus, register, getUserById, getUsers, updateUser }}>
+    <UserContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        getUserStatus,
+        register,
+        getUserById,
+        getUsers,
+        updateUser,
+        deleteUser,
+      }}
+    >
       {props.children}
     </UserContext.Provider>
   );

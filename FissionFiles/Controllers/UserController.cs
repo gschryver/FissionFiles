@@ -80,5 +80,18 @@ namespace FissionFiles.Controllers
             }
         }
 
+        [HttpDelete("DeleteUser/{id}")]
+        public ActionResult DeleteUser(int id)
+        {
+            var user = _userRepository.GetById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            _userRepository.DeleteUser(id);
+            return Ok();
+        }
+
     }
 }

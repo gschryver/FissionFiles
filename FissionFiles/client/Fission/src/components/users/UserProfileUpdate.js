@@ -10,7 +10,6 @@ function UpdateUserProfile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch user information when the component is mounted
     getUserById(userId).then(setLocalUser);
   }, [userId, getUserById]);
 

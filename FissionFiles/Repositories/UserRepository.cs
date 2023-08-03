@@ -314,6 +314,52 @@ namespace FissionFiles.Repositories
             }
         }
 
+        // Delete user
+        public void DeleteUser(int userId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    // Delete all posts by user
+                    cmd.CommandText = @"
+                DELETE FROM Posts
+                WHERE UserId = @UserId";
+
+                    DbUtils.AddParameter(cmd, "@UserId", userId);
+
+                    cmd.ExecuteNonQuery();
+
+                    // Reset command text and parameters for the next query
+                    cmd.CommandText = string.Empty;
+                    cmd.Parameters.Clear();
+
+                    // Delete all articles by user
+                    cmd.CommandText = @"
+                DELETE FROM Article
+                WHERE UserId = @UserId";
+
+                    DbUtils.AddParameter(cmd, "@UserId", userId);
+
+                    cmd.ExecuteNonQuery();
+
+                    // Reset command text and parameters for the next query
+                    cmd.CommandText = string.Empty;
+                    cmd.Parameters.Clear();
+
+                    // Delete user
+                    cmd.CommandText = @"
+                DELETE FROM Users
+                WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", userId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
 
     }
