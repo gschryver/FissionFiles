@@ -48,7 +48,6 @@ namespace FissionFiles.Controllers
         [HttpPost]
         public ActionResult<Article>AddArticle(Article article)
         {
-            // You might need a method in your repository to insert an article
             _articleRepository.AddArticle(article);
 
             return CreatedAtAction(nameof(GetArticle), new { id = article.Id }, article);
