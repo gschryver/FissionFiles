@@ -35,15 +35,27 @@ export default function Header() {
                 </NavLink>
               </NavItem>
               {isAdmin && (
+                <>
                 <NavItem>
                   <NavLink as={RRNavLink} to="/users">
                     User List
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink as={RRNavLink} to="/articles/add">
+                    Create Article
+                  </NavLink>
+                </NavItem>
+                </>
               )}
               <NavItem>
                 <NavLink as={RRNavLink} to={`/user/${user.id}`}>
                   My Profile
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink as={RRNavLink} to="/articles">
+                  Articles
                 </NavLink>
               </NavItem>
               <button onClick={handleLogout}>Logout</button>

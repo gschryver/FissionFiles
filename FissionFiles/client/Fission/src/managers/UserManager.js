@@ -14,8 +14,10 @@ export const UserProvider = (props) => {
     return fetch(`${apiUrl}/api/User/GetByEmail?email=${encodedEmail}`)
       .then((r) => r.json())
       .then((user) => {
+        console.log("logged in user:", user)
         if (user && user.id && user.isActive) {
           localStorage.setItem("user", JSON.stringify(user));
+          console.log('Saved user in localStorage:', JSON.parse(localStorage.getItem("user")));
           setUser(user);
           return user;
         } else {

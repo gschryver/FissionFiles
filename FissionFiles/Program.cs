@@ -21,6 +21,7 @@ namespace FissionFiles
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddTransient<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
