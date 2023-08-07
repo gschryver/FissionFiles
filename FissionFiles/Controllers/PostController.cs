@@ -73,7 +73,7 @@ namespace FissionFiles.Controllers
         public ActionResult DeletePost(int id)
         {
             _postRepository.DeletePost(id);
-            return NoContent();
+            return Ok();
         }
 
     }

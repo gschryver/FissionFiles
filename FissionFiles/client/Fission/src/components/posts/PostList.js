@@ -2,10 +2,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { ForumContext } from '../../managers/ForumManager';
+import { PostContext } from '../../managers/PostManager';
 import { Table, Button, Container } from 'react-bootstrap';
 
 const PostList = () => {
     const { getPostByForumId, getForumById } = useContext(ForumContext);
+    const { post, deletePost } = useContext(PostContext);
     const [posts, setPosts] = useState([]); 
     const [forum, setForum] = useState(null);
     const navigate = useNavigate();
@@ -18,6 +20,19 @@ const PostList = () => {
 
     const goToEdit = (postId) => {
         navigate(`/post/edit/${postId}`);
+    };
+
+    const handleDelete = (postId) => {
+        if (window.confirm("Are you sure you want to delete this post? This cannot be undone.")) {
+            deletePost(postId)
+                .then(() => {
+                    console.log("Post deleted successfully");
+                    navigate("/forums");
+                })
+                .catch((error) => {
+                    console.error("Error deleting the article:", error);
+                });
+        }
     };
 
     return (
@@ -49,6 +64,7 @@ const PostList = () => {
                             <td>{new Date(post.timestamp).toLocaleDateString()}</td>
                             <td>
                                 <Button variant="primary" onClick={() => goToEdit(post.id)}>Edit</Button>
+                                <Button variant="danger" onClick={() => handleDelete(post.id)}>Delete</Button>
                             </td>
                         </tr>
                     ))}
