@@ -1,9 +1,8 @@
-using FissionFiles.Models;
-using Microsoft.Extensions.Hosting;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
-namespace FissionFiles.Model
+namespace FissionFiles.Models
 {
     public class Forum
     {
@@ -11,18 +10,14 @@ namespace FissionFiles.Model
         public int Id { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
-
-        public int ModeratorId { get; set; }
+        public int UserId { get; set; }  
 
         public string Name { get; set; }
-
         public string Description { get; set; }
-
         public bool IsActive { get; set; }
 
-        public User User { get; set; }
+        public User User { get; set; } 
 
-        public List<Post> Posts { get; set; }
+        public List<Post> Posts { get; set; }  
     }
 }

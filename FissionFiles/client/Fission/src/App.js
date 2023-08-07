@@ -4,19 +4,23 @@ import ApplicationViews from "./components/ApplicationViews";
 import AuthenticatedRoutes from './components/Authenticated';
 import Header from './components/Header';
 import { UserProvider, UserContext } from "./managers/UserManager";
-import { ArticleProvider, ArticleContext } from "./managers/ArticleManager";
+import { ArticleProvider } from "./managers/ArticleManager";
+import { PostProvider } from "./managers/PostManager";
+import { ForumProvider } from "./managers/ForumManager";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (
-        // Using the UserProvider to wrap all components so they can access the user's context.
-        // Using the ArticleProvider to wrap all components so they can access the article's context.
         <UserProvider>
+          <ForumProvider>
+          <PostProvider>
           <ArticleProvider>
             <BrowserRouter> 
                 <AppContent />
             </BrowserRouter>
           </ArticleProvider>
+            </PostProvider>
+            </ForumProvider>
         </UserProvider>
     );
 }

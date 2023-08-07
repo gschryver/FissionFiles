@@ -58,6 +58,11 @@ export default function Header() {
                   Articles
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink as={RRNavLink} to="/forums">
+                  Forums
+                  </NavLink>
+              </NavItem>
               <button onClick={handleLogout}>Logout</button>
             </>
           )}
