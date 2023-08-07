@@ -21,13 +21,24 @@ export const ForumProvider = (props) => {
         return fetch(`${apiUrl}/${forumId}/posts`).then((res) => res.json());
     };
 
+    const addForum = (forum) => {
+        return fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(forum),
+        }).then(getAllForums);
+    };
+
     return (
         <ForumContext.Provider
             value={{
                 forums,
                 getAllForums, 
                 getForumById,
-                getPostByForumId,     
+                getPostByForumId,
+                addForum,     
             }}
         >
             {props.children}

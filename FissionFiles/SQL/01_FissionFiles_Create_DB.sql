@@ -7,14 +7,15 @@ GO
 USE [FissionFiles]
 GO
 
+DROP TABLE IF EXISTS [Article];
+DROP TABLE IF EXISTS [Comments];
+DROP TABLE IF EXISTS [Posts];
+DROP TABLE IF EXISTS [Forums];
 DROP TABLE IF EXISTS [Users];
 DROP TABLE IF EXISTS [UserType];
-DROP TABLE IF EXISTS [Posts];
-DROP TABLE IF EXISTS [Comments];
-DROP TABLE IF EXISTS [Forums];
 DROP TABLE IF EXISTS [TimelineEvent];
 DROP TABLE IF EXISTS [Scientist];
-DROP TABLE IF EXISTS [Article];
+
 GO
 
 CREATE TABLE [UserType] (
@@ -49,13 +50,11 @@ CREATE TABLE [Scientist] (
 CREATE TABLE [Forums] (
   [id] integer PRIMARY KEY IDENTITY,
   [userId] integer NOT NULL,
-  [moderatorId] integer NOT NULL,
   [name] varchar(255) NOT NULL,
   [description] varchar(MAX) NOT NULL,
   [isActive] bit NOT NULL,
 
-  CONSTRAINT [FK_Forums_Users] FOREIGN KEY ([userId]) REFERENCES [Users] ([id]),
-  CONSTRAINT [FK_Forums_Moderator] FOREIGN KEY ([moderatorId]) REFERENCES [Users] ([id])
+  CONSTRAINT [FK_Forums_Users] FOREIGN KEY ([userId]) REFERENCES [Users] ([id])
 );
 
 CREATE TABLE [Posts] (

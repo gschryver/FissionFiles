@@ -82,5 +82,22 @@ namespace FissionFiles.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching forum.");
             }
         }
+
+        // Add a forum
+        [HttpPost]
+        public ActionResult AddForum(Forum forum)
+        {
+            try
+            {
+                _forumRepository.AddForum(forum);
+
+                return CreatedAtAction("GetForumById", new { forumId = forum.Id }, forum);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while adding forum.");
+            }
+        }
+
     }
 }

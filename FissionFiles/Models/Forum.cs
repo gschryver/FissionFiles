@@ -16,8 +16,8 @@ namespace FissionFiles.Models
         public string Description { get; set; }
         public bool IsActive { get; set; }
 
-        public User User { get; set; } 
+        public User? User { get; set; }
 
-        public List<Post> Posts { get; set; }  
+        public List<Post>? Posts { get; set; }
     }
 }

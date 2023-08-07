@@ -14,10 +14,10 @@ VALUES ('Albert Einstein', 'A theoretical physicist', 'einstein.jpg', 'Physicist
        ('Robert Oppenheimer', 'An American theoretical physicist', 'oppenheimer.jpg', 'Physicist', 'Manhattan Project'),
        ('Marie Curie', 'Physicist and Chemist', 'curie.jpg', 'Physicist', 'Pioneering research on radioactivity');
 
-INSERT INTO [Forums] ([userId], [moderatorId], [name], [description], [isActive])
-VALUES (1, 1, 'General Discussion', 'A forum for general discussion', 1),
-       (2, 1, 'Science Forum', 'A forum for science discussion', 1),
-       (3, 3, 'Admin Forum', 'A forum for admins', 1);
+INSERT INTO [Forums] ([userId], [name], [description], [isActive])
+VALUES (1, 'General Discussion', 'A forum for general discussion', 1),
+       (2, 'Science Forum', 'A forum for science discussion', 1),
+       (3, 'Admin Forum', 'A forum for admins', 1);
 
 INSERT INTO [Posts] ([userId], [forumId], [title], [timestamp], [content], [headerImage], [isDeleted])
 VALUES (1, 1, 'First post!', GETDATE(), 'This is the first post in the general discussion forum.', 'post1.jpg', 0),

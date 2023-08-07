@@ -17,7 +17,7 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    // Use JOIN to fetch related information from Users and Forums tables
+                    // Using JOIN to fetch related information from Users and Forums tables
                     cmd.CommandText = @"SELECT 
                                     p.Id, p.UserId, p.ForumId, p.Title, p.Timestamp, 
                                     p.Content, p.HeaderImage, p.IsDeleted,
@@ -82,7 +82,7 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    // Use JOIN to fetch related information from Users and Forums tables
+                    // Using JOIN to fetch related information from Users and Forums tables
                     cmd.CommandText = @"SELECT 
                                     p.Id, p.UserId, p.ForumId, p.Title, p.Timestamp, 
                                     p.Content, p.HeaderImage, p.IsDeleted,
@@ -149,7 +149,7 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    // Use JOIN to fetch related information from Users and Forums tables
+                    // Using JOIN to fetch related information from Users and Forums tables
                     cmd.CommandText = @"SELECT 
                                 p.Id, p.UserId, p.ForumId, p.Title, p.Timestamp, 
                                 p.Content, p.HeaderImage, p.IsDeleted,
@@ -232,36 +232,38 @@ namespace FissionFiles.Repositories
             }
         }
 
-        public void UpdatePost(PostInputModel inputModel)
+        public void UpdatePost(Post post)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"UPDATE Posts
-                                SET UserId = @UserId,
-                                    ForumId = @ForumId,
-                                    Title = @Title,
-                                    Timestamp = @Timestamp,
-                                    Content = @Content,
-                                    HeaderImage = @HeaderImage,
-                                    IsDeleted = @IsDeleted
-                                WHERE Id = @Id";
+                    cmd.CommandText = @"
+                UPDATE Posts 
+                SET Title = @Title, 
+                    Content = @Content, 
+                    HeaderImage = @HeaderImage, 
+                    IsDeleted = @IsDeleted,
+                    ForumId = @ForumId,
+                    Timestamp = @Timestamp,
+                    UserId = @UserId
+                WHERE Id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@UserId", inputModel.Post.UserId);
-                    DbUtils.AddParameter(cmd, "@ForumId", inputModel.Post.ForumId);
-                    DbUtils.AddParameter(cmd, "@Title", inputModel.Post.Title);
-                    DbUtils.AddParameter(cmd, "@Timestamp", inputModel.Post.Timestamp);
-                    DbUtils.AddParameter(cmd, "@Content", inputModel.Post.Content);
-                    DbUtils.AddParameter(cmd, "@HeaderImage", inputModel.Post.HeaderImage);
-                    DbUtils.AddParameter(cmd, "@IsDeleted", inputModel.Post.IsDeleted);
-                    DbUtils.AddParameter(cmd, "@Id", inputModel.Post.Id);
+                    DbUtils.AddParameter(cmd, "@Title", post.Title);
+                    DbUtils.AddParameter(cmd, "@Content", post.Content);
+                    DbUtils.AddParameter(cmd, "@HeaderImage", post.HeaderImage);
+                    DbUtils.AddParameter(cmd, "@IsDeleted", post.IsDeleted);
+                    DbUtils.AddParameter(cmd, "@Id", post.Id);
+                    DbUtils.AddParameter(cmd, "@ForumId", post.ForumId);
+                    DbUtils.AddParameter(cmd, "@Timestamp", post.Timestamp);
+                    DbUtils.AddParameter(cmd, "@UserId", post.UserId);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
+
 
 
 

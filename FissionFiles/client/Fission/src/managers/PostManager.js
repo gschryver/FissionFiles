@@ -17,13 +17,13 @@ export const PostProvider = (props) => {
         return fetch(`${apiUrl}/${id}`).then((res) => res.json());
     };
 
-    const updatePost = (postInputModel) => {
-        return fetch(`${apiUrl}/Update/${postInputModel.post.id}`, {
+    const updatePost = (post) => {
+        return fetch(`${apiUrl}/Update/${post.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(postInputModel),
+            body: JSON.stringify(post),
         }).then((res) => res.json());
     };
 

@@ -25,11 +25,11 @@ namespace FissionFiles.Models
 
     public bool IsDeleted { get; set; }
 
-    public User User { get; set; }
+    public User? User { get; set; }
 
-    public Forum Forum { get; set; }
+    public Forum? Forum { get; set; }
 
-    public List<Comment> Comments { get; set; }
+    public List<Comment>? Comments { get; set; }
 }
 
 }

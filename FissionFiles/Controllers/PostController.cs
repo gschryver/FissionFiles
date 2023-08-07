@@ -44,15 +44,16 @@ namespace FissionFiles.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public ActionResult UpdatePost(int id, PostInputModel inputModel)
+        public ActionResult UpdatePost(int id, Post post)
         {
-            if (id != inputModel.Post.Id)
+            if (id != post.Id)
             {
                 return BadRequest();
             }
 
-            _postRepository.UpdatePost(inputModel);
-            return NoContent();
+            _postRepository.UpdatePost(post);
+
+            return Ok(post);
         }
 
         [HttpDelete("Delete/{id}")]
