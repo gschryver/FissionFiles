@@ -2,16 +2,19 @@ import React, { useContext, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { ForumContext } from '../../managers/ForumManager';
 import { UserContext } from '../../managers/UserManager';
+import { useNavigate } from 'react-router-dom';
 
 const AddForumForm = () => {
     const { addForum } = useContext(ForumContext);
     const { user } = useContext(UserContext);
+    const navigate = useNavigate();
+
 
     const [newForum, setNewForum] = useState({
         Name: '',
         Description: '',
         IsActive: false,
-        userId: user?.id || null,
+        UserId: user?.id || null,
     });
 
     const handleInputChange = (event) => {
@@ -35,8 +38,9 @@ const AddForumForm = () => {
             Name: '',
             Description: '',
             IsActive: false,
-            userId: user?.id || null,
+            UserId: user?.id || null,
         });
+        navigate('/forums');
     };
 
     return (
