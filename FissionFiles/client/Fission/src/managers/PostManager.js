@@ -17,6 +17,24 @@ export const PostProvider = (props) => {
         return fetch(`${apiUrl}/${id}`).then((res) => res.json());
     };
 
+    const updatePost = (postInputModel) => {
+        return fetch(`${apiUrl}/Update/${postInputModel.post.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(postInputModel),
+        }).then((res) => res.json());
+    };
+
+
+    const deletePost = (postId) => {
+        return fetch(`${apiUrl}/Delete/${postId}`, {
+            method: "DELETE",
+        }).then(getAllPosts);
+    };
+
+
 
     return (
         <PostContext.Provider
@@ -24,6 +42,8 @@ export const PostProvider = (props) => {
                 posts,
                 getAllPosts,
                 getPostById,
+                updatePost,
+                deletePost
             }}
         >
             {props.children}

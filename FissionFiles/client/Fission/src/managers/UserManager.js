@@ -93,7 +93,7 @@ export const UserProvider = (props) => {
   // Update User Information
   const updateUser = (user) => {
     return fetch(`${apiUrl}/api/User/UpdateUser`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },

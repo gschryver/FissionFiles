@@ -208,6 +208,81 @@ namespace FissionFiles.Repositories
             }
         }
 
+        public void AddPost(PostInputModel inputModel)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Posts (UserId, ForumId, Title, Timestamp, Content, HeaderImage, IsDeleted)
+                                OUTPUT INSERTED.ID
+                                VALUES (@UserId, @ForumId, @Title, @Timestamp, @Content, @HeaderImage, @IsDeleted)";
+
+                    DbUtils.AddParameter(cmd, "@UserId", inputModel.Post.UserId);
+                    DbUtils.AddParameter(cmd, "@ForumId", inputModel.Post.ForumId);
+                    DbUtils.AddParameter(cmd, "@Title", inputModel.Post.Title);
+                    DbUtils.AddParameter(cmd, "@Timestamp", inputModel.Post.Timestamp);
+                    DbUtils.AddParameter(cmd, "@Content", inputModel.Post.Content);
+                    DbUtils.AddParameter(cmd, "@HeaderImage", inputModel.Post.HeaderImage);
+                    DbUtils.AddParameter(cmd, "@IsDeleted", inputModel.Post.IsDeleted);
+
+                    inputModel.Post.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void UpdatePost(PostInputModel inputModel)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Posts
+                                SET UserId = @UserId,
+                                    ForumId = @ForumId,
+                                    Title = @Title,
+                                    Timestamp = @Timestamp,
+                                    Content = @Content,
+                                    HeaderImage = @HeaderImage,
+                                    IsDeleted = @IsDeleted
+                                WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@UserId", inputModel.Post.UserId);
+                    DbUtils.AddParameter(cmd, "@ForumId", inputModel.Post.ForumId);
+                    DbUtils.AddParameter(cmd, "@Title", inputModel.Post.Title);
+                    DbUtils.AddParameter(cmd, "@Timestamp", inputModel.Post.Timestamp);
+                    DbUtils.AddParameter(cmd, "@Content", inputModel.Post.Content);
+                    DbUtils.AddParameter(cmd, "@HeaderImage", inputModel.Post.HeaderImage);
+                    DbUtils.AddParameter(cmd, "@IsDeleted", inputModel.Post.IsDeleted);
+                    DbUtils.AddParameter(cmd, "@Id", inputModel.Post.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
+        // delete a post by its ID (soft delete, setting IsDeleted to true)
+        public void DeletePost(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Posts 
+                                SET IsDeleted = 1 
+                                WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
 
     }

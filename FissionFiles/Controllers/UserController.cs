@@ -66,7 +66,7 @@ namespace FissionFiles.Controllers
             return Ok(users);
         }
 
-        [HttpPut("UpdateUser")]
+        [HttpPatch("UpdateUser")]
         public ActionResult UpdateUser(User user)
         {
             try

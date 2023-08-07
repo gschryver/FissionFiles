@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import NotAuthorized from './NotAuthorized';
 import Home from "./Home";
+import AdminDashboard from './admin/AdminDashboard';
 import UserProfile from "./users/UserProfile";
 import UserList from "./users/UserList";
 import UserProfileUpdate from "./users/UserProfileUpdate";
@@ -11,6 +12,7 @@ import AddArticle from './articles/AddArticle';
 import UpdateArticle from './articles/UpdateArticle';
 import PostList from './posts/PostList';
 import Post from './posts/Post';
+import UpdatePost from './posts/UpdatePost';
 import ForumList from './forums/ForumList';
 
 export default function Authenticated() {
@@ -27,8 +29,10 @@ export default function Authenticated() {
       <Route path="/articles/edit/:articleId" element={<UpdateArticle />} />
       <Route path="/posts" element={<PostList />} />
       <Route path="/post/:postId" element={<Post />} />
+      <Route path="/post/edit/:postId" element={<UpdatePost />} />
       <Route path="/forums" element={<ForumList />} />
       <Route path="/forums/:forumId/posts" element={<PostList />} />
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
     </Routes>
   );
 }

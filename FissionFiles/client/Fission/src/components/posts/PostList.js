@@ -15,6 +15,10 @@ const PostList = () => {
         getForumById(forumId).then(setForum);  
     }, [forumId, getPostByForumId, getForumById]);
 
+    const goToEdit = (postId) => {
+        navigate(`/post/edit/${postId}`);
+    };
+
     return (
         <div className="post-list-container">
             <Link to="/forums">Back to Forums List</Link>
@@ -30,6 +34,7 @@ const PostList = () => {
                         <p>Content: {post.content}</p>
                         <p>Author: {post.user ? post.user.displayName : 'Unknown'}</p>
                         <p>Date: {new Date(post.timestamp).toLocaleDateString()}</p>
+                        <button onClick={() => goToEdit(post.id)}>Edit</button>
                     </li>
                 ))}
             </ul>

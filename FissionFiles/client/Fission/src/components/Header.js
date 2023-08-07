@@ -37,22 +37,12 @@ export default function Header() {
               {isAdmin && (
                 <>
                 <NavItem>
-                  <NavLink as={RRNavLink} to="/users">
-                    User List
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink as={RRNavLink} to="/articles/add">
-                    Create Article
+                  <NavLink as={RRNavLink} to="/admin-dashboard">
+                    Admin Dashboard
                   </NavLink>
                 </NavItem>
                 </>
               )}
-              <NavItem>
-                <NavLink as={RRNavLink} to={`/user/${user.id}`}>
-                  My Profile
-                </NavLink>
-              </NavItem>
               <NavItem>
                 <NavLink as={RRNavLink} to="/articles">
                   Articles
@@ -62,6 +52,11 @@ export default function Header() {
                 <NavLink as={RRNavLink} to="/forums">
                   Forums
                   </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink as={RRNavLink} to={`/user/${user.id}`}>
+                  My Profile
+                </NavLink>
               </NavItem>
               <button onClick={handleLogout}>Logout</button>
             </>
