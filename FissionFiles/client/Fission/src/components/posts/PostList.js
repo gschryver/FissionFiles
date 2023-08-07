@@ -27,13 +27,14 @@ const PostList = () => {
             deletePost(postId)
                 .then(() => {
                     console.log("Post deleted successfully");
-                    navigate("/forums");
+                    setPosts(posts.filter((post) => post.id !== postId));
                 })
                 .catch((error) => {
-                    console.error("Error deleting the article:", error);
+                    console.error("Error deleting the post:", error);
                 });
         }
     };
+    
 
     return (
 
