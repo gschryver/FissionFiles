@@ -8,5 +8,6 @@ namespace FissionFiles.Repositories
         List<Forum> GetAllForums();
         Forum GetForumById(int forumId);
         void AddForum(Forum forum);
+        void DeleteForum(int forumId);
     }
 }

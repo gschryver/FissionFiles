@@ -99,5 +99,20 @@ namespace FissionFiles.Controllers
             }
         }
 
+        // Delete a forum by ID
+        [HttpDelete("Delete/{forumId}")]
+        public ActionResult DeleteForum(int forumId)
+        {
+            if (_forumRepository.GetForumById(forumId) == null)
+            {
+                return NotFound();
+            }
+
+            _forumRepository.DeleteForum(forumId);
+
+            return Ok();
+        }
+           
+
     }
 }

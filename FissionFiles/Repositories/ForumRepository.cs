@@ -98,5 +98,78 @@ namespace FissionFiles.Repositories
             }
         }
 
+        // delete a forum
+        public void DeleteForum(int forumId)
+        {
+            try
+            {
+                using (var conn = Connection)
+                {
+                    conn.Open();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        DbUtils.AddParameter(cmd, "@forumId", forumId);
+
+                        cmd.CommandText = @"DELETE FROM Comments
+                                    WHERE postId IN (SELECT id FROM Posts WHERE forumId = @forumId)";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = @"DELETE FROM Posts WHERE ForumId = @forumId";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = @"DELETE FROM Forums WHERE Id = @forumId";
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        // deactivate a forum 
+        public void DeactivateForum(int forumId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    // 'delete' all posts in the forum
+                    cmd.CommandText = @"UPDATE Posts SET IsDeleted = 0 WHERE ForumId = @forumId";
+                    DbUtils.AddParameter(cmd, "@forumId", forumId);
+                    cmd.ExecuteNonQuery();
+
+                    // deactivate the forum
+                    cmd.CommandText = @"UPDATE Forums SET IsActive = 0 WHERE Id = @forumId";
+                    DbUtils.AddParameter(cmd, "@forumId", forumId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // reactivate 
+        public void ReactivateForum(int forumId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    // 'undelete' all posts in the forum
+                    cmd.CommandText = @"UPDATE Posts SET IsDeleted = 1 WHERE ForumId = @forumId";
+                    DbUtils.AddParameter(cmd, "@forumId", forumId);
+                    cmd.ExecuteNonQuery();
+
+                    // reactivate the forum
+                    cmd.CommandText = @"UPDATE Forums SET IsActive = 1 WHERE Id = @forumId";
+                    DbUtils.AddParameter(cmd, "@forumId", forumId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }

@@ -31,6 +31,12 @@ export const ForumProvider = (props) => {
         }).then(getAllForums);
     };
 
+    const deleteForum = (forumId) => {
+        return fetch(`${apiUrl}/Delete/${forumId}`, {
+            method: "DELETE",
+        }).then(getAllForums);
+    };   
+
     return (
         <ForumContext.Provider
             value={{
@@ -38,7 +44,8 @@ export const ForumProvider = (props) => {
                 getAllForums, 
                 getForumById,
                 getPostByForumId,
-                addForum,     
+                addForum, 
+                deleteForum,    
             }}
         >
             {props.children}

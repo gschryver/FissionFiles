@@ -4,11 +4,16 @@ import { Container, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const ForumList = () => {
-    const { forums, getAllForums } = useContext(ForumContext);
+    const { forums, getAllForums, deleteForum } = useContext(ForumContext);
 
     useEffect(() => {
         getAllForums();
     }, []);
+
+    const handleDelete = (forumId) => {
+        deleteForum(forumId);
+    };
+
 
     return (
         <Container className="mt-4">
@@ -30,6 +35,7 @@ const ForumList = () => {
                             <Link to={`/forums/${forum.id}/posts`}>
                                 <Button variant="info">View</Button>
                             </Link>
+                            <Button variant="danger" onClick={() => handleDelete(forum.id)}>Delete</Button>
                             </td>
                         </tr>
                     ))}
