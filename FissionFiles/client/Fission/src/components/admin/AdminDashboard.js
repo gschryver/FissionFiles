@@ -27,6 +27,9 @@ const AdminDashboard = () => {
                         <ListGroup.Item action onClick={() => navigate("/forums/add")}>
                             Add Forum
                         </ListGroup.Item>
+                        <ListGroup.Item action onClick={() => navigate("/posts/add")}>
+                            Add Post
+                        </ListGroup.Item>
                     </ListGroup>
                 </Col>
             </Row>

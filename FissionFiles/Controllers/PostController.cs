@@ -36,12 +36,25 @@ namespace FissionFiles.Controllers
             return Ok(post);
         }
 
+        // Add a post
         [HttpPost]
-        public ActionResult<Post> AddPost(PostInputModel inputModel)
+        public ActionResult<Post> AddPost(Post post)
         {
-            _postRepository.AddPost(inputModel);
-            return CreatedAtAction(nameof(GetPostById), new { id = inputModel.Post.Id }, inputModel.Post);
+            try
+            {
+                var newPost = _postRepository.AddPost(post);
+
+                // If the request is a success, it returns the newly created post and a 201 status code.
+                return CreatedAtAction(nameof(GetPostById), new { id = newPost.Id }, newPost);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
+
+
 
         [HttpPut("Update/{id}")]
         public ActionResult UpdatePost(int id, Post post)

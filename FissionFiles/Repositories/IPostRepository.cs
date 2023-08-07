@@ -8,7 +8,7 @@ namespace FissionFiles.Repositories
         List<Post> GetAllPosts();
         Post GetPostById(int id);
         List<Post> GetPostsByForumId(int forumId);
-        void AddPost(PostInputModel inputModel);
+        Post AddPost(Post post);
         void UpdatePost(Post post);
         void DeletePost(int id);
     }

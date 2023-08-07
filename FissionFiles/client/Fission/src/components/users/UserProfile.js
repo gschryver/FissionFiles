@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
-  const { getUserById, deleteUser, logout } = useContext(UserContext);
+  const { user, getUserById, deleteUser, logout } = useContext(UserContext);
   const [profile, setProfile] = useState(null);
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -42,10 +42,12 @@ const UserProfile = () => {
               <Card.Title>{profile.displayName}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">{profile.userType.name}</Card.Subtitle>
               <Card.Text>{profile.bio}</Card.Text>
-              <Link to={`/edit-profile/${userId}`}>
-                <Button variant="primary">Edit Profile</Button>
-                <Button variant="danger" onClick={handleDelete}>Delete Profile</Button>
-              </Link>
+                {user.id === profile.id && (
+                  <Link to={`/edit-profile/${userId}`}>
+                      <Button variant="primary">Edit Profile</Button>
+                  </Link>
+                )}
+              <Button variant="danger" onClick={handleDelete}>Delete Profile</Button>
             </Card.Body>
           </Card>
         </Col>

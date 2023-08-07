@@ -17,6 +17,16 @@ export const PostProvider = (props) => {
         return fetch(`${apiUrl}/${id}`).then((res) => res.json());
     };
 
+    const addPost = (post) => {
+        return fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(post),
+        }).then((res) => res.json());
+    };
+
     const updatePost = (post) => {
         return fetch(`${apiUrl}/Update/${post.id}`, {
             method: "PUT",
@@ -42,6 +52,7 @@ export const PostProvider = (props) => {
                 posts,
                 getAllPosts,
                 getPostById,
+                addPost,
                 updatePost,
                 deletePost
             }}

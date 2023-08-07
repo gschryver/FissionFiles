@@ -12,6 +12,7 @@ import AddArticle from './articles/AddArticle';
 import UpdateArticle from './articles/UpdateArticle';
 import PostList from './posts/PostList';
 import Post from './posts/Post';
+import NewPostForm from './posts/AddPost';
 import UpdatePost from './posts/UpdatePost';
 import ForumList from './forums/ForumList';
 import AddForumForm from './forums/AddForum';
@@ -30,6 +31,7 @@ export default function Authenticated() {
       <Route path="/articles/edit/:articleId" element={<UpdateArticle />} />
       <Route path="/posts" element={<PostList />} />
       <Route path="/post/:postId" element={<Post />} />
+      <Route path="/posts/add" element={<NewPostForm />} />
       <Route path="/post/edit/:postId" element={<UpdatePost />} />
       <Route path="/forums" element={<ForumList />} />
       <Route path="/forums/:forumId/posts" element={<PostList />} />

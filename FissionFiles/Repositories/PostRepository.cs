@@ -208,7 +208,7 @@ namespace FissionFiles.Repositories
             }
         }
 
-        public void AddPost(PostInputModel inputModel)
+        public Post AddPost(Post post)
         {
             using (var conn = Connection)
             {
@@ -216,21 +216,25 @@ namespace FissionFiles.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO Posts (UserId, ForumId, Title, Timestamp, Content, HeaderImage, IsDeleted)
-                                OUTPUT INSERTED.ID
-                                VALUES (@UserId, @ForumId, @Title, @Timestamp, @Content, @HeaderImage, @IsDeleted)";
+                        OUTPUT INSERTED.ID
+                        VALUES (@UserId, @ForumId, @Title, @Timestamp, @Content, @HeaderImage, @IsDeleted)";
 
-                    DbUtils.AddParameter(cmd, "@UserId", inputModel.Post.UserId);
-                    DbUtils.AddParameter(cmd, "@ForumId", inputModel.Post.ForumId);
-                    DbUtils.AddParameter(cmd, "@Title", inputModel.Post.Title);
-                    DbUtils.AddParameter(cmd, "@Timestamp", inputModel.Post.Timestamp);
-                    DbUtils.AddParameter(cmd, "@Content", inputModel.Post.Content);
-                    DbUtils.AddParameter(cmd, "@HeaderImage", inputModel.Post.HeaderImage);
-                    DbUtils.AddParameter(cmd, "@IsDeleted", inputModel.Post.IsDeleted);
+                    DbUtils.AddParameter(cmd, "@UserId", post.UserId);
+                    DbUtils.AddParameter(cmd, "@ForumId", post.ForumId);
+                    DbUtils.AddParameter(cmd, "@Title", post.Title);
+                    DbUtils.AddParameter(cmd, "@Timestamp", post.Timestamp);
+                    DbUtils.AddParameter(cmd, "@Content", post.Content);
+                    DbUtils.AddParameter(cmd, "@HeaderImage", post.HeaderImage);
+                    DbUtils.AddParameter(cmd, "@IsDeleted", post.IsDeleted);
 
-                    inputModel.Post.Id = (int)cmd.ExecuteScalar();
+                    var id = (int)cmd.ExecuteScalar();
+
+                    // Fetch the newly created post along with its related forum and user data
+                    return GetPostById(id);
                 }
             }
         }
+
 
         public void UpdatePost(Post post)
         {
