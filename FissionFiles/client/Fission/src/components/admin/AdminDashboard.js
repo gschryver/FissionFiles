@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Container, Row, Col, Button, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../managers/UserManager';
 
@@ -23,6 +23,9 @@ const AdminDashboard = () => {
                         </ListGroup.Item>
                         <ListGroup.Item action onClick={() => navigate("/users")}>
                             User List
+                        </ListGroup.Item>
+                        <ListGroup.Item action onClick={() => navigate("/forums")}>
+                            Manage Forums
                         </ListGroup.Item>
                         <ListGroup.Item action onClick={() => navigate("/forums/add")}>
                             Add Forum

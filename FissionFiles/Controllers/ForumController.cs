@@ -112,6 +112,25 @@ namespace FissionFiles.Controllers
 
             return Ok();
         }
+
+        // update a forum 
+        [HttpPut("Update/{forumId}")]
+        public ActionResult UpdateForum(int forumId, Forum forum)
+        {
+            if (forumId != forum.Id)
+            {
+                return BadRequest();
+            }
+
+            if (_forumRepository.GetForumById(forumId) == null)
+            {
+                return NotFound();
+            }
+
+            _forumRepository.UpdateForum(forum);
+
+            return Ok();
+        }
            
 
     }

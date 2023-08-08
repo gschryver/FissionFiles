@@ -98,6 +98,30 @@ namespace FissionFiles.Repositories
             }
         }
 
+        // update a forum 
+        public void UpdateForum(Forum forum)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Forums
+                                        SET Name = @name,
+                                            Description = @description,
+                                            IsActive = @isActive
+                                        WHERE Id = @id";
+
+                    DbUtils.AddParameter(cmd, "@name", forum.Name);
+                    DbUtils.AddParameter(cmd, "@description", forum.Description);
+                    DbUtils.AddParameter(cmd, "@isActive", forum.IsActive);
+                    DbUtils.AddParameter(cmd, "@id", forum.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         // delete a forum
         public void DeleteForum(int forumId)
         {

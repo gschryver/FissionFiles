@@ -31,6 +31,16 @@ export const ForumProvider = (props) => {
         }).then(getAllForums);
     };
 
+    const updateForum = (forum) => {
+        return fetch(`${apiUrl}/Update/${forum.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(forum),
+        }).then(getAllForums);
+    };
+
     const deleteForum = (forumId) => {
         return fetch(`${apiUrl}/Delete/${forumId}`, {
             method: "DELETE",
@@ -45,7 +55,8 @@ export const ForumProvider = (props) => {
                 getForumById,
                 getPostByForumId,
                 addForum, 
-                deleteForum,    
+                deleteForum,
+                updateForum  
             }}
         >
             {props.children}

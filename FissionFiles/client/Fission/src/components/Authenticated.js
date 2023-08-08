@@ -16,6 +16,7 @@ import NewPostForm from './posts/AddPost';
 import UpdatePost from './posts/UpdatePost';
 import ForumList from './forums/ForumList';
 import AddForumForm from './forums/AddForum';
+import UpdateForum from './forums/UpdateForum';
 
 export default function Authenticated() {
   return (
@@ -34,6 +35,7 @@ export default function Authenticated() {
       <Route path="/posts/add" element={<NewPostForm />} />
       <Route path="/post/edit/:postId" element={<UpdatePost />} />
       <Route path="/forums" element={<ForumList />} />
+      <Route path="/forums/:forumId/edit" element={<UpdateForum />} />
       <Route path="/forums/:forumId/posts" element={<PostList />} />
       <Route path="/forums/add" element={<AddForumForm />} />
       <Route path="/admin-dashboard" element={<AdminDashboard />} /> 
