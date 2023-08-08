@@ -34,12 +34,12 @@ const UpdateForum = () => {
             ...forum,
             name,
             description,
-            userId: user?.id || null // Assuming the forum is tied to the current user
+            userId: user?.id || null 
         };
 
         updateForum(updatedForum)
             .then(() => {
-                navigate(`/forums`); // Navigate to the forum's details or another relevant page
+                navigate(`/forums`); 
             });
     };
 
