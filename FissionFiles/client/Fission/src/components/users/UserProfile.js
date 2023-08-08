@@ -72,6 +72,16 @@ const UserProfile = () => {
               </Card.Body>
             </Card>
           ))}
+          <h3>Comments</h3>
+          {profile.comments.map((comment, index) => (
+            <Card key={index} className="mb-3">
+              <Card.Body>
+                <Card.Title>{comment.content}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">{comment.timestamp}</Card.Subtitle>
+                <Card.Text>{comment.content}</Card.Text>
+              </Card.Body>
+            </Card>
+          ))}
         </Col>
       </Row>
     </Container>

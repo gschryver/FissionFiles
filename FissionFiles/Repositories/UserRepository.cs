@@ -123,8 +123,9 @@ namespace FissionFiles.Repositories
                                 Id = DbUtils.GetInt(reader, "userTypeId"),
                                 Name = DbUtils.GetString(reader, "UserTypeName")
                             },
-                            Posts = GetPostsByUserId(id), // Method to get the posts
-                            Articles = GetArticlesByUserId(id) // Method to get the articles
+                            Posts = GetPostsByUserId(id),
+                            Articles = GetArticlesByUserId(id),
+                            Comments = GetCommentsByUserId(id)
                         };
                     }
 
@@ -210,6 +211,46 @@ namespace FissionFiles.Repositories
             }
 
             return posts;
+        }
+
+        // Comments by User Id for profile page
+        public List<Comment> GetCommentsByUserId(int userId)
+        {
+            List<Comment> comments = new List<Comment>();
+
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+            SELECT c.Id, c.Content, c.Timestamp, c.UserId, c.PostId, c.IsDeleted, c.IsRemoved
+            FROM Comments c
+            WHERE c.UserId = @UserId AND c.IsDeleted = 0";
+
+                    DbUtils.AddParameter(cmd, "@UserId", userId);
+
+                    var reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        comments.Add(new Comment
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Content = DbUtils.GetString(reader, "Content"),
+                            Timestamp = DbUtils.GetDateTime(reader, "Timestamp"),
+                            UserId = DbUtils.GetInt(reader, "UserId"),
+                            PostId = DbUtils.GetInt(reader, "PostId"),
+                            IsDeleted = DbUtils.GetBoolean(reader, "IsDeleted"),
+                            IsRemoved = DbUtils.GetBoolean(reader, "IsRemoved")
+                        });
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return comments;
         }
 
         // Fetch all users for UserList page

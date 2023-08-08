@@ -94,7 +94,12 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM Comments WHERE PostId = @postId AND IsDeleted = 0";
+                    cmd.CommandText = @"
+                SELECT c.*, u.DisplayName AS UserDisplayName 
+                FROM Comments c 
+                JOIN Users u ON c.UserId = u.Id 
+                WHERE c.PostId = @postId AND c.IsDeleted = 0";
+
                     cmd.Parameters.AddWithValue("@postId", postId);
 
                     var reader = cmd.ExecuteReader();
@@ -111,7 +116,11 @@ namespace FissionFiles.Repositories
                             Timestamp = DbUtils.GetDateTime(reader, "Timestamp"),
                             Content = DbUtils.GetString(reader, "Content"),
                             IsDeleted = DbUtils.GetBoolean(reader, "IsDeleted"),
-                            IsRemoved = DbUtils.GetBoolean(reader, "IsRemoved")
+                            IsRemoved = DbUtils.GetBoolean(reader, "IsRemoved"),
+                            User = new User
+                            {
+                                DisplayName = DbUtils.GetString(reader, "UserDisplayName")
+                            }
                         };
 
                         comments.Add(comment);
@@ -122,6 +131,7 @@ namespace FissionFiles.Repositories
                 }
             }
         }
+
 
 
     }

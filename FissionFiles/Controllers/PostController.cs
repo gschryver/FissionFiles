@@ -44,12 +44,10 @@ namespace FissionFiles.Controllers
             {
                 var newPost = _postRepository.AddPost(post);
 
-                // If the request is a success, it returns the newly created post and a 201 status code.
                 return CreatedAtAction(nameof(GetPostById), new { id = newPost.Id }, newPost);
             }
             catch (Exception ex)
             {
-                // Log the exception here
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }

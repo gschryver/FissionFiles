@@ -34,5 +34,6 @@ namespace FissionFiles.Models
         public List<Post> Posts { get; set; }
 
         public List<Article> Articles { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }
