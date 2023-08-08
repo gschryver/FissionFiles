@@ -82,6 +82,7 @@ const Post = () => {
                 <Card.Header>
                     <h2>Replies</h2>
                 </Card.Header>
+            {/* Edit comments inline */}
                 <ListGroup variant="flush">
             {comments.map(comment => (
                 <ListGroup.Item key={comment.id}>
