@@ -7,11 +7,13 @@ import { UserProvider, UserContext } from "./managers/UserManager";
 import { ArticleProvider } from "./managers/ArticleManager";
 import { PostProvider } from "./managers/PostManager";
 import { ForumProvider } from "./managers/ForumManager";
+import { CommentProvider } from "./managers/CommentManager";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (
         <UserProvider>
+          <CommentProvider>
           <ForumProvider>
           <PostProvider>
           <ArticleProvider>
@@ -21,6 +23,7 @@ function App() {
           </ArticleProvider>
             </PostProvider>
             </ForumProvider>
+            </CommentProvider>
         </UserProvider>
     );
 }
