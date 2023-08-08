@@ -3,15 +3,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { ForumContext } from '../../managers/ForumManager';
 import { PostContext } from '../../managers/PostManager';
+import { UserContext } from '../../managers/UserManager';
 import { Table, Button, Container } from 'react-bootstrap';
 
 const PostList = () => {
     const { getPostByForumId, getForumById } = useContext(ForumContext);
     const { post, deletePost } = useContext(PostContext);
+    const { user } = useContext(UserContext);
     const [posts, setPosts] = useState([]); 
     const [forum, setForum] = useState(null);
-    const navigate = useNavigate();
     const { forumId } = useParams(); 
+    const navigate = useNavigate();
+    const isAdmin = user && user.userTypeId === 1;
 
     useEffect(() => {
         getPostByForumId(forumId).then(setPosts);
@@ -49,7 +52,7 @@ const PostList = () => {
                         <th>Content</th>
                         <th>Author</th>
                         <th>Date</th>
-                        <th>Actions</th>
+                        {isAdmin && (<th>Actions</th>)}
                     </tr>
                 </thead>
                 <tbody>
@@ -63,10 +66,12 @@ const PostList = () => {
                             <td>{post.content}</td>
                             <td>{post.user ? post.user.displayName : 'Unknown'}</td>
                             <td>{new Date(post.timestamp).toLocaleDateString()}</td>
+                            {isAdmin && (
                             <td>
                                 <Button variant="primary" onClick={() => goToEdit(post.id)}>Edit</Button>
                                 <Button variant="danger" onClick={() => handleDelete(post.id)}>Delete</Button>
                             </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>

@@ -21,13 +21,35 @@ export const CommentProvider = (props) => {
         return fetch(`${apiUrl}/forPost/${postId}`).then((res) => res.json());
     };
 
+    const addComment = (comment) => {
+        return fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(comment),
+        }).then(getAllComments);
+    };
+
+    const updateComment = (comment) => {
+        return fetch(`${apiUrl}/Update/${comment.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(comment),
+        }).then(getAllComments);
+    };
+
     return (
         <CommentContext.Provider
             value={{
                 comments,
                 getAllComments,
                 getCommentById,
-                getCommentsForPost
+                getCommentsForPost,
+                addComment,
+                updateComment,
             }}
         >
             {props.children}

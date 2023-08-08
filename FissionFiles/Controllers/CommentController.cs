@@ -75,6 +75,49 @@ namespace FissionFiles.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching comments.");
             }
         }
+        
+        // new comment
+        [HttpPost]
+        public ActionResult AddComment(Comment comment)
+        {
+            try
+            {
+                _commentRepository.AddComment(comment);
+                return CreatedAtAction(nameof(Get), new { id = comment.Id }, comment);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while adding comment.");
+            }
+        }
+
+        // update 
+        [HttpPut("Update/{id}")]
+        public ActionResult UpdateComment(int id, Comment comment)
+        {
+            try
+            {
+                if (id != comment.Id)
+                {
+                    return BadRequest("Comment ID mismatch.");
+                }
+
+                var commentToUpdate = _commentRepository.GetCommentById(id);
+
+                if (commentToUpdate == null)
+                {
+                    return NotFound($"No comment found with id {id}.");
+                }
+
+                _commentRepository.UpdateComment(comment);
+                return Ok(comment);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating comment.");
+            }
+        }
+
 
     }
 }

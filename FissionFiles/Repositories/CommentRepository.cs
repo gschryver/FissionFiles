@@ -132,6 +132,56 @@ namespace FissionFiles.Repositories
             }
         }
 
+        // add a comment to a post 
+        public void AddComment(Comment comment)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                INSERT INTO Comments (UserId, PostId, Timestamp, Content, IsDeleted, IsRemoved)
+                OUTPUT INSERTED.ID
+                VALUES (@userId, @postId, @timestamp, @content, 0, 0)";
+
+                    cmd.Parameters.AddWithValue("@userId", comment.UserId);
+                    cmd.Parameters.AddWithValue("@postId", comment.PostId);
+                    cmd.Parameters.AddWithValue("@timestamp", comment.Timestamp);
+                    cmd.Parameters.AddWithValue("@content", comment.Content);
+
+                    comment.Id = (int)cmd.ExecuteScalar(); 
+                }
+            }
+        }
+
+        // update a comment on a post 
+        public void UpdateComment(Comment comment)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                UPDATE Comments 
+                SET UserId = @userId, PostId = @postId, Timestamp = @timestamp, 
+                    Content = @content, IsDeleted = @isDeleted, IsRemoved = @isRemoved
+                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", comment.Id);
+                    cmd.Parameters.AddWithValue("@userId", comment.UserId);
+                    cmd.Parameters.AddWithValue("@postId", comment.PostId);
+                    cmd.Parameters.AddWithValue("@timestamp", comment.Timestamp);
+                    cmd.Parameters.AddWithValue("@content", comment.Content);
+                    cmd.Parameters.AddWithValue("@isDeleted", comment.IsDeleted);
+                    cmd.Parameters.AddWithValue("@isRemoved", comment.IsRemoved);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
 
     }

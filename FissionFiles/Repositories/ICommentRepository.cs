@@ -7,5 +7,7 @@ namespace FissionFiles.Repositories
         List<Comment> GetAllComments();
         Comment GetCommentById(int id);
         List<Comment> GetCommentsForPost(int postId);
+        void AddComment(Comment comment);
+        void UpdateComment(Comment comment);
     }
 }
