@@ -149,7 +149,7 @@ const handleRemoveComment = (commentId) => {
                   <p>{comment.content}</p>
                   {comment.userId === user.id && (
                     <Button
-                      variant="link"
+                      variant="primary"
                       onClick={() => setEditingCommentId(comment.id)}
                     >
                       Edit
