@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { UserContext } from "../../managers/UserManager";
 import { useParams, useNavigate } from "react-router-dom";
@@ -6,12 +6,13 @@ import { useParams, useNavigate } from "react-router-dom";
 function UpdateUserProfile() {
   const { userId } = useParams();
   const [localUser, setLocalUser] = useState(null);
-  const { getUserById, updateUser } = useContext(UserContext);
+  const { getUserDetailsById, updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getUserById(userId).then(setLocalUser);
-  }, [userId, getUserById]);
+    // Fetch user information when the component is mounted
+    getUserDetailsById(userId).then(setLocalUser);
+  }, [userId, getUserDetailsById]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -21,9 +22,10 @@ function UpdateUserProfile() {
   const handleSubmit = (event) => {
     event.preventDefault();
     updateUser(localUser).then((updatedUser) => {
+      // Handle successful update
       setLocalUser(updatedUser);
 
-
+      // Navigate back to the user profile
       navigate(`/user/${updatedUser.id}`);
     });
   };
@@ -31,8 +33,9 @@ function UpdateUserProfile() {
   if (!localUser) return <div>Loading...</div>;
 
   return (
-    <Container className="mt-4">
-      <h2>Update Profile</h2>
+    <Container>
+      <Row>
+        <Col>
           <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>First Name</Form.Label>
@@ -83,6 +86,8 @@ function UpdateUserProfile() {
               Update Profile
             </Button>
           </Form>
+        </Col>
+      </Row>
     </Container>
   );
 }

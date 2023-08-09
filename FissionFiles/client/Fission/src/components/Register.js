@@ -15,8 +15,6 @@ const Register = () => {
     bio: "",
     isActive: true,
     userTypeId: 2, 
-    articles: [],
-    posts: [],
   });
 
   const [error, setError] = useState("");

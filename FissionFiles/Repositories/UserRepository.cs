@@ -302,6 +302,58 @@ namespace FissionFiles.Repositories
             return users;
         }
 
+        // Get only User details by Id
+        public User GetUserDetailsById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                SELECT u.id, u.firstName, u.lastName, u.displayName, 
+                       u.userTypeId, u.email, u.creationDate, u.avatar,
+                       u.bio, u.isActive,
+                       ut.Name as UserTypeName
+                FROM Users u
+                JOIN UserType ut ON u.userTypeId = ut.Id
+                WHERE u.id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    User user = null;
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        user = new User()
+                        {
+                            Id = DbUtils.GetInt(reader, "id"),
+                            FirstName = DbUtils.GetString(reader, "firstName"),
+                            LastName = DbUtils.GetString(reader, "lastName"),
+                            DisplayName = DbUtils.GetString(reader, "displayName"),
+                            UserTypeId = DbUtils.GetInt(reader, "userTypeId"),
+                            Email = DbUtils.GetString(reader, "email"),
+                            CreationDate = DbUtils.GetDateTime(reader, "creationDate"),
+                            Avatar = DbUtils.GetString(reader, "avatar"),
+                            Bio = DbUtils.GetString(reader, "bio"),
+                            IsActive = DbUtils.GetBoolean(reader, "isActive"),
+                            UserType = new UserType
+                            {
+                                Id = DbUtils.GetInt(reader, "userTypeId"),
+                                Name = DbUtils.GetString(reader, "UserTypeName")
+                            }
+                        };
+                    }
+
+                    reader.Close();
+
+                    return user;
+                }
+            }
+        }
+
+
         // Update user
         public void UpdateUser(User user)
         {
@@ -310,23 +362,6 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    // Fetch the existing user from the database by their ID
-                    var existingUser = GetById(user.Id);
-
-                    // Update only the fields that can be edited
-                    existingUser.FirstName = user.FirstName;
-                    existingUser.LastName = user.LastName;
-                    existingUser.Email = user.Email;
-                    existingUser.Avatar = user.Avatar;
-                    existingUser.Bio = user.Bio;
-
-                    // Check if UserTypeId is present in the incoming user object and update if necessary
-                    if (user.UserType != null && user.UserTypeId.HasValue)
-                    {
-                        existingUser.UserType = user.UserType;
-                        existingUser.UserTypeId = user.UserTypeId;
-                    }
-
                     cmd.CommandText = @"
                 UPDATE Users
                 SET firstName = @FirstName, 
@@ -335,25 +370,26 @@ namespace FissionFiles.Repositories
                     avatar = @Avatar,
                     bio = @Bio";
 
-                    if (existingUser.UserType != null && existingUser.UserTypeId.HasValue)
+                    if (user.UserType != null && user.UserTypeId.HasValue)
                     {
                         cmd.CommandText += ", userTypeId = @UserTypeId";
-                        DbUtils.AddParameter(cmd, "@UserTypeId", existingUser.UserTypeId);
+                        DbUtils.AddParameter(cmd, "@UserTypeId", user.UserTypeId);
                     }
 
                     cmd.CommandText += " WHERE id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@FirstName", existingUser.FirstName);
-                    DbUtils.AddParameter(cmd, "@LastName", existingUser.LastName);
-                    DbUtils.AddParameter(cmd, "@Email", existingUser.Email);
-                    DbUtils.AddParameter(cmd, "@Avatar", existingUser.Avatar);
-                    DbUtils.AddParameter(cmd, "@Bio", existingUser.Bio);
-                    DbUtils.AddParameter(cmd, "@Id", existingUser.Id);
+                    DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", user.LastName);
+                    DbUtils.AddParameter(cmd, "@Email", user.Email);
+                    DbUtils.AddParameter(cmd, "@Avatar", user.Avatar);
+                    DbUtils.AddParameter(cmd, "@Bio", user.Bio);
+                    DbUtils.AddParameter(cmd, "@Id", user.Id);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
+
 
         // Delete user
         public void DeleteUser(int userId)
@@ -401,7 +437,47 @@ namespace FissionFiles.Repositories
             }
         }
 
+        // ban a user
+        public void BanUser(int userId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    // Ban user
+                    cmd.CommandText = @"
+                UPDATE Users
+                SET isActive = 0
+                WHERE Id = @Id";
 
+                    DbUtils.AddParameter(cmd, "@Id", userId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // unban a user 
+        public void UnbanUser(int userId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    // Unban user
+                    cmd.CommandText = @"
+                UPDATE Users
+                SET isActive = 1
+                WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", userId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
     }
 }

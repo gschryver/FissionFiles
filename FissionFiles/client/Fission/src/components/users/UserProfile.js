@@ -6,11 +6,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
-  const { user, getUserById, deleteUser, logout } = useContext(UserContext);
+  const { user, getUserById, deleteUser, banUser, logout } = useContext(UserContext);
   const { posts, getAllPosts } = useContext(PostContext);
   const [profile, setProfile] = useState(null);
   const { userId } = useParams();
   const navigate = useNavigate();
+  const isAdmin = user && user.userTypeId === 1;
   
   useEffect(() => {
     getUserById(userId).then(setProfile);
@@ -38,6 +39,12 @@ const UserProfile = () => {
         });
     }
   };
+
+  const handleBan = () => {
+    if (window.confirm("Are you sure you want to ban this user?")) {
+      banUser(userId).then(() => navigate("/users"));
+    }
+  };
   
   return (
     <Container>
@@ -55,6 +62,11 @@ const UserProfile = () => {
                   </Link>
                 )}
               <Button variant="danger" onClick={handleDelete}>Delete Profile</Button>
+              {isAdmin && (
+                <div className="mt-2">
+                <Button variant="danger" onClick={handleBan}>Ban User</Button>
+                </div>
+              )}
             </Card.Body>
           </Card>
         </Col>
@@ -91,11 +103,7 @@ const UserProfile = () => {
               <Link to={`/post/${comment.postId}`}>{getPostTitleById(comment.postId)}</Link>
             </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{comment.timestamp}</Card.Subtitle>
-                <Card.Text>
-                
-                    {comment.content}
-
-                </Card.Text>
+                <Card.Text> {comment.content}</Card.Text>
               </Card.Body>
             </Card>
           ))}

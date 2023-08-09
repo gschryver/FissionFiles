@@ -89,6 +89,17 @@ export const UserProvider = (props) => {
       return res.json();
     });
   };
+  
+
+  // Get user by just the USER ID and no articles, etc
+  const getUserDetailsById = (id) => {
+    return fetch(`${apiUrl}/api/User/GetUserDetailsById/${id}`).then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to fetch user");
+      }
+      return res.json();
+    });
+  };
 
   // Update User Information
   const updateUser = (user) => {
@@ -121,6 +132,36 @@ export const UserProvider = (props) => {
     });
   };
 
+  // Ban user 
+  const banUser = (userId) => {
+    return fetch(`${apiUrl}/api/User/BanUser/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to ban user");
+      }
+      return res.ok;
+    });
+  };
+
+  // Unban user
+  const unbanUser = (userId) => {
+    return fetch(`${apiUrl}/api/User/UnbanUser/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to unban user");
+      }
+      return res.ok;
+    });
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -128,11 +169,14 @@ export const UserProvider = (props) => {
         login,
         logout,
         getUserStatus,
+        getUserDetailsById,
         register,
         getUserById,
         getUsers,
         updateUser,
         deleteUser,
+        banUser,
+        unbanUser
       }}
     >
       {props.children}

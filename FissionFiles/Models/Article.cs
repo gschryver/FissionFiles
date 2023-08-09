@@ -19,6 +19,6 @@ namespace FissionFiles.Models
 
         public DateTime PublicationDate { get; set; }
 
-        //public User User { get; set; }
+        public User? User { get; set; }
     }
 }

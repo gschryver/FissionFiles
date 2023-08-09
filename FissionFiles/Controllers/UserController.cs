@@ -93,5 +93,43 @@ namespace FissionFiles.Controllers
             return Ok();
         }
 
+        [HttpPut("BanUser/{userId}")]
+        public ActionResult BanUser(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            _userRepository.BanUser(userId);
+            return Ok();
+        }
+
+        [HttpPut("UnbanUser/{userId}")]
+        public ActionResult UnbanUser(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            _userRepository.UnbanUser(userId);
+            return Ok();
+        }
+
+        [HttpGet("GetUserDetailsById/{id}")]
+        public ActionResult GetUserDetailsById(int id)
+        {
+            var user = _userRepository.GetUserDetailsById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
     }
 }

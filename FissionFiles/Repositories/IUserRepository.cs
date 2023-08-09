@@ -13,5 +13,8 @@ namespace FissionFiles.Repositories
         public List<User> GetAllUsers();
         void UpdateUser(User user);
         void DeleteUser(int userId);
+        void BanUser(int userId);
+        void UnbanUser(int userId);
+        User GetUserDetailsById(int id);
     }
 }
