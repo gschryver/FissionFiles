@@ -92,7 +92,7 @@ const handleRemoveComment = (commentId) => {
         </Card.Header>
         <Card.Body>
           <Card.Subtitle className="mb-2 text-muted">
-            Author: {post.user.displayName} | Date:{" "}
+          Author: <Link to={`/user/${post.user.id}`}>{post.user.displayName}</Link> | Date: 
             {new Date(post.timestamp).toLocaleDateString()}
           </Card.Subtitle>
           <Card.Text>{post.content}</Card.Text>
@@ -113,10 +113,11 @@ const handleRemoveComment = (commentId) => {
             <ListGroup.Item key={comment.id}>
               <strong>
                 {comment.isDeleted || comment.isRemoved
-                  ? "[deleted]"
-                  : comment.user.displayName}{" "}
+                ? "[deleted]"
+                : <Link to={`/user/${comment.userId}`}>{comment.user.displayName}</Link>}
+                {" "}
                 <small>{timePosted()}</small>
-              </strong>
+            </strong>
 
               {comment.isRemoved ? (
                 <p>
