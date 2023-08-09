@@ -17,6 +17,6 @@ namespace FissionFiles.Models
 
             public string Achievements { get; set; }
 
-            public List<TimelineEvent> TimelineEvents { get; set; }
+            public List<TimelineEvent>? TimelineEvents { get; set; }
         }
     }
