@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { UserContext } from "../../managers/UserManager";
 import { PostContext } from "../../managers/PostManager";
 import { ForumContext } from "../../managers/ForumManager";
@@ -46,9 +46,8 @@ const NewPostForm = () => {
 
 
   return (
-    <Container>
-      <Row>
-        <Col>
+    <Container className="mt-4">
+          <h2>Add New Post</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>Title</Form.Label>
@@ -81,8 +80,6 @@ const NewPostForm = () => {
               Submit
             </Button>
           </Form>
-        </Col>
-      </Row>
     </Container>
   );
 }

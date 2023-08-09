@@ -41,6 +41,20 @@ export const CommentProvider = (props) => {
         }).then(getAllComments);
     };
 
+    // user can delete their own comment
+    const deleteComment = (commentId) => {
+        return fetch(`${apiUrl}/Delete/${commentId}`, {
+            method: "DELETE",
+        }).then(getAllComments);
+    };
+
+    // admin can remove comment
+    const removeComment = (commentId) => {
+        return fetch(`${apiUrl}/Remove/${commentId}`, {
+            method: "DELETE",
+        }).then(getAllComments);
+    };
+
     return (
         <CommentContext.Provider
             value={{
@@ -50,6 +64,8 @@ export const CommentProvider = (props) => {
                 getCommentsForPost,
                 addComment,
                 updateComment,
+                deleteComment,
+                removeComment,
             }}
         >
             {props.children}

@@ -38,9 +38,7 @@ const PostList = () => {
         }
     };
     
-
     return (
-
         <Container className="mt-4">
             <Link to="/forums">Back to Forums List</Link>
             {forum && <h1>Posts for {forum.name}</h1>}

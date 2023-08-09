@@ -38,7 +38,7 @@ const AddComment = ({ postId, onCommentAdded }) => {
                     placeholder="Write your comment here..." 
                 />
             </Form.Group>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="mb-4">Submit</Button>
         </Form>
     );
 };

@@ -38,7 +38,7 @@ const Register = () => {
   };
 
   return (
-    <Container>
+    <Container className="mt-4">
       <Row className="justify-content-center">
         <Col xs={12} sm={8} md={6}>
             <h2>Register New User</h2>

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArticleContext } from '../../managers/ArticleManager';
 import { UserContext } from '../../managers/UserManager';
+import { Container, Card, Button, ButtonGroup } from 'react-bootstrap';
 
 const Article = () => {
     const { getArticleById, deleteArticle } = useContext(ArticleContext);
@@ -12,7 +13,6 @@ const Article = () => {
     const isAdmin = user && user.userTypeId === 1;
 
     useEffect(() => {
-        
         getArticleById(articleId)
             .then(fetchedArticle => {
                 console.log("Fetched article", fetchedArticle)
@@ -24,14 +24,12 @@ const Article = () => {
         return <p>Loading...</p>; 
     }
 
-
-    // delete article 
     const handleDelete = () => {
         if (window.confirm("Are you sure you want to delete this article? This cannot be undone.")) {
             deleteArticle(article.id)
                 .then(() => {
                     console.log("Article deleted successfully");
-                    navigate("/articles"); // Redirect to the articles list
+                    navigate("/articles");
                 })
                 .catch((error) => {
                     console.error("Error deleting the article:", error);
@@ -39,24 +37,27 @@ const Article = () => {
         }
     };
     
-
     return (
-        <div className="article-container">
-            <h1>{article.title}</h1>
-            <p>Author: {article.author}</p>
-            <p>Date: {new Date(article.publicationDate).toLocaleDateString()}</p>
-            <div className="article-content">
-                {article.content}
-            </div>
-            
-            {isAdmin && (
-                <>
-            <button onClick={() => navigate(`/articles/edit/${article.id}`)}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
-            </>
-            )}
-            <Link to="/articles">Back to Articles List</Link>
-        </div>
+        <Container className="mt-4 article-container">
+            <Card>
+                <Card.Header as="h1">{article.title}</Card.Header>
+                <Card.Body>
+                    <Card.Subtitle className="mb-2 text-muted">
+                        Author: {article.author} | Date: {new Date(article.publicationDate).toLocaleDateString()}
+                    </Card.Subtitle>
+                    <Card.Text className="mt-4 article-content">
+                        {article.content}
+                    </Card.Text>
+                    {isAdmin && (
+                        <ButtonGroup className="mt-3">
+                            <Button variant="primary" onClick={() => navigate(`/articles/edit/${article.id}`)}>Edit</Button>
+                            <Button variant="danger" onClick={handleDelete}>Delete</Button>
+                        </ButtonGroup>
+                    )}
+                </Card.Body>
+            </Card>
+            <Button className="mt-3" variant="secondary" as={Link} to="/articles">Back to Articles List</Button>
+        </Container>
     );
 }
 

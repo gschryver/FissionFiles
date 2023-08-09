@@ -50,7 +50,7 @@ const NewArticleForm = () => {
   }
 
   return (
-    <Container>
+    <Container className="mt-4">
       <h2>Create a New Article</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group>

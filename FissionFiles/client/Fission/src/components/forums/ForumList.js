@@ -14,10 +14,11 @@ const ForumList = () => {
     }, []);
 
     const handleDelete = (forumId) => {
-        deleteForum(forumId);
+        if (window.confirm("WARNING: \n\nThis action will permanently delete a forum and all of its associated posts and comments.\n \nAre you sure you want to delete the forum? This action cannot be undone.")) {
+            deleteForum(forumId);
+        }
     };
-
-
+    
     return (
         <Container className="mt-4">
             <h2>Forums</h2>
@@ -38,7 +39,6 @@ const ForumList = () => {
                             <td>{forum.description}</td>
                             {isAdmin && (
                             <td>
-                          
                             <>
                             <Link to={`/forums/${forum.id}/edit`}>
                                 <Button variant="warning">Edit</Button>

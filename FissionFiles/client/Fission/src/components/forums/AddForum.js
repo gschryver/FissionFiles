@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
 import { ForumContext } from '../../managers/ForumManager';
 import { UserContext } from '../../managers/UserManager';
 import { useNavigate } from 'react-router-dom';
@@ -44,6 +44,8 @@ const AddForumForm = () => {
     };
 
     return (
+        <Container className="mt-4">
+        <h2>Add Forum</h2>
         <Form onSubmit={handleSubmit}>
             <Form.Group controlId="forumName">
                 <Form.Label>Forum Name</Form.Label>
@@ -81,6 +83,7 @@ const AddForumForm = () => {
                 Add Forum
             </Button>
         </Form>
+        </Container>
     );
 };
 

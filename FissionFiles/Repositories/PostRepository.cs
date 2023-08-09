@@ -17,7 +17,6 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    // Using JOIN to fetch related information from Users and Forums tables
                     cmd.CommandText = @"SELECT 
                                     p.Id, p.UserId, p.ForumId, p.Title, p.Timestamp, 
                                     p.Content, p.HeaderImage, p.IsDeleted,
@@ -43,7 +42,7 @@ namespace FissionFiles.Repositories
                             Content = DbUtils.GetString(reader, "Content"),
                             HeaderImage = DbUtils.GetString(reader, "HeaderImage"),
                             IsDeleted = DbUtils.GetBoolean(reader, "IsDeleted"),
-                            // Include information from Users
+
                             User = new User
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),
@@ -56,7 +55,7 @@ namespace FissionFiles.Repositories
                                 Bio = DbUtils.GetString(reader, "bio"),
                                 IsActive = DbUtils.GetBoolean(reader, "isActive")
                             },
-                            // Include information from Forums
+
                             Forum = new Forum
                             {
                                 Id = DbUtils.GetInt(reader, "ForumId"),
@@ -82,7 +81,7 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    // Using JOIN to fetch related information from Users and Forums tables
+                
                     cmd.CommandText = @"SELECT 
                                     p.Id, p.UserId, p.ForumId, p.Title, p.Timestamp, 
                                     p.Content, p.HeaderImage, p.IsDeleted,
@@ -112,7 +111,7 @@ namespace FissionFiles.Repositories
                             Content = DbUtils.GetString(reader, "Content"),
                             HeaderImage = DbUtils.GetString(reader, "HeaderImage"),
                             IsDeleted = DbUtils.GetBoolean(reader, "IsDeleted"),
-                            // Include information from Users
+
                             User = new User
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),
@@ -125,7 +124,7 @@ namespace FissionFiles.Repositories
                                 Bio = DbUtils.GetString(reader, "bio"),
                                 IsActive = DbUtils.GetBoolean(reader, "isActive")
                             },
-                            // Include information from Forums
+
                             Forum = new Forum
                             {
                                 Id = DbUtils.GetInt(reader, "ForumId"),
@@ -149,7 +148,7 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    // Using JOIN to fetch related information from Users and Forums tables
+
                     cmd.CommandText = @"SELECT 
                                 p.Id, p.UserId, p.ForumId, p.Title, p.Timestamp, 
                                 p.Content, p.HeaderImage, p.IsDeleted,
@@ -178,7 +177,7 @@ namespace FissionFiles.Repositories
                             Content = DbUtils.GetString(reader, "Content"),
                             HeaderImage = DbUtils.GetString(reader, "HeaderImage"),
                             IsDeleted = DbUtils.GetBoolean(reader, "IsDeleted"),
-                            // Include information from Users
+
                             User = new User
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),
@@ -191,7 +190,7 @@ namespace FissionFiles.Repositories
                                 Bio = DbUtils.GetString(reader, "bio"),
                                 IsActive = DbUtils.GetBoolean(reader, "isActive")
                             },
-                            // Include information from Forums
+
                             Forum = new Forum
                             {
                                 Id = DbUtils.GetInt(reader, "ForumId"),
@@ -229,12 +228,10 @@ namespace FissionFiles.Repositories
 
                     var id = (int)cmd.ExecuteScalar();
 
-                    // Fetch the newly created post along with its related forum and user data
                     return GetPostById(id);
                 }
             }
         }
-
 
         public void UpdatePost(Post post)
         {
@@ -267,9 +264,6 @@ namespace FissionFiles.Repositories
                 }
             }
         }
-
-
-
 
         // delete a post by its ID (soft delete, setting IsDeleted to true)
         public void DeletePost(int id)

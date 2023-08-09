@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../managers/UserManager';
+import { Container, Table, Button } from 'react-bootstrap';
 
 const UserList = () => {
   const { getUsers, user } = useContext(UserContext);
@@ -17,16 +18,31 @@ const UserList = () => {
   }, [getUsers, user, navigate]);
 
   return (
-    <div>
+    <Container className="mt-4">
       <h1>Users List</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <Link to={`/user/${user.id}`}>{user.displayName}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <Table striped bordered hover className="mt-3">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, index) => (
+            <tr key={user.id}>
+              <td>{index + 1}</td>
+              <td>{user.displayName}</td>
+              <td>
+                <Button variant="primary" as={Link} to={`/user/${user.id}`}>
+                  View Profile
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </Container>
   );
 };
 

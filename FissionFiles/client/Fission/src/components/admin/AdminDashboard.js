@@ -13,9 +13,8 @@ const AdminDashboard = () => {
       }
        
     return (
-        <Container fluid>
-            <Row>
-                <Col md={3}>
+        <Container className="mt-4">
+
                     <h3>Admin Dashboard</h3>
                     <ListGroup>
                         <ListGroup.Item action onClick={() => navigate("/articles/add")}>
@@ -34,8 +33,6 @@ const AdminDashboard = () => {
                             Add Post
                         </ListGroup.Item>
                     </ListGroup>
-                </Col>
-            </Row>
         </Container>
     );
 }

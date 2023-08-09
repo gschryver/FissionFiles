@@ -50,8 +50,6 @@ const UpdateArticle = () => {
         navigate("/not-authorized");
         return null;
     }
-    
-
 
   return (
     <Form onSubmit={handleSubmit}>

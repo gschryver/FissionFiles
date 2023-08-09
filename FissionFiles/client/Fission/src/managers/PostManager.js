@@ -37,14 +37,11 @@ export const PostProvider = (props) => {
         }).then((res) => res.json());
     };
 
-
     const deletePost = (postId) => {
         return fetch(`${apiUrl}/Delete/${postId}`, {
             method: "DELETE",
         }).then(getAllPosts);
     };
-
-
 
     return (
         <PostContext.Provider

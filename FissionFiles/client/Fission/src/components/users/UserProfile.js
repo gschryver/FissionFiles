@@ -56,7 +56,9 @@ const UserProfile = () => {
           {profile.articles.map((article, index) => (
             <Card key={index} className="mb-3">
               <Card.Body>
-                <Card.Title>{article.title}</Card.Title>
+                <Card.Title>      
+                  <Link to={`/article/${article.id}`}>{article.title}</Link>
+                </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{article.publicationDate}</Card.Subtitle>
                 <Card.Text>{article.content}</Card.Text>
               </Card.Body>
@@ -66,7 +68,9 @@ const UserProfile = () => {
           {profile.posts.map((post, index) => (
             <Card key={index} className="mb-3">
               <Card.Body>
-                <Card.Title>{post.title}</Card.Title>
+                <Card.Title>
+                  <Link to={`/post/${post.id}`}>{post.title}</Link>
+                </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{post.timestamp}</Card.Subtitle>
                 <Card.Text>{post.content}</Card.Text>
               </Card.Body>
@@ -76,7 +80,7 @@ const UserProfile = () => {
           {profile.comments.map((comment, index) => (
             <Card key={index} className="mb-3">
               <Card.Body>
-                <Card.Title>{comment.content}</Card.Title>
+                <Card.Title></Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{comment.timestamp}</Card.Subtitle>
                 <Card.Text>{comment.content}</Card.Text>
               </Card.Body>

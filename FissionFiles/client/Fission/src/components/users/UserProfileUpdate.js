@@ -21,10 +21,9 @@ function UpdateUserProfile() {
   const handleSubmit = (event) => {
     event.preventDefault();
     updateUser(localUser).then((updatedUser) => {
-      // Handle successful update
       setLocalUser(updatedUser);
 
-      // Navigate back to the user profile
+
       navigate(`/user/${updatedUser.id}`);
     });
   };
@@ -32,9 +31,8 @@ function UpdateUserProfile() {
   if (!localUser) return <div>Loading...</div>;
 
   return (
-    <Container>
-      <Row>
-        <Col>
+    <Container className="mt-4">
+      <h2>Update Profile</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>First Name</Form.Label>
@@ -85,8 +83,6 @@ function UpdateUserProfile() {
               Update Profile
             </Button>
           </Form>
-        </Col>
-      </Row>
     </Container>
   );
 }

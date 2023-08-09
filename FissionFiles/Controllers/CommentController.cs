@@ -118,6 +118,50 @@ namespace FissionFiles.Controllers
             }
         }
 
+        // delete a comment
+        [HttpDelete("Delete/{commentId}")]
+        public ActionResult DeleteComment(int commentId)
+        {
+            try
+            {
+                var commentToDelete = _commentRepository.GetCommentById(commentId);
+
+                if (commentToDelete == null)
+                {
+                    return NotFound($"No comment found with id {commentId}.");
+                }
+
+                _commentRepository.DeleteComment(commentId);
+                return Ok($"Comment with id {commentId} was deleted.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting comment.");
+            }
+        }
+
+        // remove a comment
+        [HttpDelete("Remove/{commentId}")]
+        public ActionResult RemoveComment(int commentId)
+        {
+            try
+            {
+                var commentToRemove = _commentRepository.GetCommentById(commentId);
+
+                if (commentToRemove == null)
+                {
+                    return NotFound($"No comment found with id {commentId}.");
+                }
+
+                _commentRepository.RemoveComment(commentId);
+                return Ok($"Comment with id {commentId} was removed.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while removing comment.");
+            }
+        }
+
 
     }
 }

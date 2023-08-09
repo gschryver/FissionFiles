@@ -23,7 +23,7 @@ export default function Login() {
   };
 
   return (
-    <Container>
+    <Container className="mt-4">
       <Row className="justify-content-center">
         <Col xs={12} sm={8} md={6}>
           <Form onSubmit={loginSubmit}>
@@ -38,9 +38,11 @@ export default function Login() {
             <Button variant="primary" type="submit">
               Login
             </Button>
+            <Row>
             <em>
               Not registered? <Link to="/register">Register</Link>
             </em>
+            </Row>
           </Form>
         </Col>
       </Row>

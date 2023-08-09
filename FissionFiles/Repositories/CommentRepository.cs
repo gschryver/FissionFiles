@@ -98,7 +98,7 @@ namespace FissionFiles.Repositories
                 SELECT c.*, u.DisplayName AS UserDisplayName 
                 FROM Comments c 
                 JOIN Users u ON c.UserId = u.Id 
-                WHERE c.PostId = @postId AND c.IsDeleted = 0";
+                WHERE c.PostId = @postId";
 
                     cmd.Parameters.AddWithValue("@postId", postId);
 
@@ -182,7 +182,45 @@ namespace FissionFiles.Repositories
             }
         }
 
+        // delete a comment
+        public void DeleteComment(int commentId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                UPDATE Comments 
+                SET IsDeleted = 1
+                WHERE Id = @id";
 
+                    cmd.Parameters.AddWithValue("@id", commentId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // remove a comment 
+        public void RemoveComment(int commentId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                UPDATE Comments 
+                SET IsRemoved = 1
+                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", commentId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
     }
 }

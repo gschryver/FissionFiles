@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { PostContext } from '../../managers/PostManager';
 import { ForumContext } from '../../managers/ForumManager';
 import { UserContext } from '../../managers/UserManager';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 
 const UpdateForum = () => {
     const { forumId } = useParams();
@@ -49,6 +49,8 @@ const UpdateForum = () => {
       }
 
     return (
+        <Container className="mt-4">
+        <h2>Update Forum</h2>
         <Form onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Label>Name</Form.Label>
@@ -74,6 +76,7 @@ const UpdateForum = () => {
                 Update Forum
             </Button>
         </Form>
+    </Container>
     );
 }
 

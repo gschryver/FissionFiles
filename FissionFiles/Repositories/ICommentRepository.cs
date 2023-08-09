@@ -9,5 +9,7 @@ namespace FissionFiles.Repositories
         List<Comment> GetCommentsForPost(int postId);
         void AddComment(Comment comment);
         void UpdateComment(Comment comment);
+        void DeleteComment(int commentId);
+        void RemoveComment(int commentId);
     }
 }

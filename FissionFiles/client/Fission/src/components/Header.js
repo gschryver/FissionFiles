@@ -29,11 +29,6 @@ export default function Header() {
         <Nav className="mr-auto">
           {user && (
             <>
-              <NavItem>
-                <NavLink as={RRNavLink} to="/">
-                  Home
-                </NavLink>
-              </NavItem>
               {isAdmin && (
                 <>
                 <NavItem>
