@@ -149,7 +149,7 @@ namespace FissionFiles.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deactivating the forum: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deactivating the forum.");
             }
         }
 
@@ -170,7 +170,7 @@ namespace FissionFiles.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while reactivating the forum: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while reactivating the forum.");
             }
         }
 
