@@ -1,19 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { UserContext } from '../../managers/UserManager';
+import { PostContext } from '../../managers/PostManager';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
   const { user, getUserById, deleteUser, logout } = useContext(UserContext);
+  const { posts, getAllPosts } = useContext(PostContext);
   const [profile, setProfile] = useState(null);
   const { userId } = useParams();
   const navigate = useNavigate();
   
-
   useEffect(() => {
     getUserById(userId).then(setProfile);
+    getAllPosts();
   }, [userId, getUserById]);
+
+  const getPostTitleById = (postId) => {
+    const post = posts.find(post => post.id === postId);
+    return post ? post.title : 'Unknown Post';
+  };
 
   if (!profile) return <div>Loading...</div>;
 
@@ -80,9 +87,15 @@ const UserProfile = () => {
           {profile.comments.map((comment, index) => (
             <Card key={index} className="mb-3">
               <Card.Body>
-                <Card.Title></Card.Title>
+              <Card.Title>
+              <Link to={`/post/${comment.postId}`}>{getPostTitleById(comment.postId)}</Link>
+            </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{comment.timestamp}</Card.Subtitle>
-                <Card.Text>{comment.content}</Card.Text>
+                <Card.Text>
+                
+                    {comment.content}
+
+                </Card.Text>
               </Card.Body>
             </Card>
           ))}

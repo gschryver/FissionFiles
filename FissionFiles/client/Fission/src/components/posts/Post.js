@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { PostContext } from "../../managers/PostManager";
 import { ForumContext } from "../../managers/ForumManager";
@@ -13,13 +13,14 @@ const Post = () => {
   const { user } = useContext(UserContext);
   const { getCommentsForPost, updateComment, deleteComment, removeComment } =
     useContext(CommentContext);
-  const { postId } = useParams();
+  const { postId, commentId } = useParams();
   const [post, setPost] = useState(null);
   const [forum, setForum] = useState(null);
   const [comments, setComments] = useState([]);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContent, setEditedContent] = useState("");
   const isAdmin = user && user.userTypeId === 1;
+  const commentRefs = useRef({});
 
   useEffect(() => {
     getPostById(postId)
@@ -40,6 +41,11 @@ const Post = () => {
     getCommentsForPost(postId).then((fetchedComments) => {
       console.log("Fetched comments", fetchedComments);
       setComments(fetchedComments);
+
+      if (commentId && commentRefs.current[commentId]) {
+        commentRefs.current[commentId].scrollIntoView({ behavior: "smooth" });
+    }
+    
     });
   }, [postId]);
 
@@ -110,7 +116,7 @@ const handleRemoveComment = (commentId) => {
         {/* edit comments inline */}
         <ListGroup variant="flush">
           {comments.map((comment) => (
-            <ListGroup.Item key={comment.id}>
+            <ListGroup.Item key={comment.id} ref={el => commentRefs.current[comment.id] = el}>
               <strong>
                 {comment.isDeleted || comment.isRemoved
                 ? "[deleted]"

@@ -31,7 +31,7 @@ export default function Authenticated() {
       <Route path="/articles/add" element={<AddArticle />} />
       <Route path="/articles/edit/:articleId" element={<UpdateArticle />} />
       <Route path="/posts" element={<PostList />} />
-      <Route path="/post/:postId" element={<Post />} />
+      <Route path="/post/:postId/:commentId?" element={<Post />} />
       <Route path="/posts/add" element={<NewPostForm />} />
       <Route path="/post/edit/:postId" element={<UpdatePost />} />
       <Route path="/forums" element={<ForumList />} />

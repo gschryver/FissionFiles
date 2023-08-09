@@ -131,7 +131,50 @@ namespace FissionFiles.Controllers
 
             return Ok();
         }
-           
+
+        // Deactivate a forum by ID
+        [HttpPut("Deactivate/{forumId}")]
+        public ActionResult DeactivateForum(int forumId)
+        {
+            // Check if forum exists
+            if (_forumRepository.GetForumById(forumId) == null)
+            {
+                return NotFound($"No forum found with ID {forumId}");
+            }
+
+            try
+            {
+                _forumRepository.DeactivateForum(forumId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deactivating the forum: {ex.Message}");
+            }
+        }
+
+        // Reactivate a forum by ID
+        [HttpPut("Reactivate/{forumId}")]
+        public ActionResult ReactivateForum(int forumId)
+        {
+            // Check if forum exists
+            if (_forumRepository.GetForumById(forumId) == null)
+            {
+                return NotFound($"No forum found with ID {forumId}");
+            }
+
+            try
+            {
+                _forumRepository.ReactivateForum(forumId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while reactivating the forum: {ex.Message}");
+            }
+        }
+
+
 
     }
 }

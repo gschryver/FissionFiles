@@ -10,5 +10,7 @@ namespace FissionFiles.Repositories
         void AddForum(Forum forum);
         void DeleteForum(int forumId);
         void UpdateForum(Forum forum);
+        void DeactivateForum(int forumId);
+        void ReactivateForum(int forumId);
     }
 }

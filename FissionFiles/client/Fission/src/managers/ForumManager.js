@@ -47,6 +47,19 @@ export const ForumProvider = (props) => {
         }).then(getAllForums);
     };   
 
+    const deactivateForum = (forumId) => {
+        return fetch(`${apiUrl}/Deactivate/${forumId}`, {
+            method: "PUT",
+        }).then(getAllForums);
+    };
+    
+    const reactivateForum = (forumId) => {
+        return fetch(`${apiUrl}/Reactivate/${forumId}`, {
+            method: "PUT",
+        }).then(getAllForums);
+    };
+    
+
     return (
         <ForumContext.Provider
             value={{
@@ -56,7 +69,9 @@ export const ForumProvider = (props) => {
                 getPostByForumId,
                 addForum, 
                 deleteForum,
-                updateForum  
+                updateForum,
+                deactivateForum,
+                reactivateForum, 
             }}
         >
             {props.children}

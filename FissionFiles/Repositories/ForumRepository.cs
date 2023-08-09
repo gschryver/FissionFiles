@@ -162,9 +162,11 @@ namespace FissionFiles.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     // 'delete' all posts in the forum
-                    cmd.CommandText = @"UPDATE Posts SET IsDeleted = 0 WHERE ForumId = @forumId";
+                    cmd.CommandText = @"UPDATE Posts SET IsDeleted = 1 WHERE ForumId = @forumId";
                     DbUtils.AddParameter(cmd, "@forumId", forumId);
                     cmd.ExecuteNonQuery();
+
+                    cmd.Parameters.Clear();
 
                     // deactivate the forum
                     cmd.CommandText = @"UPDATE Forums SET IsActive = 0 WHERE Id = @forumId";
@@ -183,9 +185,11 @@ namespace FissionFiles.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     // 'undelete' all posts in the forum
-                    cmd.CommandText = @"UPDATE Posts SET IsDeleted = 1 WHERE ForumId = @forumId";
+                    cmd.CommandText = @"UPDATE Posts SET IsDeleted = 0 WHERE ForumId = @forumId";
                     DbUtils.AddParameter(cmd, "@forumId", forumId);
                     cmd.ExecuteNonQuery();
+
+                    cmd.Parameters.Clear();
 
                     // reactivate the forum
                     cmd.CommandText = @"UPDATE Forums SET IsActive = 1 WHERE Id = @forumId";
