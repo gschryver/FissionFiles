@@ -36,6 +36,11 @@ export default function Header() {
                     Admin Dashboard
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink as={RRNavLink} to="/tags">
+                    Tags
+                  </NavLink>
+                </NavItem>
                 </>
               )}
               <NavItem>

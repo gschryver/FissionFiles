@@ -4,8 +4,17 @@ import { PostContext } from "../../managers/PostManager";
 import { ForumContext } from "../../managers/ForumManager";
 import { CommentContext } from "../../managers/CommentManager";
 import { UserContext } from "../../managers/UserManager";
+import { TagContext } from "../../managers/TagManager";
 import AddComment from "../comments/AddComment";
-import { Container, Card, ListGroup, Button, Form, ButtonGroup } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  ListGroup,
+  Button,
+  Form,
+  ButtonGroup,
+  Badge,
+} from "react-bootstrap";
 
 const Post = () => {
   const { getPostById, deletePost } = useContext(PostContext);
@@ -13,10 +22,12 @@ const Post = () => {
   const { user, banUser } = useContext(UserContext);
   const { getCommentsForPost, updateComment, deleteComment, removeComment } =
     useContext(CommentContext);
+  const { getTagsForPost } = useContext(TagContext);
   const { postId, commentId } = useParams();
   const [post, setPost] = useState(null);
   const [forum, setForum] = useState(null);
   const [comments, setComments] = useState([]);
+  const [tags, setTags] = useState([]);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContent, setEditedContent] = useState("");
   const navigate = useNavigate();
@@ -33,6 +44,11 @@ const Post = () => {
       .then((fetchedForum) => {
         console.log("Fetched forum", fetchedForum);
         setForum(fetchedForum);
+        return getTagsForPost(postId);
+      })
+      .then((fetchedTags) => {
+        console.log("Fetched tags", fetchedTags);
+        setTags(fetchedTags);
         return getCommentsForPost(postId);
       })
       .then((fetchedComments) => {
@@ -45,10 +61,9 @@ const Post = () => {
 
       if (commentId && commentRefs.current[commentId]) {
         commentRefs.current[commentId].scrollIntoView({ behavior: "smooth" });
-    }
-    
+      }
     });
-  }, [postId]);
+  }, [postId, commentId]);
 
   if (!post) {
     return <p>Loading...</p>;
@@ -72,36 +87,35 @@ const Post = () => {
 
   const handleDeleteComment = (commentId) => {
     if (window.confirm("Are you sure you want to delete this comment?")) {
-        deleteComment(commentId).then(() => {
-            getCommentsForPost(postId).then(setComments);
-        });
+      deleteComment(commentId).then(() => {
+        getCommentsForPost(postId).then(setComments);
+      });
     }
-};
+  };
 
-const handleDelete = () => {
+  const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this post?")) {
-        deletePost(postId).then(() => {
-            navigate(`/forums/${forum.id}/posts`);
-        });
+      deletePost(postId).then(() => {
+        navigate(`/forums/${forum.id}/posts`);
+      });
     }
-};
+  };
 
-const handleRemoveComment = (commentId) => {
+  const handleRemoveComment = (commentId) => {
     if (window.confirm("Are you sure you want to remove this comment?")) {
-        removeComment(commentId).then(() => {
-            getCommentsForPost(postId).then(setComments);
-        });
+      removeComment(commentId).then(() => {
+        getCommentsForPost(postId).then(setComments);
+      });
     }
-};
+  };
 
-const handleBanUser = (userIdToBan) => {
+  const handleBanUser = (userIdToBan) => {
     if (window.confirm("Are you sure you want to ban this user?")) {
-        banUser(userIdToBan).then(() => {
-            navigate("/users");
-        });
+      banUser(userIdToBan).then(() => {
+        navigate("/users");
+      });
     }
-};
-
+  };
 
   const timePosted = () => {
     const timePosted = new Date(post.timestamp);
@@ -116,17 +130,33 @@ const handleBanUser = (userIdToBan) => {
         </Card.Header>
         <Card.Body>
           <Card.Subtitle className="mb-2 text-muted">
-          Author: <Link to={`/user/${post.user.id}`}>{post.user.displayName}</Link> | Date: 
-            {new Date(post.timestamp).toLocaleDateString()}
+            Author:{" "}
+            <Link to={`/user/${post.user.id}`}>{post.user.displayName}</Link> |
+            Date:
+            {new Date(post.timestamp).toLocaleDateString()} | Tags: &nbsp;
+            {tags.map((tag) => (
+              <Badge key={tag.id} variant="secondary" className="mr-2">
+                <Link to={`/tags/${tag.id}/posts`} className="text-white">
+                  {tag.name}
+                </Link>
+              </Badge>
+            ))}
           </Card.Subtitle>
           <Card.Text>{post.content}</Card.Text>
 
           {isAdmin && (
-                        <ButtonGroup className="mt-3">
-                            <Button variant="primary" onClick={() => navigate(`/post/edit/${post.id}`)}>Edit</Button>
-                            <Button variant="danger" onClick={handleDelete}>Delete</Button>
-                        </ButtonGroup>
-                    )}
+            <ButtonGroup className="mt-3">
+              <Button
+                variant="primary"
+                onClick={() => navigate(`/post/edit/${post.id}`)}
+              >
+                Edit
+              </Button>
+              <Button variant="danger" onClick={handleDelete}>
+                Delete
+              </Button>
+            </ButtonGroup>
+          )}
         </Card.Body>
       </Card>
 
@@ -136,7 +166,6 @@ const handleBanUser = (userIdToBan) => {
         onCommentAdded={() => getCommentsForPost(postId).then(setComments)}
       />
       <Card>
-
         <Card.Header>
           <h2>Replies</h2>
         </Card.Header>
@@ -144,14 +173,20 @@ const handleBanUser = (userIdToBan) => {
         {/* edit comments inline */}
         <ListGroup variant="flush">
           {comments.map((comment) => (
-            <ListGroup.Item key={comment.id} ref={el => commentRefs.current[comment.id] = el}>
+            <ListGroup.Item
+              key={comment.id}
+              ref={(el) => (commentRefs.current[comment.id] = el)}
+            >
               <strong>
-                {comment.isDeleted || comment.isRemoved
-                ? "[deleted]"
-                : <Link to={`/user/${comment.userId}`}>{comment.user.displayName}</Link>}
-                {" "}
+                {comment.isDeleted || comment.isRemoved ? (
+                  "[deleted]"
+                ) : (
+                  <Link to={`/user/${comment.userId}`}>
+                    {comment.user.displayName}
+                  </Link>
+                )}{" "}
                 <small>{timePosted()}</small>
-            </strong>
+              </strong>
 
               {comment.isRemoved ? (
                 <p>
@@ -204,14 +239,19 @@ const handleBanUser = (userIdToBan) => {
                   {/* if the current user is an admin, show the remove button */}
                   {isAdmin && (
                     <>
-                    <Button
-                      variant="warning"
-                      onClick={() => handleRemoveComment(comment.id)}
-                    >
-                      Remove
-                    </Button>
-                    <Button variant="danger" onClick={() => handleBanUser(comment.userId)}>Ban User</Button>
-                  </>
+                      <Button
+                        variant="warning"
+                        onClick={() => handleRemoveComment(comment.id)}
+                      >
+                        Remove
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleBanUser(comment.userId)}
+                      >
+                        Ban User
+                      </Button>
+                    </>
                   )}
                 </div>
               )}

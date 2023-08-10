@@ -1,34 +1,37 @@
-import React, { useContext, useEffect } from 'react';
-import { BrowserRouter } from "react-router-dom"; 
+import React, { useContext, useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
 import ApplicationViews from "./components/ApplicationViews";
-import AuthenticatedRoutes from './components/Authenticated';
-import Header from './components/Header';
+import AuthenticatedRoutes from "./components/Authenticated";
+import Header from "./components/Header";
 import { UserProvider, UserContext } from "./managers/UserManager";
 import { ArticleProvider } from "./managers/ArticleManager";
 import { PostProvider } from "./managers/PostManager";
 import { ForumProvider } from "./managers/ForumManager";
 import { CommentProvider } from "./managers/CommentManager";
-import { ScientistProvider } from './managers/ScientistManager';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { ScientistProvider } from "./managers/ScientistManager";
+import { TagProvider } from "./managers/TagManager";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-    return (
-        <UserProvider>
-          <ScientistProvider>
+  return (
+    <UserProvider>
+      <TagProvider>
+        <ScientistProvider>
           <CommentProvider>
-          <ForumProvider>
-          <PostProvider>
-          <ArticleProvider>
-            <BrowserRouter> 
-                <AppContent />
-            </BrowserRouter>
-          </ArticleProvider>
-            </PostProvider>
+            <ForumProvider>
+              <PostProvider>
+                <ArticleProvider>
+                  <BrowserRouter>
+                    <AppContent />
+                  </BrowserRouter>
+                </ArticleProvider>
+              </PostProvider>
             </ForumProvider>
-            </CommentProvider>
-            </ScientistProvider>
-        </UserProvider>
-    );
+          </CommentProvider>
+        </ScientistProvider>
+      </TagProvider>
+    </UserProvider>
+  );
 }
 
 function AppContent() {
@@ -38,16 +41,14 @@ function AppContent() {
     const userProfile = localStorage.getItem("user");
     if (userProfile) {
       const parsedUserProfile = JSON.parse(userProfile);
-      getUserStatus(parsedUserProfile.email)
-          .then(responseUser => {
-              // Only update if the user is different.
-              if (responseUser && (!user || user.id !== responseUser.id)) {
-                  login(responseUser);
-              }
-          });
+      getUserStatus(parsedUserProfile.email).then((responseUser) => {
+        // Only update if the user is different.
+        if (responseUser && (!user || user.id !== responseUser.id)) {
+          login(responseUser);
+        }
+      });
     }
   }, [getUserStatus, login, user]);
-  
 
   return (
     <>

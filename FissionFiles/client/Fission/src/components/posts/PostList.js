@@ -4,20 +4,33 @@ import { Link } from 'react-router-dom';
 import { ForumContext } from '../../managers/ForumManager';
 import { PostContext } from '../../managers/PostManager';
 import { UserContext } from '../../managers/UserManager';
+import { TagContext } from '../../managers/TagManager';
 import { Table, Button, Container } from 'react-bootstrap';
 
 const PostList = () => {
     const { getPostByForumId, getForumById } = useContext(ForumContext);
+    const { getTagsForPost } = useContext(TagContext);
     const { post, deletePost } = useContext(PostContext);
     const { user } = useContext(UserContext);
     const [posts, setPosts] = useState([]); 
     const [forum, setForum] = useState(null);
+    const [postTags, setPostTags] = useState({});
     const { forumId } = useParams(); 
     const navigate = useNavigate();
     const isAdmin = user && user.userTypeId === 1;
 
     useEffect(() => {
-        getPostByForumId(forumId).then(setPosts);
+        getPostByForumId(forumId).then(fetchedPosts => {
+            setPosts(fetchedPosts);
+            
+            fetchedPosts.forEach(async post => {
+                const tags = await getTagsForPost(post.id);
+                setPostTags(prevTags => ({
+                    ...prevTags,
+                    [post.id]: tags
+                }));
+            });
+        });
         getForumById(forumId).then(setForum);  
     }, [forumId, getPostByForumId, getForumById]);
 
@@ -52,6 +65,7 @@ const PostList = () => {
                         <th>Author</th>
                         <th>Date</th>
                         {isAdmin && (<th>Actions</th>)}
+                        <th>Tags</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,11 +85,18 @@ const PostList = () => {
                                 <Button variant="danger" onClick={() => handleDelete(post.id)}>Delete</Button>
                             </td>
                             )}
+                            <td>
+                            {postTags[post.id] && postTags[post.id].map(tag => (
+                                <Link key={tag.id} to={`/tags/${tag.id}/posts`} className="mr-2">
+                                    {tag.name}
+                                </Link>
+                            ))}
+                        </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
-                    </Container>
+        </Container>
     );
 }
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ScientistContext } from '../../managers/ScientistManager';
 import { UserContext } from '../../managers/UserManager';
 import { Container, Table, Button } from 'react-bootstrap';

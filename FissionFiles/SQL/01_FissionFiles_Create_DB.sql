@@ -64,6 +64,7 @@ CREATE TABLE [Posts] (
   [id] integer PRIMARY KEY IDENTITY,
   [userId] integer NOT NULL,
   [forumId] integer NOT NULL,
+  [tagId] integer NULL,
   [title] varchar(255) NOT NULL,
   [timestamp] datetime NOT NULL,
   [content] varchar(MAX) NOT NULL,
