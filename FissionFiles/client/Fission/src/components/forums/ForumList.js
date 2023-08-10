@@ -56,7 +56,9 @@ const ForumList = () => {
                             <Link to={`/forums/${forum.id}/edit`}>
                                 <Button variant="warning">Edit</Button>
                             </Link>
+                            &nbsp;|&nbsp;
                             <Button variant="secondary" onClick={() => handleDeactivate(forum.id)}>Deactivate</Button>
+                            &nbsp;|&nbsp;
                             <Button variant="danger" onClick={() => handleDelete(forum.id)}>Delete</Button>
                             </>
                             </td>

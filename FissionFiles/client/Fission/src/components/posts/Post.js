@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { PostContext } from "../../managers/PostManager";
 import { ForumContext } from "../../managers/ForumManager";
 import { CommentContext } from "../../managers/CommentManager";
 import { UserContext } from "../../managers/UserManager";
 import AddComment from "../comments/AddComment";
-import { Container, Card, ListGroup, Button, Form } from "react-bootstrap";
+import { Container, Card, ListGroup, Button, Form, ButtonGroup } from "react-bootstrap";
 
 const Post = () => {
-  const { getPostById } = useContext(PostContext);
+  const { getPostById, deletePost } = useContext(PostContext);
   const { getForumById } = useContext(ForumContext);
-  const { user } = useContext(UserContext);
+  const { user, banUser } = useContext(UserContext);
   const { getCommentsForPost, updateComment, deleteComment, removeComment } =
     useContext(CommentContext);
   const { postId, commentId } = useParams();
@@ -19,6 +19,7 @@ const Post = () => {
   const [comments, setComments] = useState([]);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContent, setEditedContent] = useState("");
+  const navigate = useNavigate();
   const isAdmin = user && user.userTypeId === 1;
   const commentRefs = useRef({});
 
@@ -77,6 +78,14 @@ const Post = () => {
     }
 };
 
+const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+        deletePost(postId).then(() => {
+            navigate(`/forums/${forum.id}/posts`);
+        });
+    }
+};
+
 const handleRemoveComment = (commentId) => {
     if (window.confirm("Are you sure you want to remove this comment?")) {
         removeComment(commentId).then(() => {
@@ -84,6 +93,15 @@ const handleRemoveComment = (commentId) => {
         });
     }
 };
+
+const handleBanUser = (userIdToBan) => {
+    if (window.confirm("Are you sure you want to ban this user?")) {
+        banUser(userIdToBan).then(() => {
+            navigate("/users");
+        });
+    }
+};
+
 
   const timePosted = () => {
     const timePosted = new Date(post.timestamp);
@@ -102,17 +120,27 @@ const handleRemoveComment = (commentId) => {
             {new Date(post.timestamp).toLocaleDateString()}
           </Card.Subtitle>
           <Card.Text>{post.content}</Card.Text>
+
+          {isAdmin && (
+                        <ButtonGroup className="mt-3">
+                            <Button variant="primary" onClick={() => navigate(`/post/edit/${post.id}`)}>Edit</Button>
+                            <Button variant="danger" onClick={handleDelete}>Delete</Button>
+                        </ButtonGroup>
+                    )}
         </Card.Body>
       </Card>
+
       {/* Add comment */}
       <AddComment
         postId={postId}
         onCommentAdded={() => getCommentsForPost(postId).then(setComments)}
       />
       <Card>
+
         <Card.Header>
           <h2>Replies</h2>
         </Card.Header>
+
         {/* edit comments inline */}
         <ListGroup variant="flush">
           {comments.map((comment) => (
@@ -175,12 +203,15 @@ const handleRemoveComment = (commentId) => {
 
                   {/* if the current user is an admin, show the remove button */}
                   {isAdmin && (
+                    <>
                     <Button
                       variant="warning"
                       onClick={() => handleRemoveComment(comment.id)}
                     >
                       Remove
                     </Button>
+                    <Button variant="danger" onClick={() => handleBanUser(comment.userId)}>Ban User</Button>
+                  </>
                   )}
                 </div>
               )}
