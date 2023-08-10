@@ -34,8 +34,23 @@ VALUES (1, 'Published Theory of Relativity', 'Einstein publishes his Theory of R
        (2, 'Started Manhattan Project', 'Oppenheimer started work on the Manhattan Project.', '1939-01-01'),
        (3, 'Discovered Radioactivity', 'Curie discovers radioactivity.', '1898-01-01');
 
-INSERT INTO [Article] ([userId], [title], [content], [author], [publicationDate])
-VALUES (1, 'Quantum Physics', 'Article content goes here.', 'John Doe', GETDATE()),
-       (2, 'Biology Basics', 'Article content goes here.', 'Jane Doe', GETDATE()),
-       (3, 'Admin Responsibilities', 'Article content goes here.', 'Admin', GETDATE());
+INSERT INTO [Category] ([name], [description])
+VALUES ('Physics', 'The study of matter and energy.'),
+       ('Biology', 'The study of life.'),
+       ('Admin', 'Admin stuff.');
+
+INSERT INTO [Article] ([userId], [title], [content], [author], [publicationDate], [categoryId], [imageUrl])
+VALUES (1, 'Quantum Physics', 'Article content goes here.', 'John Doe', GETDATE(), 1, 'article1.jpg'), 
+       (2, 'Biology Basics', 'Article content goes here.', 'Jane Doe', GETDATE(), 2, 'article2.jpg'), 
+       (3, 'Admin Responsibilities', 'Article content goes here.', 'Admin', GETDATE(), 3, 'article3.jpg'); 
+
+INSERT INTO [Tag] ([name], [description])
+VALUES ('Physics Stuff', 'The study of matter and energy.'),
+       ('Biology Stuff', 'The study of life.'),
+       ('Admin Stuff', 'Admin stuff.');
+
+INSERT INTO [PostTags] ([postId], [tagId])
+VALUES (1, 1),
+       (2, 2),
+       (3, 3);
 GO

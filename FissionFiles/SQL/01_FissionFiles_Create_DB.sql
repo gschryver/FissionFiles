@@ -7,7 +7,10 @@ GO
 USE [FissionFiles]
 GO
 
+DROP TABLE IF EXISTS [PostTags];
 DROP TABLE IF EXISTS [Article];
+DROP TABLE IF EXISTS [Tag];
+DROP TABLE IF EXISTS [Category];
 DROP TABLE IF EXISTS [Comments];
 DROP TABLE IF EXISTS [Posts];
 DROP TABLE IF EXISTS [Forums];
@@ -29,7 +32,7 @@ CREATE TABLE [Users] (
   [lastName] varchar(50) NOT NULL,
   [displayName] varchar(50) NOT NULL,
   [userTypeId] integer NOT NULL,
-  [email] varchar(555) NOT NULL,
+  [email] varchar(355) NOT NULL,
   [creationDate] datetime NOT NULL,
   [avatar] nvarchar(255) DEFAULT('default.jpg'),
   [bio] varchar(555) NULL,
@@ -84,6 +87,12 @@ CREATE TABLE [Comments] (
   CONSTRAINT [FK_Comments_Posts] FOREIGN KEY ([postId]) REFERENCES [Posts] ([id])
 );
 
+CREATE TABLE [Category] (
+    [id] integer PRIMARY KEY IDENTITY,
+    [name] varchar(255) NOT NULL,
+    [description] varchar(555) NULL
+);
+
 CREATE TABLE [TimelineEvent] (
   [id] integer PRIMARY KEY IDENTITY,
   [scientistId] integer NOT NULL,
@@ -94,14 +103,32 @@ CREATE TABLE [TimelineEvent] (
   CONSTRAINT [FK_TimelineEvent_Scientist] FOREIGN KEY ([scientistId]) REFERENCES [Scientist] ([id])
 );
 
+CREATE TABLE [Tag] (
+    [id] integer PRIMARY KEY IDENTITY,
+    [name] varchar(255) NOT NULL,
+    [description] varchar(555) NULL
+);
+
+CREATE TABLE [PostTags] (
+    [postId] integer NOT NULL,
+    [tagId] integer NOT NULL,
+
+    CONSTRAINT [PK_PostTags] PRIMARY KEY ([postId], [tagId]),
+    CONSTRAINT [FK_PostTags_Posts] FOREIGN KEY ([postId]) REFERENCES [Posts] ([id]),
+    CONSTRAINT [FK_PostTags_Tags] FOREIGN KEY ([tagId]) REFERENCES [Tag] ([id])
+);
+
 CREATE TABLE [Article] (
   [id] integer PRIMARY KEY IDENTITY,
   [userId] integer NOT NULL,
+  [categoryId] integer NULL,
   [title] varchar(255) NOT NULL,
   [content] varchar(MAX) NOT NULL,
   [author] varchar(255) NOT NULL,
   [publicationDate] datetime  NOT NULL,
+  [imageUrl] varchar(255) NOT NULL,
 
-  CONSTRAINT [FK_Article_Users] FOREIGN KEY ([userId]) REFERENCES [Users] ([id])
+  CONSTRAINT [FK_Article_Users] FOREIGN KEY ([userId]) REFERENCES [Users] ([id]),
+  CONSTRAINT [FK_Article_Category] FOREIGN KEY ([categoryId]) REFERENCES [Category] ([id])
 );
 GO
