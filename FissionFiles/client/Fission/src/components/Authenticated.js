@@ -17,6 +17,10 @@ import UpdatePost from './posts/UpdatePost';
 import ForumList from './forums/ForumList';
 import AddForumForm from './forums/AddForum';
 import UpdateForum from './forums/UpdateForum';
+import ScientistList from './scientists/ScientistList';
+import Scientist from './scientists/Scientist';
+import AddScientist from './scientists/AddScientist';
+import UpdateScientist from './scientists/UpdateScientist';
 
 export default function Authenticated() {
   return (
@@ -39,6 +43,10 @@ export default function Authenticated() {
       <Route path="/forums/:forumId/posts" element={<PostList />} />
       <Route path="/forums/add" element={<AddForumForm />} />
       <Route path="/admin-dashboard" element={<AdminDashboard />} /> 
+      <Route path="/scientists" element={<ScientistList />} />
+      <Route path="/scientist/:scientistId" element={<Scientist />} />
+      <Route path="/scientists/add" element={<AddScientist />} />
+      <Route path="/scientists/edit/:scientistId" element={<UpdateScientist />} />
     </Routes>
   );
 }

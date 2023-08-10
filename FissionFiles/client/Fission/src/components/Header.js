@@ -44,6 +44,11 @@ export default function Header() {
                 </NavLink>
               </NavItem>
               <NavItem>
+                <NavLink as={RRNavLink} to="/scientists">
+                  Scientists
+                </NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink as={RRNavLink} to="/forums">
                   Forums
                   </NavLink>

@@ -8,11 +8,13 @@ import { ArticleProvider } from "./managers/ArticleManager";
 import { PostProvider } from "./managers/PostManager";
 import { ForumProvider } from "./managers/ForumManager";
 import { CommentProvider } from "./managers/CommentManager";
+import { ScientistProvider } from './managers/ScientistManager';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (
         <UserProvider>
+          <ScientistProvider>
           <CommentProvider>
           <ForumProvider>
           <PostProvider>
@@ -24,6 +26,7 @@ function App() {
             </PostProvider>
             </ForumProvider>
             </CommentProvider>
+            </ScientistProvider>
         </UserProvider>
     );
 }
