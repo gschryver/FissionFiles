@@ -26,6 +26,7 @@ namespace FissionFiles
             builder.Services.AddTransient<IForumRepository, ForumRepository>();
             builder.Services.AddTransient<ICommentRepository, CommentRepository>();
             builder.Services.AddTransient<IScientistRepository, ScientistRepository>();
+            builder.Services.AddTransient<ITagRepository, TagRepository>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
