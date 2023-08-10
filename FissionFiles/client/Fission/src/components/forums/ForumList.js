@@ -34,7 +34,7 @@ const ForumList = () => {
     
     return (
         <Container className="mt-4">
-            <h2>Forums</h2>
+            <h1>Forums</h1>
             <Table striped bordered hover>
                 <thead>
                     <tr>

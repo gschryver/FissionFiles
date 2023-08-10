@@ -15,7 +15,7 @@ const AdminDashboard = () => {
     return (
         <Container className="mt-4">
 
-                    <h3>Admin Dashboard</h3>
+                    <h1>Admin Dashboard</h1>
                     <ListGroup>
                         <ListGroup.Item action onClick={() => navigate("/articles/add")}>
                             Add Article

@@ -47,7 +47,8 @@ const UserProfile = () => {
   };
   
   return (
-    <Container>
+    <Container className="mt-4">
+      <h1>Profile</h1>
       <Row>
         <Col md={4}>
           <Card>
