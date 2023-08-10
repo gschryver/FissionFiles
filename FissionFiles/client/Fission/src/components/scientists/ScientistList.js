@@ -27,6 +27,8 @@ const ScientistList = () => {
     return (
         <Container className="mt-4 scientist-list-container">
             <h1>Scientists</h1>
+            {isAdmin && (
+            <Button className="mb-3" variant="secondary" as={Link} to={`/scientists/add`}>Add Scientist</Button>)}
             <Table striped bordered hover>
                 <thead>
                     <tr>

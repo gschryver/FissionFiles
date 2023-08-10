@@ -42,7 +42,8 @@ const PostList = () => {
         <Container className="mt-4">
             <Link to="/forums">Back to Forums List</Link>
             {forum && <h1>Posts for {forum.name}</h1>}
-
+            {isAdmin && (
+            <Button className="mb-3" variant="secondary" as={Link} to={`/posts/add`}>Add Post</Button>)}
             <Table striped bordered hover>
                 <thead>
                     <tr>

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { ArticleContext } from '../../managers/ArticleManager';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from "../../managers/UserManager";
@@ -52,6 +52,8 @@ const UpdateArticle = () => {
     }
 
   return (
+    <Container className="mt-4">
+      <h2>Update Article</h2>
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="title">
         <Form.Label>Title</Form.Label>
@@ -95,6 +97,7 @@ const UpdateArticle = () => {
 
       <Button type="submit">Update Article</Button>
     </Form>
+    </Container>
   );
 };
 

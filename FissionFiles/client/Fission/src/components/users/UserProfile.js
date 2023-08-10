@@ -13,6 +13,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const isAdmin = user && user.userTypeId === 1;
   
+  
   useEffect(() => {
     getUserById(userId).then(setProfile);
     getAllPosts();
@@ -72,42 +73,63 @@ const UserProfile = () => {
           </Card>
         </Col>
         <Col md={8}>
-          <h3>Articles</h3>
-          {profile.articles.map((article, index) => (
-            <Card key={index} className="mb-3">
-              <Card.Body>
-                <Card.Title>      
-                  <Link to={`/article/${article.id}`}>{article.title}</Link>
-                </Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{article.publicationDate}</Card.Subtitle>
-                <Card.Text>{article.content}</Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
-          <h3>Posts</h3>
-          {profile.posts.map((post, index) => (
-            <Card key={index} className="mb-3">
-              <Card.Body>
-                <Card.Title>
-                  <Link to={`/post/${post.id}`}>{post.title}</Link>
-                </Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{post.timestamp}</Card.Subtitle>
-                <Card.Text>{post.content}</Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
-          <h3>Comments</h3>
-          {profile.comments.map((comment, index) => (
-            <Card key={index} className="mb-3">
-              <Card.Body>
-              <Card.Title>
-              <Link to={`/post/${comment.postId}`}>{getPostTitleById(comment.postId)}</Link>
-            </Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{comment.timestamp}</Card.Subtitle>
-                <Card.Text> {comment.content}</Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
+              <div>
+                <h3>Articles</h3>
+                {profile.articles.length > 0 ? (
+                  profile.articles.map((article, index) => (
+                    <Card key={index} className="mb-3">
+                      <Card.Body>
+                        <Card.Title>      
+                          <Link to={`/article/${article.id}`}>{article.title}</Link>
+                        </Card.Title>
+                        <Card.Subtitle className="mb-2 text-muted">{article.publicationDate}</Card.Subtitle>
+                        <Card.Text>{article.content}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  ))
+                ) : (
+                  <p>This user has no articles.</p>
+                )}
+              </div>
+            
+          <div>
+            <h3>Posts</h3>
+            {profile.posts.length > 0 ? (
+              profile.posts.map((post, index) => (
+                <Card key={index} className="mb-3">
+                  <Card.Body>
+                    <Card.Title>
+                      <Link to={`/post/${post.id}`}>{post.title}</Link>
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">{post.timestamp}</Card.Subtitle>
+                    <Card.Text>{post.content}</Card.Text>
+                  </Card.Body>
+                </Card>
+              ))
+            ) : (
+              <p>This user has no posts.</p>
+            )}
+          </div>
+
+          <div>
+            <h3>Comments</h3>
+            {profile.comments.length > 0 ? (
+              profile.comments.map((comment, index) => (
+                <Card key={index} className="mb-3">
+                  <Card.Body>
+                    <Card.Title>
+                      <Link to={`/post/${comment.postId}`}>{getPostTitleById(comment.postId)}</Link>
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">{comment.timestamp}</Card.Subtitle>
+                    <Card.Text>{comment.content}</Card.Text>
+                  </Card.Body>
+                </Card>
+              ))
+            ) : (
+              <p>This user has no comments.</p>
+            )}
+          </div>
+
         </Col>
       </Row>
     </Container>

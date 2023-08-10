@@ -35,6 +35,8 @@ const ForumList = () => {
     return (
         <Container className="mt-4">
             <h1>Forums</h1>
+            {isAdmin && (
+            <Button className="mb-3" variant="secondary" as={Link} to={`/forums/add`}>Add Forum</Button>)}
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -86,7 +88,9 @@ const ForumList = () => {
                             <td>{forum.description}</td>
                             <td>
                                 <Button variant="success" onClick={() => handleReactivate(forum.id)}>Reactivate</Button>
+                                &nbsp;|&nbsp;
                                 <Link to={`/forums/${forum.id}/edit`}><Button variant="warning">Edit</Button></Link>
+                                &nbsp;|&nbsp;
                                 <Button variant="danger" onClick={() => handleDelete(forum.id)}>Delete</Button>
                             </td>
                         </tr>
