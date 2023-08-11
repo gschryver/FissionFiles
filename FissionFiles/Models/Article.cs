@@ -10,6 +10,7 @@ namespace FissionFiles.Models
 
         [ForeignKey("User")]
         public int UserId { get; set; }
+        public int CategoryId { get; set; }
 
         public string Title { get; set; }
 

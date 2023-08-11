@@ -10,11 +10,13 @@ import { ForumProvider } from "./managers/ForumManager";
 import { CommentProvider } from "./managers/CommentManager";
 import { ScientistProvider } from "./managers/ScientistManager";
 import { TagProvider } from "./managers/TagManager";
+import { CategoryProvider } from "./managers/CategoryManager";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <UserProvider>
+      <CategoryProvider>
       <TagProvider>
         <ScientistProvider>
           <CommentProvider>
@@ -30,6 +32,7 @@ function App() {
           </CommentProvider>
         </ScientistProvider>
       </TagProvider>
+      </CategoryProvider>
     </UserProvider>
   );
 }
