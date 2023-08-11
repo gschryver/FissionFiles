@@ -1,94 +1,171 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { PostContext } from '../../managers/PostManager';
-import { ForumContext } from '../../managers/ForumManager';
-import { UserContext } from '../../managers/UserManager';
-import { Form, Button, Container } from 'react-bootstrap';
+import React, { useState, useContext, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { PostContext } from "../../managers/PostManager";
+import { ForumContext } from "../../managers/ForumManager";
+import { UserContext } from "../../managers/UserManager";
+import { TagContext } from "../../managers/TagManager";
+import { Form, Button, Container } from "react-bootstrap";
 
 const UpdatePostForm = () => {
-    const { updatePost, getPostById } = useContext(PostContext);
-    const { user } = useContext(UserContext);
-    const { forum } = useContext(ForumContext);
-    const { postId } = useParams();
-    const navigate = useNavigate();
-    const [post, setPost] = useState(
-        {
-            userId: user?.id || "",
-            forumId: forum?.id || "",
-            title: "",
-            timestamp: "",
-            content: "",
-            headerImage: "",
-            isDeleted: false
-        }
-    );
+  const { updatePost, getPostById } = useContext(PostContext);
+  const { tags, getAllTags, addTagsToPost, getTagsForPost, removeTagFromPost } =
+    useContext(TagContext);
+  const { user } = useContext(UserContext);
+  const { forum } = useContext(ForumContext);
+  const { postId } = useParams();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-       getPostById(postId)
-            .then(fetchedPost => {
-                console.log("Fetched post", fetchedPost);
-                setPost(fetchedPost);
-            });
-    }, [postId, getPostById]);
+  const [post, setPost] = useState({
+    userId: user?.id || "",
+    forumId: forum?.id || "",
+    title: "",
+    timestamp: "",
+    content: "",
+    headerImage: "",
+    isDeleted: false,
+  });
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [initialTags, setInitialTags] = useState([]);
 
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setPost({
-            ...post,
-            [name]: value,
-        });
+  useEffect(() => {
+    getPostById(postId)
+      .then((fetchedPost) => {
+        setPost(fetchedPost);
+        return getTagsForPost(fetchedPost.id);
+      })
+      .then((fetchedTags) => {
+        const tagIds = fetchedTags.map((tag) => tag.id);
+        setSelectedTags(tagIds);
+        setInitialTags(tagIds);
+      })
+      .catch((error) => console.error("Error fetching post and tags:", error));
+  }, [postId, getPostById]);
+
+
+  useEffect(() => {
+    getAllTags();
+  }, []); 
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setPost({
+      ...post,
+      [name]: value, 
+    });
+  };
+
+  const handleTagChange = (evt) => {
+    const tagId = Number(evt.target.value);
+    const isChecked = evt.target.checked;
+
+    if (isChecked) {
+      setSelectedTags((prevTags) => [...prevTags, tagId]);
+    } else {
+      setSelectedTags((prevTags) => prevTags.filter((id) => id !== tagId));
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const postToUpdate = {
+      id: post.id,
+      userId: post.userId,
+      forumId: post.forumId,
+      title: post.title,
+      timestamp: post.timestamp,
+      content: post.content,
+      headerImage: post.headerImage,
+      isDeleted: post.isDeleted,
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        
-        const postToUpdate = {
-            id: post.id,
-            userId: post.userId,
-            forumId: post.forumId,
-            title: post.title,
-            timestamp: post.timestamp,
-            content: post.content,
-            headerImage: post.headerImage,
-            isDeleted: post.isDeleted,
-        };
-
-        updatePost(postToUpdate).then(() => {
-        console.log("Post updated successfully!")
-        navigate(`/post/${postId}`)
-    })
-}
-
-    if (!post) {
-        return <p>Loading...</p>;
-    }
-
-    return (
-        <Container className="mt-4">
-        <h2>Update Post</h2>
-        <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formTitle">
-                <Form.Label>Title</Form.Label>
-                <Form.Control type="text" name="title" value={post.title} onChange={handleChange} />
-            </Form.Group>
-
-            <Form.Group controlId="formContent">
-                <Form.Label>Content</Form.Label>
-                <Form.Control as="textarea" name="content" value={post.content} onChange={handleChange} />
-            </Form.Group>
-
-            <Form.Group controlId="formHeaderImage">
-                <Form.Label>Header Image URL</Form.Label>
-                <Form.Control type="text" name="headerImage" value={post.headerImage} onChange={handleChange} />
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-                Update Post
-            </Button>
-        </Form>
-        </Container>
+    const tagsToAdd = selectedTags.filter(
+      (tagId) => !initialTags.includes(tagId),
     );
+    const tagsToRemove = initialTags.filter(
+      (tagId) => !selectedTags.includes(tagId),
+    );
+
+    updatePost(postToUpdate)
+      .then(() => {
+        if (tagsToAdd.length) {
+          return addTagsToPost(post.id, tagsToAdd);
+        }
+      })
+      .then(() => {
+        if (tagsToRemove.length) {
+          return Promise.all(
+            tagsToRemove.map((tagId) => {
+              return removeTagFromPost(post.id, tagId);
+            }),
+          );
+        }
+      })
+      .then(() => {
+        console.log("Post and tags updated successfully!");
+        navigate(`/post/${postId}`);
+      })
+      .catch((err) => console.error("Error updating post and tags:", err));
+  };
+
+  return (
+    <Container className="mt-4">
+      <h2>Update Post</h2>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formTitle">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type="text"
+            name="title"
+            value={post.title}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formContent">
+          <Form.Label>Content</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="content"
+            value={post.content}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formHeaderImage">
+          <Form.Label>Header Image URL</Form.Label>
+          <Form.Control
+            type="text"
+            name="headerImage"
+            value={post.headerImage}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formTags">
+          <Form.Label>Tags</Form.Label>
+
+          {tags.map((tag) => (
+            <Form.Check
+              custom
+              key={tag.id}
+              type="checkbox"
+              id={`custom-checkbox-${tag.id}`}
+              label={tag.name}
+              value={tag.id}
+              checked={selectedTags.includes(tag.id)}
+              onChange={handleTagChange}
+            />
+          ))}
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Update Post
+        </Button>
+      </Form>
+    </Container>
+  );
 };
 
 export default UpdatePostForm;

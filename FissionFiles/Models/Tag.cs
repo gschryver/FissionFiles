@@ -12,5 +12,7 @@ namespace FissionFiles.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
+        public List<PostTags>? PostTags { get; set; }
+
     }
 }

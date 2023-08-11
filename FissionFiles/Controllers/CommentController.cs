@@ -63,19 +63,15 @@ namespace FissionFiles.Controllers
             {
                 var comments = _commentRepository.GetCommentsForPost(postId);
 
-                if (comments == null || comments.Count == 0)
-                {
-                    return NotFound($"No comments found for post {postId}.");
-                }
-
-                return Ok(comments);
+                return Ok(comments ?? new List<Comment>());
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching comments.");
             }
         }
-        
+
+
         // new comment
         [HttpPost]
         public ActionResult AddComment(Comment comment)

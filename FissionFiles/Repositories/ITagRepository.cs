@@ -16,5 +16,8 @@ namespace FissionFiles.Repositories
         void DeleteTag(int id);
         List<Post> GetPostsByTagId(int tagId);
         List<Tag> GetTagsByPostId(int postId);
+        void AddTagsToPost(int postId, List<int> tagIds);
+        void RemoveTagFromPost(int postId, int tagId);
+
     }
 }

@@ -31,6 +31,7 @@ namespace FissionFiles.Repositories
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
                                 Name = DbUtils.GetString(reader, "Name"),
+                                Description = DbUtils.GetString(reader, "Description"),
                             }
                         );
                     }
@@ -60,6 +61,7 @@ namespace FissionFiles.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "Name"),
+                            Description = DbUtils.GetString(reader, "Description"),
                         };
                     }
 
@@ -76,8 +78,10 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Tag (Name) VALUES (@Name)";
+                    cmd.CommandText =
+                        @"INSERT INTO Tag (Name, Description) VALUES (@Name, @Description)";
                     cmd.Parameters.AddWithValue("@Name", tag.Name);
+                    cmd.Parameters.AddWithValue("@Description", tag.Description);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -91,9 +95,11 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"UPDATE Tag SET Name = @Name WHERE Id = @Id";
+                    cmd.CommandText =
+                        @"UPDATE Tag SET Name = @Name, Description = @Description WHERE Id = @Id";
                     cmd.Parameters.AddWithValue("@Id", tag.Id);
                     cmd.Parameters.AddWithValue("@Name", tag.Name);
+                    cmd.Parameters.AddWithValue("@Description", tag.Description);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -158,7 +164,7 @@ namespace FissionFiles.Repositories
             }
         }
 
-        // get tags for a post 
+        // get tags for a post
         public List<Tag> GetTagsByPostId(int postId)
         {
             using (var conn = Connection)
@@ -179,12 +185,13 @@ namespace FissionFiles.Repositories
 
                     while (reader.Read())
                     {
-                        tags.Add(new Tag                    
-                        {
+                        tags.Add(
+                            new Tag
+                            {
                                 Id = DbUtils.GetInt(reader, "Id"),
                                 Name = DbUtils.GetString(reader, "Name"),
                             }
-                                                                              );
+                        );
                     }
 
                     reader.Close();
@@ -194,5 +201,56 @@ namespace FissionFiles.Repositories
             }
         }
 
+        public void AddTagsToPost(int postId, List<int> tagIds)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                foreach (var tagId in tagIds)
+                {
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        // check if the combination already exists
+                        cmd.CommandText =
+                            @"SELECT COUNT(1) 
+                                    FROM PostTags 
+                                    WHERE PostId = @PostId AND TagId = @TagId";
+                        DbUtils.AddParameter(cmd, "@PostId", postId);
+                        DbUtils.AddParameter(cmd, "@TagId", tagId);
+
+                        var exists = (int)cmd.ExecuteScalar() > 0;
+
+                        // if the combination doesn't exist, insert
+                        if (!exists)
+                        {
+                            cmd.CommandText =
+                                @"INSERT INTO PostTags (PostId, TagId)
+                                        VALUES (@PostId, @TagId)";
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void RemoveTagFromPost(int postId, int tagId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"DELETE FROM PostTags 
+                                WHERE PostId = @PostId AND TagId = @TagId";
+
+                    DbUtils.AddParameter(cmd, "@PostId", postId);
+                    DbUtils.AddParameter(cmd, "@TagId", tagId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

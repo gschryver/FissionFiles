@@ -37,24 +37,29 @@ namespace FissionFiles.Controllers
         [HttpGet("{id}/posts")]
         public ActionResult<List<Post>> GetPostsByTagId(int id)
         {
-            var posts = _tagRepository.GetPostsByTagId(id);
-            if (posts == null || !posts.Any())
+            var tag = _tagRepository.GetTagById(id);
+            if (tag == null)
             {
                 return NotFound();
             }
+
+            var posts = _tagRepository.GetPostsByTagId(id) ?? new List<Post>();
+
             return Ok(posts);
         }
+
 
         [HttpGet("{id}/tags")]
         public ActionResult<List<Tag>> GetTagsByPostId(int id)
         {
-            var tags = _tagRepository.GetTagsByPostId(id);
-            if (tags == null || !tags.Any())
+            var post = _tagRepository.GetTagsByPostId(id);
+            if (post == null)
             {
                 return NotFound();
             }
-            return Ok(tags);
+            return Ok(post);
         }
+      
 
         [HttpPut("Update/{id}")]
         public IActionResult UpdateTag(int id, Tag tag)
@@ -67,11 +72,57 @@ namespace FissionFiles.Controllers
             return Ok(tag);
         }
 
+        [HttpPost("Add")]
+        public ActionResult AddTag(Tag tag)
+        {
+            _tagRepository.AddTag(tag);
+            return CreatedAtAction(nameof(GetTagById), new { id = tag.Id }, tag);
+        }
+
         [HttpDelete("Delete/{id}")]
-        public IActionResult DeleteTag(int id)
+        public ActionResult DeleteTag(int id)
         {
             _tagRepository.DeleteTag(id);
             return Ok();
+        }
+
+        [HttpPost("{postId}/tags")]
+        public ActionResult AddTagsToPost(int postId, [FromBody] List<int> tagIds)
+        {
+            try
+            {
+                // checks if any of the tags are already associated with the post
+                var existingTags = _tagRepository.GetTagsByPostId(postId);
+                var conflictingTags = existingTags.Where(t => tagIds.Contains(t.Id)).ToList();
+
+                if (conflictingTags.Any())
+                {
+                    return Conflict($"The following tags are already associated with the post: {string.Join(", ", conflictingTags.Select(t => t.Name))}");
+                }
+
+                _tagRepository.AddTagsToPost(postId, tagIds);
+                return Ok("Tags added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+
+        [HttpDelete("RemoveFromPost/{postId}")]
+        public ActionResult RemoveTagFromPost(int postId, [FromBody] int tagId)
+        {
+            try
+            {
+                _tagRepository.RemoveTagFromPost(postId, tagId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

@@ -23,6 +23,8 @@ import AddScientist from './scientists/AddScientist';
 import UpdateScientist from './scientists/UpdateScientist';
 import TagList from './tags/TagList';
 import TaggedPostList from './tags/TaggedPostList';
+import AddTag from './tags/AddTag';
+import UpdateTag from './tags/UpdateTag';
 
 export default function Authenticated() {
   return (
@@ -51,6 +53,8 @@ export default function Authenticated() {
       <Route path="/scientists/edit/:scientistId" element={<UpdateScientist />} />
       <Route path="/tags" element={<TagList />} />
       <Route path="/tags/:tagId/posts" element={<TaggedPostList />} />
+      <Route path="/tags/add" element={<AddTag />} />
+      <Route path="tags/:tagId/edit" element={<UpdateTag />} />
     </Routes>
   );
 }

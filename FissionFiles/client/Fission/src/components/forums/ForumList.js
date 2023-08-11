@@ -82,20 +82,26 @@ const ForumList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {forums.filter(forum => !forum.isActive).map(forum => (
+                    {forums.filter(forum => !forum.isActive).length === 0 ? (
+                        <tr>
+                        <td colSpan="3">There are currently no deactivated forums.</td>
+                        </tr>
+                    ) : (
+                        forums.filter(forum => !forum.isActive).map(forum => (
                         <tr key={forum.id}>
                             <td>{forum.name}</td>
                             <td>{forum.description}</td>
                             <td>
-                                <Button variant="success" onClick={() => handleReactivate(forum.id)}>Reactivate</Button>
-                                &nbsp;|&nbsp;
-                                <Link to={`/forums/${forum.id}/edit`}><Button variant="warning">Edit</Button></Link>
-                                &nbsp;|&nbsp;
-                                <Button variant="danger" onClick={() => handleDelete(forum.id)}>Delete</Button>
+                            <Button variant="success" onClick={() => handleReactivate(forum.id)}>Reactivate</Button>
+                            &nbsp;|&nbsp;
+                            <Link to={`/forums/${forum.id}/edit`}><Button variant="warning">Edit</Button></Link>
+                            &nbsp;|&nbsp;
+                            <Button variant="danger" onClick={() => handleDelete(forum.id)}>Delete</Button>
                             </td>
                         </tr>
-                    ))}
-                </tbody>
+                        ))
+                    )}
+                    </tbody>
             </Table>
             </>
             )}

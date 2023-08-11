@@ -30,6 +30,9 @@ namespace FissionFiles.Models
     public Forum? Forum { get; set; }
 
     public List<Comment>? Comments { get; set; }
-}
+
+    public List<Tag>? Tags { get; set; }
+
+    }
 
 }

@@ -39,6 +39,33 @@ export const TagProvider = (props) => {
             .then(res => res.json())
     }
 
+    const addTagsToPost = (postId, tagIds) => {
+        return fetch(`${apiUrl}/${postId}/tags`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(tagIds)
+        })
+        .then(res => {
+          if (res.ok) {
+            return Promise.resolve();
+          } else {
+            return Promise.reject("Tags could not be added to the post");
+          }
+        });
+      }
+       
+      const removeTagFromPost = (postId, tagId) => {
+        return fetch(`${apiUrl}/RemoveFromPost/${postId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(tagId)
+        }).then(getAllTags);
+      }
+  
     const updateTag = (tag) => {
         return fetch(`${apiUrl}/Update/${tag.id}`, {
             method: "PUT",
@@ -64,6 +91,8 @@ export const TagProvider = (props) => {
             getTagsForPost,
             getPostsByTagId,
             addTag,
+            addTagsToPost,
+            removeTagFromPost,
             updateTag,
             deleteTag,
         }}>

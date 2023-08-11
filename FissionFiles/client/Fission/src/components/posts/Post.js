@@ -118,19 +118,25 @@ const Post = () => {
           <h1>{post.title}</h1>
         </Card.Header>
         <Card.Body>
-          <Card.Subtitle className="mb-2 text-muted">
+        <Card.Subtitle className="mb-2 text-muted">
             Author:{" "}
             <Link to={`/user/${post.user.id}`}>{post.user.displayName}</Link> |
-            Date:
-            {new Date(post.timestamp).toLocaleDateString()} | Tags: &nbsp;
-            {tags.map((tag) => (
-              <Badge key={tag.id} variant="secondary" className="mr-2">
-                <Link to={`/tags/${tag.id}/posts`} className="text-white">
-                  {tag.name}
-                </Link>
+            Date: {new Date(post.timestamp).toLocaleDateString()} | Tags: &nbsp;
+            {tags.length === 0 ? (
+              <Badge bg="secondary" className="me-2">
+                No Tags
               </Badge>
-            ))}
+            ) : (
+              tags.map((tag) => (
+                <Badge key={tag.id} variant="secondary" className="me-2">
+                  <Link to={`/tags/${tag.id}/posts`} className="text-white">
+                    {tag.name}
+                  </Link>
+                </Badge>
+              ))
+            )}
           </Card.Subtitle>
+
           <Card.Text>{post.content}</Card.Text>
 
           {isAdmin && (
@@ -160,20 +166,26 @@ const Post = () => {
         </Card.Header>
 
         {/* comments - edit comments is managed inline */}
-        <ListGroup variant="flush">
-        {comments.map(comment => (
-        <Comment
-          key={comment.id}
-          comment={comment}
-          user={user}
-          isAdmin={isAdmin}
-          handleUpdate={handleUpdateComment}
-          handleDelete={handleDeleteComment}
-          handleRemove={handleRemoveComment}
-          handleBan={handleBanUser}
-        />
-      ))}
-        </ListGroup>
+        {comments.length === 0 ? (
+          <ListGroup variant="flush">
+            <ListGroup.Item>This post has no comments.</ListGroup.Item>
+          </ListGroup>
+        ) : (
+          <ListGroup variant="flush">
+            {comments.map((comment) => (
+              <Comment
+                key={comment.id}
+                comment={comment}
+                user={user}
+                isAdmin={isAdmin}
+                handleUpdate={handleUpdateComment}
+                handleDelete={handleDeleteComment}
+                handleRemove={handleRemoveComment}
+                handleBan={handleBanUser}
+              />
+            ))}
+          </ListGroup>
+        )}
       </Card>
       <div className="mt-3">
         {forum && (
