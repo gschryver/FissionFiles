@@ -44,8 +44,8 @@ const ArticleList = () => {
         )
     ) {
         deleteArticle(articleId).then(() => {
-            getAllArticles();  // Refetch all articles
-            getAllCategories(); // Refetch categories which will trigger articles by category refetch
+            getAllArticles();  
+            getAllCategories(); 
         });
     }
 };
