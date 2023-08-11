@@ -14,6 +14,12 @@ const Article = () => {
     const [article, setArticle] = useState(null); 
     const navigate = useNavigate();
     const isAdmin = user && user.userTypeId === 1;
+    const { articles, getAllArticles } = useContext(ArticleContext);
+
+useEffect(() => {
+    getAllArticles();
+}, []);
+
 
     useEffect(() => {
         getArticleById(articleId)
@@ -48,6 +54,8 @@ const Article = () => {
                 });
         }
     };
+    
+
     
     return (
         <Container className="mt-4 article-container">

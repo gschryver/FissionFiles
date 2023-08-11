@@ -22,6 +22,7 @@ const ArticleList = () => {
 
   useEffect(() => {
     getAllCategories();
+    getAllArticles();
   }, []);
 
   useEffect(() => {
@@ -38,13 +39,17 @@ const ArticleList = () => {
   // delete article
   const handleDelete = (articleId) => {
     if (
-      window.confirm(
-        "WARNING:\n\nAre you sure you want to delete this article? This cannot be undone.",
-      )
+        window.confirm(
+            "WARNING:\n\nAre you sure you want to delete this article? This cannot be undone.",
+        )
     ) {
-      deleteArticle(articleId);
+        deleteArticle(articleId).then(() => {
+            getAllArticles();  // Refetch all articles
+            getAllCategories(); // Refetch categories which will trigger articles by category refetch
+        });
     }
-  };
+};
+
 
   return (
     <Container className="mt-4 article-list-container">
@@ -66,7 +71,7 @@ const ArticleList = () => {
             <th>Author</th>
             <th>Date</th>
             <th>Category</th>
-            <th>Actions</th>
+            {isAdmin && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -87,6 +92,7 @@ const ArticleList = () => {
                     {}
                   ).name || "N/A"}
                 </td>
+                {isAdmin && (
                 <td>
                   <Button
                     onClick={() => navigate(`/articles/edit/${article.id}`)}
@@ -101,6 +107,7 @@ const ArticleList = () => {
                     Delete
                   </Button>
                 </td>
+                )}
               </tr>
             ))}
         </tbody>

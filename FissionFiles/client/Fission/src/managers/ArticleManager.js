@@ -44,8 +44,12 @@ export const ArticleProvider = (props) => {
     const deleteArticle = (articleId) => {
         return fetch(`${apiUrl}/Delete/${articleId}`, {
             method: "DELETE",
-        }).then(getAllArticles);
+        }).then(() => {
+            const updatedArticles = articles.filter(a => a.id !== articleId);
+            setArticles(updatedArticles);
+        });
     };
+    
 
     return (
         <ArticleContext.Provider

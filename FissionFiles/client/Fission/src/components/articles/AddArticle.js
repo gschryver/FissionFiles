@@ -34,6 +34,15 @@ const NewArticleForm = () => {
     }));
   };
 
+  const handleCategoryChange = (e) => {
+    const categoryId = Number(e.target.value);
+    setSelectedCategory(categoryId);
+    setArticle((prevArticle) => ({
+        ...prevArticle,
+        categoryId: categoryId,
+    }));
+};
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("article to add:", article)
@@ -122,7 +131,7 @@ const NewArticleForm = () => {
         </Form.Group>
         <Form.Group>
    <Form.Label>Category</Form.Label>
-   <Form.Control as="select" value={selectedCategory} onChange={(e) => setSelectedCategory(Number(e.target.value))} required>
+   <Form.Control as="select" value={selectedCategory} onChange={handleCategoryChange} required>
       <option value="" disabled>Select a category</option>
       {categories.map(category => (
          <option key={category.id} value={category.id}>{category.name}</option> 
