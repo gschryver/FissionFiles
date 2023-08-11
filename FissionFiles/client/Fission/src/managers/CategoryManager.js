@@ -15,11 +15,15 @@ export const CategoryProvider = (props) => {
             .then(setCategories);
     };
 
-    const getCategoryById = (categoryId) => {
-        return fetch(`${apiUrl}/${categoryId}`)
+    const getCategoryById = (id) => {
+        return fetch(`${apiUrl}/${id}`)
             .then(res => res.json())
-            .then(setSelectedCategory);
+            .then(data => {
+                setSelectedCategory(data);
+                return data; 
+            });
     };
+    
 
     const addCategory = (category) => {
         return fetch(apiUrl, {
@@ -51,9 +55,12 @@ export const CategoryProvider = (props) => {
     };
 
     const getArticlesByCategory = (categoryId) => {
-        return fetch(`${apiUrl}/articles/${categoryId}`)
-            .then(res => res.json())
-            .then(setArticlesByCategory);
+        return fetch(`${apiUrl}/articles/${categoryId}`).then(res => res.json()).then(articles => {
+            setArticlesByCategory(prevState => ({
+                ...prevState,
+                [categoryId]: articles
+            }));
+        });
     };
 
     const assignCategoryToArticle = (articleId, categoryId) => {

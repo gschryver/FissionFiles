@@ -2,11 +2,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArticleContext } from '../../managers/ArticleManager';
 import { UserContext } from '../../managers/UserManager';
-import { Container, Card, Button, ButtonGroup } from 'react-bootstrap';
+import { CategoryContext } from '../../managers/CategoryManager';
+import { Container, Card, Button, ButtonGroup, Badge } from 'react-bootstrap';
 
 const Article = () => {
     const { getArticleById, deleteArticle } = useContext(ArticleContext);
     const { user } = useContext(UserContext);
+    const { categories, getCategoryById } = useContext(CategoryContext);
+    const [articleCategory, setArticleCategory] = useState(null);
     const { articleId } = useParams(); 
     const [article, setArticle] = useState(null); 
     const navigate = useNavigate();
@@ -15,8 +18,17 @@ const Article = () => {
     useEffect(() => {
         getArticleById(articleId)
             .then(fetchedArticle => {
-                console.log("Fetched article", fetchedArticle)
+                console.log("Fetched Article:", fetchedArticle);
                 setArticle(fetchedArticle);
+                if (fetchedArticle.categoryId) {
+                    return getCategoryById(fetchedArticle.categoryId);
+                } else {
+                    return Promise.resolve(null);
+                }
+            })
+            .then(fetchedCategory => {
+                console.log("Fetched Category:", fetchedCategory);
+                setArticleCategory(fetchedCategory);
             });
     }, [articleId]);
 
@@ -42,9 +54,11 @@ const Article = () => {
             <Card>
                 <Card.Header as="h1">{article.title}</Card.Header>
                 <Card.Body>
-                    <Card.Subtitle className="mb-2 text-muted">
-                        Author: {article.author} | Date: {new Date(article.publicationDate).toLocaleDateString()}
-                    </Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">
+                    Author: {article.author} | Date: {new Date(article.publicationDate).toLocaleDateString()} | 
+                    Category: {articleCategory && <Badge variant="info" className="ml-2">{articleCategory.name}</Badge>}
+                    {!articleCategory && article.categoryId === null && <Badge variant="secondary" className="ml-2">No Category</Badge>}
+             </Card.Subtitle>
                     <Card.Text className="mt-4 article-content">
                         {article.content}
                     </Card.Text>

@@ -25,6 +25,10 @@ import TagList from './tags/TagList';
 import TaggedPostList from './tags/TaggedPostList';
 import AddTag from './tags/AddTag';
 import UpdateTag from './tags/UpdateTag';
+import CategoryList from './categories/CategoryList';
+import CategoryArticleList from './categories/CategoryArticleList';
+import AddCategory from './categories/AddCategory';
+import UpdateCategory from './categories/UpdateCategory';
 
 export default function Authenticated() {
   return (
@@ -55,6 +59,10 @@ export default function Authenticated() {
       <Route path="/tags/:tagId/posts" element={<TaggedPostList />} />
       <Route path="/tags/add" element={<AddTag />} />
       <Route path="tags/:tagId/edit" element={<UpdateTag />} />
+      <Route path="/categories" element={<CategoryList />} />
+      <Route path="/categories/:categoryId/articles" element={<CategoryArticleList />} />
+      <Route path="/categories/add" element={<AddCategory />} />
+      <Route path="/categories/:categoryId/edit" element={<UpdateCategory />} />
     </Routes>
   );
 }

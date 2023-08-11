@@ -205,16 +205,25 @@ namespace FissionFiles.Repositories
             using (var conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (var transaction = conn.BeginTransaction())
                 {
-                    cmd.CommandText = "DELETE FROM Category WHERE Id = @Id";
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        // Set CategoryId to NULL for articles associated with the category being deleted
+                        cmd.Transaction = transaction;
+                        cmd.CommandText = @"UPDATE Article SET CategoryId = NULL WHERE CategoryId = @Id";
+                        cmd.Parameters.Add(new SqlParameter("@Id", id));
+                        cmd.ExecuteNonQuery();
 
-                    cmd.Parameters.Add(new SqlParameter("@Id", id));
+                        cmd.CommandText = "DELETE FROM Category WHERE Id = @Id";
+                        cmd.ExecuteNonQuery();
 
-                    cmd.ExecuteNonQuery();
+                        transaction.Commit();
+                    }
                 }
             }
         }
+
 
 
     }

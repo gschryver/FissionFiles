@@ -124,9 +124,9 @@ namespace FissionFiles.Controllers
             {
                 var articles = _categoryRepository.GetArticlesByCategory(categoryId);
 
-                if (articles == null || articles.Count == 0)
+                if (articles == null)
                 {
-                    return NotFound($"No articles found for category id {categoryId}.");
+                    articles = new List<Article>();  // return an empty list if articles are null
                 }
 
                 return Ok(articles);
@@ -136,6 +136,7 @@ namespace FissionFiles.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching articles.");
             }
         }
+
 
         [HttpPost("assign")]
         public ActionResult AssignCategoryToArticle(int articleId, int categoryId)

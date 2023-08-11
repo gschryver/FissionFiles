@@ -1,26 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ArticleContext } from '../../managers/ArticleManager';
 import { UserContext } from "../../managers/UserManager";
+import { CategoryContext } from "../../managers/CategoryManager";
 import { Form, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const NewArticleForm = () => {
   const { addArticle } = useContext(ArticleContext);
   const { user } = useContext(UserContext);
+  const { categories, getAllCategories, assignCategoryToArticle } = useContext(CategoryContext);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const navigate = useNavigate();
-  console.log("context:", useContext(ArticleContext))
-  console.log("Current user:", user);
-  console.log("Current user ID:", user?.id);
 
+  useEffect(() => {
+    getAllCategories();
+  }, []);
 
   const [article, setArticle] = useState({
     title: "",
     content: "",
     author: "",
     userId: user?.id || null,
-    publicationDate: new Date().toISOString()
+    publicationDate: new Date().toISOString(),
+    categoryId: null,
+    imageUrl: "",
   });
-
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -32,19 +36,51 @@ const NewArticleForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addArticle(article).then(() => {
-      setArticle({
-        title: "",
-        content: "",
-        author: "",
-        userId: user?.id || null,
-        publicationDate: new Date().toISOString()
+    console.log("article to add:", article)
+    addArticle(article)
+      .then((newArticle) => {
+        console.log("New article:", newArticle);
+  
+        if (selectedCategory) {
+          console.log("Selected category:", selectedCategory);
+          assignCategoryToArticle(newArticle.id, parseInt(selectedCategory))
+            .then(() => {
+              console.log("Category assigned successfully");
+              setArticle({
+                title: "",
+                content: "",
+                author: "",
+                userId: user?.id || null,
+                publicationDate: new Date().toISOString(),
+                categoryId: parseInt(selectedCategory),
+                imageUrl: "",
+              });
+              setSelectedCategory(null);
+              navigate("/articles");
+            })
+            .catch((error) => {
+              console.error("Error assigning category:", error);
+            });
+        } else {
+          setArticle({
+            title: "",
+            content: "",
+            author: "",
+            userId: user?.id || null,
+            publicationDate: new Date().toISOString(),
+            categoryId: null,
+            imageUrl: "",
+          });
+          navigate("/articles");
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding article:", error);
       });
-        navigate("/articles");
-    });
   };
+  
 
-  if (user && user.userTypeId !==1) {
+  if (user && user.userTypeId !== 1) {
     navigate("/not-authorized");
     return null;
   }
@@ -84,6 +120,16 @@ const NewArticleForm = () => {
             required
           />
         </Form.Group>
+        <Form.Group>
+   <Form.Label>Category</Form.Label>
+   <Form.Control as="select" value={selectedCategory} onChange={(e) => setSelectedCategory(Number(e.target.value))} required>
+      <option value="" disabled>Select a category</option>
+      {categories.map(category => (
+         <option key={category.id} value={category.id}>{category.name}</option> 
+      ))}
+   </Form.Control>
+</Form.Group>
+
         <Button variant="primary" type="submit">
           Create Article
         </Button>

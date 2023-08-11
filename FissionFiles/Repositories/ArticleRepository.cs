@@ -30,7 +30,9 @@ namespace FissionFiles.Repositories
                             Title = DbUtils.GetString(reader, "Title"),
                             Content = DbUtils.GetString(reader, "Content"),
                             Author = DbUtils.GetString(reader, "Author"),
-                            PublicationDate = DbUtils.GetDateTime(reader, "PublicationDate")
+                            PublicationDate = DbUtils.GetDateTime(reader, "PublicationDate"),
+                            ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId")
                         });
                     }
 
@@ -63,7 +65,9 @@ namespace FissionFiles.Repositories
                             Title = DbUtils.GetString(reader, "Title"),
                             Content = DbUtils.GetString(reader, "Content"),
                             Author = DbUtils.GetString(reader, "Author"),
-                            PublicationDate = DbUtils.GetDateTime(reader, "PublicationDate")
+                            PublicationDate = DbUtils.GetDateTime(reader, "PublicationDate"),
+                            ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId")
                         };
                     }
 
@@ -96,7 +100,9 @@ namespace FissionFiles.Repositories
                             Title = DbUtils.GetString(reader, "Title"),
                             Content = DbUtils.GetString(reader, "Content"),
                             Author = DbUtils.GetString(reader, "Author"),
-                            PublicationDate = DbUtils.GetDateTime(reader, "PublicationDate")
+                            PublicationDate = DbUtils.GetDateTime(reader, "PublicationDate"),
+                            ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId")
                         });
                     }
 
@@ -115,14 +121,16 @@ namespace FissionFiles.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Article (UserId, Title, Content, Author, PublicationDate) 
-                                VALUES (@UserId, @Title, @Content, @Author, @PublicationDate)";
+                    cmd.CommandText = @"INSERT INTO Article (UserId, Title, Content, Author, PublicationDate, CategoryId, ImageUrl) 
+                                VALUES (@UserId, @Title, @Content, @Author, @PublicationDate, @CategoryId, @ImageUrl)";
 
                     DbUtils.AddParameter(cmd, "@UserId", article.UserId);
                     DbUtils.AddParameter(cmd, "@Title", article.Title);
                     DbUtils.AddParameter(cmd, "@Content", article.Content);
                     DbUtils.AddParameter(cmd, "@Author", article.Author);
                     DbUtils.AddParameter(cmd, "@PublicationDate", article.PublicationDate);
+                    DbUtils.AddParameter(cmd, "@CategoryId", article.CategoryId);
+                    DbUtils.AddParameter(cmd, "@ImageUrl", article.ImageUrl);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -142,7 +150,9 @@ namespace FissionFiles.Repositories
                                             Title = @Title, 
                                             Content = @Content, 
                                             Author = @Author, 
-                                            PublicationDate = @PublicationDate
+                                            PublicationDate = @PublicationDate,
+                                            CategoryId = @CategoryId,   
+                                            ImageUrl = @ImageUrl
                                         WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@UserId", article.UserId);
@@ -150,6 +160,8 @@ namespace FissionFiles.Repositories
                     DbUtils.AddParameter(cmd, "@Content", article.Content);
                     DbUtils.AddParameter(cmd, "@Author", article.Author);
                     DbUtils.AddParameter(cmd, "@PublicationDate", article.PublicationDate);
+                    DbUtils.AddParameter(cmd, "@CategoryId", article.CategoryId);
+                    DbUtils.AddParameter(cmd, "@ImageUrl", article.ImageUrl);
                     DbUtils.AddParameter(cmd, "@Id", article.Id);
 
                     cmd.ExecuteNonQuery();
