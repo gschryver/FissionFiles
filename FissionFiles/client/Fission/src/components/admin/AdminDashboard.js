@@ -35,6 +35,12 @@ const AdminDashboard = () => {
                         <ListGroup.Item action onClick={() => navigate("/scientists/add")}>
                             Add Scientist
                         </ListGroup.Item>
+                        <ListGroup.Item action onClick={() => navigate("/tags/add")}>
+                            Add Tag
+                        </ListGroup.Item>
+                        <ListGroup.Item action onClick={() => navigate("/categories/add")}>
+                            Add Category
+                        </ListGroup.Item>
                     </ListGroup>
         </Container>
     );
