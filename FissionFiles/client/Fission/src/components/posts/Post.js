@@ -5,31 +5,25 @@ import { ForumContext } from "../../managers/ForumManager";
 import { CommentContext } from "../../managers/CommentManager";
 import { UserContext } from "../../managers/UserManager";
 import { TagContext } from "../../managers/TagManager";
+import Comment from "../comments/Comment";
 import AddComment from "../comments/AddComment";
-import {
-  Container,
-  Card,
-  ListGroup,
-  Button,
-  Form,
-  ButtonGroup,
-  Badge,
-} from "react-bootstrap";
+import { Container, Card, ListGroup, Button, ButtonGroup, Badge} from "react-bootstrap";
 
 const Post = () => {
   const { getPostById, deletePost } = useContext(PostContext);
   const { getForumById } = useContext(ForumContext);
   const { user, banUser } = useContext(UserContext);
-  const { getCommentsForPost, updateComment, deleteComment, removeComment } =
-    useContext(CommentContext);
+  const { getCommentsForPost, updateComment, deleteComment, removeComment } = useContext(CommentContext);
   const { getTagsForPost } = useContext(TagContext);
   const { postId, commentId } = useParams();
+
   const [post, setPost] = useState(null);
   const [forum, setForum] = useState(null);
   const [comments, setComments] = useState([]);
   const [tags, setTags] = useState([]);
   const [editingCommentId, setEditingCommentId] = useState(null);
-  const [editedContent, setEditedContent] = useState("");
+
+
   const navigate = useNavigate();
   const isAdmin = user && user.userTypeId === 1;
   const commentRefs = useRef({});
@@ -69,7 +63,7 @@ const Post = () => {
     return <p>Loading...</p>;
   }
 
-  const handleUpdateComment = (commentId) => {
+  const handleUpdateComment = (commentId, editedContent) => {
     const updatedComment = {
       id: commentId,
       userId: user?.id || null,
@@ -115,11 +109,6 @@ const Post = () => {
         navigate("/users");
       });
     }
-  };
-
-  const timePosted = () => {
-    const timePosted = new Date(post.timestamp);
-    return timePosted.toLocaleDateString();
   };
 
   return (
@@ -170,93 +159,20 @@ const Post = () => {
           <h2>Replies</h2>
         </Card.Header>
 
-        {/* edit comments inline */}
+        {/* comments - edit comments is managed inline */}
         <ListGroup variant="flush">
-          {comments.map((comment) => (
-            <ListGroup.Item
-              key={comment.id}
-              ref={(el) => (commentRefs.current[comment.id] = el)}
-            >
-              <strong>
-                {comment.isDeleted || comment.isRemoved ? (
-                  "[deleted]"
-                ) : (
-                  <Link to={`/user/${comment.userId}`}>
-                    {comment.user.displayName}
-                  </Link>
-                )}{" "}
-                <small>{timePosted()}</small>
-              </strong>
-
-              {comment.isRemoved ? (
-                <p>
-                  [This comment was removed for violating community policy.]
-                </p>
-              ) : comment.isDeleted ? (
-                <p>{comment.content}</p>
-              ) : editingCommentId === comment.id ? (
-                <div>
-                  <Form.Control
-                    as="textarea"
-                    defaultValue={comment.content}
-                    onChange={(e) => setEditedContent(e.target.value)}
-                  />
-                  <Button
-                    variant="link"
-                    onClick={() => handleUpdateComment(comment.id)}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="link"
-                    onClick={() => setEditingCommentId(null)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              ) : (
-                <div>
-                  <p>{comment.content}</p>
-                  {comment.userId === user.id && (
-                    <Button
-                      variant="primary"
-                      onClick={() => setEditingCommentId(comment.id)}
-                    >
-                      Edit
-                    </Button>
-                  )}
-
-                  {/* if the comment was made by the current user, show the delete button */}
-                  {comment.userId === user.id && (
-                    <Button
-                      variant="danger"
-                      onClick={() => handleDeleteComment(comment.id)}
-                    >
-                      Delete
-                    </Button>
-                  )}
-
-                  {/* if the current user is an admin, show the remove button */}
-                  {isAdmin && (
-                    <>
-                      <Button
-                        variant="warning"
-                        onClick={() => handleRemoveComment(comment.id)}
-                      >
-                        Remove
-                      </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleBanUser(comment.userId)}
-                      >
-                        Ban User
-                      </Button>
-                    </>
-                  )}
-                </div>
-              )}
-            </ListGroup.Item>
-          ))}
+        {comments.map(comment => (
+        <Comment
+          key={comment.id}
+          comment={comment}
+          user={user}
+          isAdmin={isAdmin}
+          handleUpdate={handleUpdateComment}
+          handleDelete={handleDeleteComment}
+          handleRemove={handleRemoveComment}
+          handleBan={handleBanUser}
+        />
+      ))}
         </ListGroup>
       </Card>
       <div className="mt-3">
