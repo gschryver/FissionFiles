@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import ApplicationViews from "./components/ApplicationViews";
 import AuthenticatedRoutes from "./components/Authenticated";
-import Header from "./components/Header";
+import NavBar from "./components/nav/navbar";
 import { UserProvider, UserContext } from "./managers/UserManager";
 import { ArticleProvider } from "./managers/ArticleManager";
 import { PostProvider } from "./managers/PostManager";
@@ -12,6 +12,7 @@ import { ScientistProvider } from "./managers/ScientistManager";
 import { TagProvider } from "./managers/TagManager";
 import { CategoryProvider } from "./managers/CategoryManager";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Nav } from "react-bootstrap";
 
 function App() {
   return (
@@ -55,7 +56,7 @@ function AppContent() {
 
   return (
     <>
-      <Header />
+    {/* <NavBar /> */}
       {/* Conditionally rendering routes based on user's login status. */}
       {user ? <AuthenticatedRoutes /> : <ApplicationViews />}
     </>

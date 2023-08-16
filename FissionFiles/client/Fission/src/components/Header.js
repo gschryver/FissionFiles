@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { NavLink as RRNavLink, useNavigate } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavLink } from "react-bootstrap";
 import { UserContext } from "../managers/UserManager";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isNavbarOpaque, setIsNavbarOpaque] = useState(false);
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
   const toggle = () => setIsOpen(!isOpen);
@@ -19,8 +20,25 @@ export default function Header() {
     });
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsNavbarOpaque(true);
+      } else {
+        setIsNavbarOpaque(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <Navbar bg="light" expand="md">
+    <Navbar className={`navbar ${isNavbarOpaque ? "opaque-navbar" : "transparent-navbar"}`} expand="md">
+
       <Navbar.Brand as={RRNavLink} to="/">
         Fission Files
       </Navbar.Brand>

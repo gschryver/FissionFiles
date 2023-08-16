@@ -1,0 +1,100 @@
+/* navbar background color */
+.bg-navbar-background {
+    background: rgb(0, 0, 0, 0);
+    padding: 20px 40px !important;
+}
+
+.bg-navbar-solid-background {
+    background: #42272F;
+    padding: 20px 40px !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+    
+}
+
+.navbar-toggler {
+    border: 3px solid #fff !important;
+    margin-right: 20px;
+}
+
+
+.hover-underline-animation {
+    font-family: 'GtWaslsheimProCondensedMedium', Arial, sans-serif;
+    text-transform: uppercase;
+    font-size: 20px;
+    display: inline-block;
+    position: relative;
+    color: #05C7F2;
+  }
+  
+  .hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #05C7F2;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  
+  .hover-underline-animation:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  .nav-link {
+    color: #ead8f0 !important;
+    font-size: 25px !important;
+  }
+  
+
+
+  .fade-in-from-top {
+    animation: fadeInFromTop 2.5s;
+  }
+
+  .navbar-logo {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes fadeInFromTop {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translatey(0px);
+    }
+    50% {
+      transform: translatey(-10px);
+    }
+    100% {
+      transform: translatey(0px);
+    }
+  }
+
+  .navbar-nav {
+    filter: blur(0);
+  }
+  
+  .navbar-nav:hover .nav-link {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    filter: blur(0);
+    transition: filter 0.3s ease;
+  }

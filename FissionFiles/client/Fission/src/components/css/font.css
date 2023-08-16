@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'GTWalsheimPro';
+    src: url('../fonts/GT-Walsheim-Pro-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'GTWalsheimProUltraBold';
+    src: url('../fonts/GT-Walsheim-Pro-Ultra-Bold.ttf');
+}
+@font-face {
+    font-family: 'GtWaslsheimProCondensedMedium';
+    src: url('../fonts/GT-Walsheim-Pro-Condensed-Medium.ttf');
+}
+@font-face {
+    font-family: 'SaolDisplay';
+    src: url('../fonts/SaolDisplay-LightItalic.ttf');
+}
+
