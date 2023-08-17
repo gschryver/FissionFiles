@@ -53,7 +53,10 @@ export default function Hello() {
         </div>
 
         <div className="hero-text">
-          <span className="saol">the</span> radiance <span className="saol">of a</span> thousand suns
+          <span className="saol">the </span> 
+          <span className="glow-text">radiance </span> 
+          <span className="saol">of a </span> 
+          <span className="glow-text">thousand suns</span>
         </div>
       </div>
     </div>
