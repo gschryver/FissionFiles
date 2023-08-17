@@ -4,6 +4,11 @@
 }
 
 @font-face {
+    font-family: 'GTWalsheimProCondensedBlack';
+    src: url('../fonts/GT-Walsheim-Pro-Condensed-Black.ttf');
+}
+
+@font-face {
     font-family: 'GTWalsheimProUltraBold';
     src: url('../fonts/GT-Walsheim-Pro-Ultra-Bold.ttf');
 }
@@ -16,3 +21,7 @@
     src: url('../fonts/SaolDisplay-LightItalic.ttf');
 }
 
+@font-face { 
+    font-family: 'GTWalsheimProLight';
+    src: url('../fonts/GT-Walsheim-Pro-Light.ttf'); 
+}

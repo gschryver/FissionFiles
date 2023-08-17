@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Container } from "react-bootstrap";
 import "./css/home.css";
 import NavBar from "./nav/navbar";
+import PageIntro from "./PageIntro";
 
 export default function Hello() {
   const [isActive, setIsActive] = useState(false);
@@ -31,8 +32,10 @@ export default function Hello() {
   }, []);
 
   return (
+    <div>
     <div className={`w-100 ${isActive ? "fade-in" : ""}`}>
-      <NavBar fadeIn={true} />
+      <NavBar fadeInFromTop={true} />
+     <div className="hero-section">
       <div
         ref={heroRef}
         onMouseMove={handleMouseMove}
@@ -58,7 +61,16 @@ export default function Hello() {
           <span className="saol">of a </span> 
           <span className="glow-text">thousand suns</span>
         </div>
-      </div>
+        </div>
+        </div>
+        </div>
+
+
+        <Container fluid className="page-intro-section">
+        <PageIntro />
+        </Container>
+
     </div>
+    
   );
 }

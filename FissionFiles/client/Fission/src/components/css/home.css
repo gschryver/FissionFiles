@@ -1,9 +1,26 @@
 @import url('font.css');
 
+/* html {
+    scroll-snap-type: y mandatory; 
+} */
+
 .w-100 {
   position: relative;
   animation: fadeIn 1s;
 }
+
+
+.hero-section {
+    margin-top: -178px;
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    transition: opacity var(--scroll-duration) ease;
+
+  }
 
 .hero-image {
   position: relative;

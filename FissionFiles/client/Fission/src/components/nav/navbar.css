@@ -98,3 +98,8 @@
     filter: blur(0);
     transition: filter 0.3s ease;
   }
+
+.navbar {
+    position: relative;
+    z-index: 1100;
+}

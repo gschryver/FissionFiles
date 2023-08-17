@@ -1,0 +1,60 @@
+.page-intro {
+    padding: 100px;
+    background-color: #002A38;
+    width: 60%;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(400px);
+    transition: opacity 3s ease-out, transform 1s ease-out;
+  }
+
+  .page-intro-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+.container-bg {
+    background-color: #002a38;
+}
+.page-intro-section {
+  display: block;
+  width: 100%;
+  scroll-snap-align: start;
+  background-color: #002A38;
+}
+
+
+.page-intro-header {
+    font-family: 'GTWalsheimProCondensedBlack'; 
+    text-transform: uppercase;
+    color: #ead8f0;
+}
+
+.intro-text {
+    color: #ead8f0;
+    font-family: 'GTWalsheimProLight';
+    font-size: 16px;
+}
+
+.intro-quote { 
+    font-family: 'GTWalsheimProCondensedBlack';
+    font-size: 38px;
+    color: #ead8f0;
+    text-transform: uppercase;
+}
+
+.intro-quote-saol {
+    font-family: 'SaolDisplay';
+    color: #ead8f0;
+    font-size: 38px;
+    text-transform: lowercase;
+}
+
+.oppie-sig {
+    width: 30%;
+}
+
+.oppie-portrait {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Image, Container, Row, Col } from "react-bootstrap";
@@ -8,14 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import atom from "../img/atom.png";
 import "./navbar.css";
 
-const NavBar = ({ fixed = "top", bgColor = "navbar-background", fadeIn = false }) => {
+const NavBar = ({ className, bgColor = "navbar-background", fadeInFromTop = false}) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
   const isAdmin = user && user.userTypeId === 1;
-  const navBarClass = fadeIn ? 'fade-in-from-top' : '';
-
-  const toggle = () => setIsOpen(!isOpen);
+  const navBarClass = fadeInFromTop ? 'fade-in-from-top' : '';
 
   const handleLogout = () => {
     logout().then(() => {
@@ -23,8 +21,10 @@ const NavBar = ({ fixed = "top", bgColor = "navbar-background", fadeIn = false }
     });
   };
 
+
   return (
-    <Navbar expand="lg" bg={bgColor} variant="dark" fixed={fixed} className={navBarClass}>
+    <Navbar expand="lg" bg={bgColor} variant="dark" className={navBarClass}>
+
       <Container fluid>
         <Row className="align-items-center w-100">
           <Col className="d-flex justify-content-start">
