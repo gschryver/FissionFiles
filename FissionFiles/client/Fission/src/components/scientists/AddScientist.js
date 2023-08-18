@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ScientistContext } from '../../managers/ScientistManager';
 import { Container, Form, Button, Col, Row } from 'react-bootstrap';
+import NavBar from '../nav/navbar';
 
 const AddScientist = () => {
     const { addScientist } = useContext(ScientistContext);
@@ -31,13 +32,15 @@ const AddScientist = () => {
     };
 
     return (
-        <Container className="mt-4">
-            <h2>Add Important Figure</h2>
+        <div class="add-scientist-page">
+        <NavBar />
+        <Container className="mt-4 add-scientist-form p-5">
+            <h2 className="important-header">Add Important Figure</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group as={Row} controlId="fullName">
                     <Form.Label column sm="2">Full Name</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="text" placeholder="Enter full name" value={scientist.fullName} name="fullName" onChange={handleChange} required />
+                        <Form.Control type="text" placeholder="Enter full name" value={scientist.fullName} name="fullName" onChange={handleChange} className="form-input-transparent" required />
                     </Col>
                 </Form.Group>
 
@@ -62,18 +65,22 @@ const AddScientist = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} controlId="achievements">
+                <Form.Group as={Row} controlId="achievements" className="mb-4">
                     <Form.Label column sm="2">Quote</Form.Label>
                     <Col sm="10">
-                        <Form.Control as="textarea" rows={3} placeholder="Enter achievements" value={scientist.achievements} name="achievements" onChange={handleChange} />
+                        <Form.Control as="textarea" rows={3} placeholder="Enter quote" value={scientist.achievements} name="achievements" onChange={handleChange} />
                     </Col>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button bsPrefix="add-figure-button" className="me-2" type="submit">
                     Add
+                </Button>
+                <Button variant="secondary" bsPrefix="cancel-figure-button" className="ml-2" onClick={() => navigate("/scientists")}>
+                    Cancel
                 </Button>
             </Form>
         </Container>
+        </div>
     );
 }
 

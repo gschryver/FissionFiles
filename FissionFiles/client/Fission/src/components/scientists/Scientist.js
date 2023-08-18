@@ -53,10 +53,9 @@ const Scientist = () => {
                             <p className="scientist-description">{scientist.description}</p>
                             <p className="scientist-quote">"{scientist.achievements}"</p>
                             {isAdmin && 
-                            <Button variant="primary" onClick={() => navigate(`/scientists/edit/${scientist.id}`)}>Edit</Button>
+                            <Button bsPrefix="white-button" className="me-2" onClick={() => navigate(`/scientists/edit/${scientist.id}`)}>Edit</Button>
                             }
-                            <Link to="/scientists" className="btn btn-secondary ml-2">Back to List</Link>
-                      
+                            <Button bsPrefix="white-button" onClick={() => navigate(`/scientists`)}>Back to List</Button>    
                 </Col>
             </Row>
             </Container>

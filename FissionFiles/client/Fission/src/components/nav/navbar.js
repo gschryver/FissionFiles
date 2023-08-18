@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Image, Container, Row, Col } from "react-bootstrap";
+import { Image, Container, Row, Col, Button } from "react-bootstrap";
 import { NavLink as RRNavLink } from "react-router-dom";
 import { UserContext } from "../../managers/UserManager";
 import { useNavigate } from 'react-router-dom';
@@ -80,7 +80,7 @@ const NavBar = ({ className, bgColor = "navbar-background", fadeInFromTop = fals
                     My Profile
                   </Nav.Link>
                 </Nav.Item>
-                <button onClick={handleLogout}>Logout</button>
+                <Button bsPrefix="logout-button" onClick={handleLogout}>Logout</Button>
               </>
             ) : (
               <>

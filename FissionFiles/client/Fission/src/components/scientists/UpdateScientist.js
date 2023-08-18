@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ScientistContext } from "../../managers/ScientistManager";
 import { UserContext } from "../../managers/UserManager";
 import { Container, Form, Button, Col, Row } from 'react-bootstrap';
+import NavBar from '../nav/navbar';
+
 
 const UpdateScientist = () => {
     const { scientistId } = useParams();
@@ -45,8 +47,10 @@ const UpdateScientist = () => {
     }
 
     return (
-        <Container className="mt-4">
-            <h2>Update Scientist</h2>
+        <div className="add-scientist-page">
+        <NavBar />
+        <Container className="mt-4 add-scientist-form p-5">
+            <h2 className="important-header">Update Important Figure</h2>
             <Form onSubmit={handleSubmit}>
 
                 <Form.Group as={Row} controlId="fullName">
@@ -73,17 +77,21 @@ const UpdateScientist = () => {
                         <Form.Control type="text" placeholder="Enter image URL" value={scientist.imageUrl} name="imageUrl" onChange={handleChange} />
                     </Col>
                 </Form.Group>
-                <Form.Group as={Row} controlId="achievements">
+                <Form.Group as={Row} controlId="achievements" className="mb-4">
                     <Form.Label column sm="2">Quote</Form.Label>
                     <Col sm="10">
                         <Form.Control as="textarea" rows={3} placeholder="Enter achievements" value={scientist.achievements} name="achievements" onChange={handleChange} />
                     </Col>
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Update Scientist
-                </Button>
+                <Button bsPrefix="add-figure-button" className="me-2" type="submit">
+                        Update
+                    </Button>
+                    <Button variant="secondary" bsPrefix="cancel-figure-button" className="ml-2" onClick={() => navigate("/scientists")}>
+                        Cancel
+                    </Button>
             </Form>
         </Container>
+        </div>
     );
 }
 
