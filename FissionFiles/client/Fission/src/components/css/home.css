@@ -1,8 +1,14 @@
 @import url('font.css');
 
-/* html {
-    scroll-snap-type: y mandatory; 
-} */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
 
 .w-100 {
   position: relative;
@@ -52,7 +58,7 @@
   align-self: left;
   margin-bottom: 20px;
   font-size: 150px;
-  color: #ead8f0;
+  color: #fff;
   font-family: 'GTWalsheimProUltraBold';
   text-transform: uppercase;
   line-height: 150px;
@@ -62,7 +68,7 @@
 
 .additional-text {
     font-size: 50px; 
-    color: #ead8f0; 
+    color: #fff; 
     font-family: 'GtWaslsheimProCondensedMedium'; 
     text-transform: uppercase; 
     margin-bottom: 20px; 
@@ -79,7 +85,7 @@
 }
 
 .glow-text {
-    animation: glow 4s linear infinite;
+    animation: glow 3s linear infinite;
 }
 
 @keyframes fadeIn {

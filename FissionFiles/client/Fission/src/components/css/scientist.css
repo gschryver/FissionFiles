@@ -107,6 +107,37 @@
 }
 
 .scientist-list-container {
-    animation: fadeIn 1s;
-    margin-bottom: 40px;
+    animation: fadeIn 2s;
+    padding-bottom: 50px;
+    
+}
+
+.scientist-list-page {
+    background: url('/src/components/img/1920-scientist-list.jpg');
+    height: 100%;
+}
+
+.important-header {
+    color: #fff;
+    font-family: 'SaolDisplay';
+    font-size: 48px;
+}
+
+.add-figure-button {
+    color: #FFF;
+    background: none;
+    border: 2px solid #8C0343;
+    border-radius: 0;
+    padding: 10px 36px;
+    text-decoration: none;
+    font-family: 'GTWalsheimProLight', sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0 #8C0343;
+    transition: ease-out 0.4s;
+}
+
+.add-figure-button:hover {
+    box-shadow: inset 400px 0 0 0 #8C0343;
+    text-decoration: none;
 }

@@ -74,7 +74,7 @@ const UpdateScientist = () => {
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="achievements">
-                    <Form.Label column sm="2">Achievements</Form.Label>
+                    <Form.Label column sm="2">Quote</Form.Label>
                     <Col sm="10">
                         <Form.Control as="textarea" rows={3} placeholder="Enter achievements" value={scientist.achievements} name="achievements" onChange={handleChange} />
                     </Col>

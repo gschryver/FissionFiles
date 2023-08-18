@@ -1,6 +1,5 @@
 .page-intro {
     padding: 100px;
-    background-color: #002A38;
     width: 60%;
     margin: 0 auto;
     opacity: 0;
@@ -14,24 +13,26 @@
   }
 
 .container-bg {
-    background-color: #002a38;
+    background: linear-gradient(180deg, rgba(34,37,38,1) 0%, rgba(3,115,140,1) 100%);
+
 }
 .page-intro-section {
   display: block;
   width: 100%;
   scroll-snap-align: start;
-  background-color: #002A38;
+  background: linear-gradient(180deg, rgba(34,37,38,1) 0%, rgba(3,115,140,1) 100%);
+
 }
 
 
 .page-intro-header {
     font-family: 'GTWalsheimProCondensedBlack'; 
     text-transform: uppercase;
-    color: #ead8f0;
+    color: #fff;
 }
 
 .intro-text {
-    color: #ead8f0;
+    color: #fff;
     font-family: 'GTWalsheimProLight';
     font-size: 16px;
 }
@@ -39,13 +40,13 @@
 .intro-quote { 
     font-family: 'GTWalsheimProCondensedBlack';
     font-size: 38px;
-    color: #ead8f0;
+    color: #fff;
     text-transform: uppercase;
 }
 
 .intro-quote-saol {
     font-family: 'SaolDisplay';
-    color: #ead8f0;
+    color: #fff;
     font-size: 38px;
     text-transform: lowercase;
 }

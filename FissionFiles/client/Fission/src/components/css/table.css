@@ -1,0 +1,48 @@
+
+.opaque-table {
+    background-color: rgba(6,10,9, .5) !important;
+    color: #ffffff !important;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: none !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.opaque-table th, 
+.opaque-table td {
+    padding: 8px 12px;
+    border: none !important;
+    color: #fff !important;
+    font-family: 'GTWalsheimProLight';
+    font-size: 24px;
+}
+
+.opaque-table thead th {
+    background-color: rgba(1,6,38, .6) !important;
+    text-transform: uppercase;
+    font-family: 'GtWaslsheimProCondensedMedium';
+}
+
+
+.opaque-table td,
+.opaque-table th {
+    background-color: rgba(6,10,9, .2) !important;
+}
+
+.opaque-table tbody tr:hover {
+    background-color: rgba(6,10,9, .2) !important;
+}
+
+.opaque-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(6,10,9, .2)!important;
+}
+
+.opaque-table td a {
+    color: #05C7F2;
+    text-decoration: none;
+}
+
+.opaque-table td a:hover {
+    text-decoration: underline;
+}
+
