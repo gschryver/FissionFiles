@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../managers/UserManager';
 import { CategoryContext } from '../../managers/CategoryManager';
 import { Container, Form, Button, Col, Row } from 'react-bootstrap';
+import NavBar from '../nav/navbar';
 
 const UpdateCategory = () => {
     const { getCategoryById, updateCategory } = useContext(CategoryContext);
@@ -33,36 +34,42 @@ const UpdateCategory = () => {
     }
 
     return (
-        <Container className="mt-4">
-            <Row>
-                <Col>
-                    <h2>Update Category</h2>
+        <div className="add-general-page">
+        <NavBar />
+        <Container className="mt-4 add-general-form p-5">
+                    <h2 className="important-header">Update Category</h2>
                     <Form>
-                        <Form.Group>
-                            <Form.Label>Name</Form.Label>
+                        <Form.Group as={Row}>
+                            <Form.Label column sm="2">Name</Form.Label>
+                            <Col sm="10">
                             <Form.Control 
                                 type="text" 
                                 name="name"
                                 value={category.name}
                                 onChange={handleInputChange}
                             />
+                            </Col>
                         </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Description</Form.Label>
+                        <Form.Group as={Row} className="mb-4">
+                            <Form.Label column sm="2">Description</Form.Label>
+                            <Col sm="10">
                             <Form.Control 
                                 type="text" 
                                 name="description"
                                 value={category.description}
                                 onChange={handleInputChange}
                             />
+                            </Col>
                         </Form.Group>
-                        <Button variant="primary" onClick={handleSubmit}>
+                        <Button bsPrefix="add-figure-button" className="me-2" onClick={handleSubmit}>
                             Update
                         </Button>
+                        <Button variant="secondary" bsPrefix="cancel-figure-button" className="ml-2" onClick={() => navigate("/categories")}>
+                            Cancel
+                        </Button>
                     </Form>
-                </Col>
-            </Row>
         </Container>
+        </div>
     );
 }
 

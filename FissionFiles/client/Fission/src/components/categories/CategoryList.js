@@ -4,6 +4,7 @@ import { CategoryContext } from "../../managers/CategoryManager";
 import { UserContext } from "../../managers/UserManager";
 import { ArticleContext } from "../../managers/ArticleManager";
 import { Container, Table, Button, ListGroup } from "react-bootstrap";
+import NavBar from "../nav/navbar";
 
 const CategoryList = () => {
   const {
@@ -58,18 +59,20 @@ const CategoryList = () => {
   };
   
   return (
-    <Container className="mt-4">
-      <h1>Manage Categories</h1>
+    <div className="general-list-page">
+    <NavBar />
+    <Container className="general-list-container">
+      <h1 className="important-header mb-3">Manage Categories</h1>
       {isAdmin && (
         <Button
-          variant="secondary"
-          className="mb-3"
+        variant="secondary"
+        bsPrefix="add-figure-button"
           onClick={() => navigate("/categories/add")}
-        >
+          >
           Add New Category
         </Button>
       )}
-      <Table striped bordered hover>
+      <Table className="opaque-table mt-3">
         <thead>
           <tr>
             <th>Category Name</th>
@@ -95,9 +98,9 @@ const CategoryList = () => {
                         </Link>
                       </p>
                     ))
-                  ) : (
-                    <p>No articles for this category.</p>
-                  )}
+                    ) : (
+                      <p>No articles for this category.</p>
+                      )}
                 </ListGroup>
               </td>
               <td>{category.description}</td>
@@ -105,17 +108,17 @@ const CategoryList = () => {
                 {isAdmin && (
                   <>
                     <Button
-                      as={Link}
-                      to={`/categories/${category.id}/edit`}
+                      bsPrefix="edit-button"
+                      onClick={() => navigate(`/categories/${category.id}/edit`)}
                       variant="primary"
-                    >
+                      >
                       Edit
                     </Button>
-                    &nbsp; | &nbsp;
+                    &nbsp;&nbsp;
                     <Button
-                      variant="danger"
+                      bsPrefix="delete-button"
                       onClick={() => handleDelete(category.id)}
-                    >
+                      >
                       Delete
                     </Button>
                   </>
@@ -126,6 +129,7 @@ const CategoryList = () => {
         </tbody>
       </Table>
     </Container>
+     </div>
   );
 };
 

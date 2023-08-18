@@ -1,0 +1,87 @@
+.general-list-page {
+    background: url('/src/components/img/1920-article-list.jpg');
+    max-height: 100%;
+    height: 100vh;
+  }
+
+.location-list-page {
+    background: url('/src/components/img/1920-cat.jpg');
+    max-height: 100%;
+    height: 100vh;
+  }
+
+  .forum-list-page {
+    background: url('/src/components/img/1920-forum.jpg');
+    max-height: 100%;
+    height: 100vh;
+  }
+
+  .general-list-container {
+    animation: fadeIn 2s;
+    padding-bottom: 50px;
+  }
+
+.add-general-page {
+    background: url('/src/components/img/1920-article-list.jpg');
+    height: 100vh;
+    animation: fadeIn 1.5s;
+  }
+  
+  .add-general-form {
+    -webkit-backdrop-filter: blur(8px);  
+    backdrop-filter: blur(8px); 
+    box-shadow: 0px 10px 15px 10px rgb(0 0 0 / 15%);
+    background-color: rgb(228 228 228 / 15%); 
+    font-family: 'GTWalsheimProLight';
+    color: #fff;
+  }
+  
+  .add-general-page .form-control::placeholder {
+    color: #fff;
+  }
+  
+  .add-general-page .form-control,
+  .add-general-page .form-control:focus {
+    background: none;
+    border: none;
+    border-bottom: 1px solid #fff;
+    border-radius: 0;
+    color: #fff;
+    padding-left: 0;
+  }
+  
+  .add-general-page .form-label {
+    color: #fff;
+    font-family: 'GtWaslsheimProCondensedMedium';
+    text-transform: uppercase;
+  }
+
+  .deactivate-button {
+    color: #fff;
+    background: none;
+    border: 2px solid #D3010A;
+    border-radius: 0;
+    padding: 5px 10px;
+    box-shadow: inset 0 0 0 0 #D3010A;
+    transition: ease-out 0.4s;
+}
+
+.deactivate-button:hover {
+    box-shadow: inset 400px 0 0 0 #D3010A;
+    text-decoration: none;
+}
+
+.reactivate-button {
+    color: #fff;
+    background: none;
+    border: 2px solid #05C7F2;
+    border-radius: 0;
+    padding: 5px 10px;
+    box-shadow: inset 0 0 0 0 #05C7F2;
+    transition: ease-out 0.4s;
+}
+
+.reactivate-button:hover {
+    box-shadow: inset 400px 0 0 0 #05C7F2;
+    text-decoration: none;
+}

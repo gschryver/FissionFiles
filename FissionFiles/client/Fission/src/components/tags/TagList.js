@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { TagContext } from "../../managers/TagManager";
 import { UserContext } from "../../managers/UserManager";
 import { Container, Table, Button, ListGroup } from "react-bootstrap";
+import NavBar from "../nav/navbar";
+import "../css/styles.css"
 
 const TagList = () => {
   const { tags, getAllTags, deleteTag, getPostsByTagId, removeTagFromPost } =
@@ -48,18 +50,20 @@ const TagList = () => {
   };
 
   return (
-    <Container className="mt-4">
-      <h1>Manage Tags</h1>
+    <div className="general-list-page">
+      <NavBar />
+    <Container className="general-list-container">
+      <h1 className="important-header mb-3">Manage Tags</h1>
       {isAdmin && (
         <Button
+          bsPrefix="add-figure-button"
           variant="secondary"
-          className="mb-3"
           onClick={() => navigate("/tags/add")}
         >
           Add New Tag
         </Button>
       )}
-      <Table striped bordered hover>
+      <Table className="opaque-table mt-3">
         <thead>
           <tr>
             <th>Tag Name</th>
@@ -79,20 +83,20 @@ const TagList = () => {
                     postsByTag[tag.id]
                       .filter((post) => !post.isDeleted)
                       .map((post) => (
-                        <p key={post.id}>
+                        <span key={post.id}>
                           <Link to={`/post/${post.id}`}>{post.title}</Link>
-                        </p>
+                        </span>
                       ))}
                 </ListGroup>
               </td>
               <td>
                 {isAdmin && (
                     <>
-                    <Button as={Link} to={`/tags/${tag.id}/edit`} variant="primary">
+                    <Button bsPrefix="edit-button" onClick={() => navigate(`/tags/${tag.id}/edit`)} variant="primary">
                   Edit 
               </Button>
-                &nbsp; | &nbsp;
-                    <Button variant="danger" onClick={() => handleDelete(tag.id)}>
+                &nbsp;&nbsp;
+                    <Button bsPrefix="delete-button" onClick={() => handleDelete(tag.id)}>
                         Delete
                     </Button>        
                 </>
@@ -103,6 +107,7 @@ const TagList = () => {
         </tbody>
       </Table>
     </Container>
+    </div>
   );
 };
 

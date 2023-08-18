@@ -3,6 +3,7 @@ import { ForumContext } from '../../managers/ForumManager';
 import { UserContext } from '../../managers/UserManager';
 import { Container, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import NavBar from '../nav/navbar';
 
 const ForumList = () => {
     const { forums, getAllForums, deleteForum, deactivateForum, reactivateForum } = useContext(ForumContext);
@@ -33,17 +34,19 @@ const ForumList = () => {
 
     
     return (
-        <Container className="mt-4">
-            <h1>Forums</h1>
+        <div className="forum-list-page">
+        <NavBar />
+        <Container className="general-list-container">
+            <h1 className="important-header mb-3">Forums</h1>
             {isAdmin && (
-            <Button className="mb-3" variant="secondary" as={Link} to={`/forums/add`}>Add Forum</Button>)}
-            <Table striped bordered hover>
+            <Button bsPrefix="add-figure-button" as={Link} to={`/forums/add`}>Add Forum</Button>)}
+            <Table className="opaque-table mt-3">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
                         {isAdmin && (
-                        <th>Actions</th>
+                        <th>Admin Actions</th>
                         )}
                     </tr>
                 </thead>
@@ -56,12 +59,12 @@ const ForumList = () => {
                             <td>
                             <>
                             <Link to={`/forums/${forum.id}/edit`}>
-                                <Button variant="warning">Edit</Button>
+                                <Button bsPrefix="edit-button" className="me-2">Edit</Button>
                             </Link>
-                            &nbsp;|&nbsp;
-                            <Button variant="secondary" onClick={() => handleDeactivate(forum.id)}>Deactivate</Button>
-                            &nbsp;|&nbsp;
-                            <Button variant="danger" onClick={() => handleDelete(forum.id)}>Delete</Button>
+
+                            <Button bsPrefix="deactivate-button" className="me-2" onClick={() => handleDeactivate(forum.id)}>Deactivate</Button>
+
+                            <Button bsPrefix="delete-button" onClick={() => handleDelete(forum.id)}>Delete</Button>
                             </>
                             </td>
                              )}
@@ -72,8 +75,8 @@ const ForumList = () => {
 
             {isAdmin && (
             <>
-            <h2 className="mt-4">Deactivated Forums</h2>
-            <Table striped bordered hover>
+            <h2 className="important-header mt-4">Deactivated Forums</h2>
+            <Table className="opaque-table mt-3">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -92,11 +95,11 @@ const ForumList = () => {
                             <td>{forum.name}</td>
                             <td>{forum.description}</td>
                             <td>
-                            <Button variant="success" onClick={() => handleReactivate(forum.id)}>Reactivate</Button>
-                            &nbsp;|&nbsp;
-                            <Link to={`/forums/${forum.id}/edit`}><Button variant="warning">Edit</Button></Link>
-                            &nbsp;|&nbsp;
-                            <Button variant="danger" onClick={() => handleDelete(forum.id)}>Delete</Button>
+                            <Link to={`/forums/${forum.id}/edit`}><Button bsPrefix="edit-button" className="me-2">Edit</Button></Link>
+
+                            <Button bsPrefix="reactivate-button" className="me-2" onClick={() => handleReactivate(forum.id)}>Reactivate</Button>
+
+                            <Button bsPrefix="delete-button" onClick={() => handleDelete(forum.id)}>Delete</Button>
                             </td>
                         </tr>
                         ))
@@ -106,6 +109,7 @@ const ForumList = () => {
             </>
             )}
         </Container>
+        </div>
     );
 }
 
