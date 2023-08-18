@@ -51,3 +51,41 @@
     100% { opacity: 1; }
   }
   
+option {
+  color: black;
+}
+
+.add-article-page {
+  background: url('/src/components/img/1920-article-list.jpg');
+  height: 100vh;
+  animation: fadeIn 1.5s;
+}
+
+.add-article-form {
+  -webkit-backdrop-filter: blur(8px);  
+  backdrop-filter: blur(8px); 
+  box-shadow: 0px 10px 15px 10px rgb(0 0 0 / 15%);
+  background-color: rgb(228 228 228 / 15%); 
+  font-family: 'GTWalsheimProLight';
+  color: #fff;
+}
+
+.add-article-page .form-control::placeholder {
+  color: #fff;
+}
+
+.add-article-page .form-control,
+.add-article-page .form-control:focus {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #fff;
+  border-radius: 0;
+  color: #fff;
+  padding-left: 0;
+}
+
+.add-article-page .form-label {
+  color: #fff;
+  font-family: 'GtWaslsheimProCondensedMedium';
+  text-transform: uppercase;
+}

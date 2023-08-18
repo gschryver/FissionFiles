@@ -69,9 +69,9 @@ const UpdateArticle = () => {
   }
 
   return (
-    <div className="add-scientist-page">
+    <div className="add-article-page">
       <NavBar />
-      <Container className="mt-4 add-scientist-form p-5">
+      <Container className="mt-4 add-article-form p-5">
         <h2 className="important-header">Update Article</h2>
         <Form onSubmit={handleSubmit}>
 

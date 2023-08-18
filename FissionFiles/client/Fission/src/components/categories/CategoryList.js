@@ -81,7 +81,9 @@ const CategoryList = () => {
         <tbody>
           {categories.map((category) => (
             <tr key={category.id}>
-              <td>{category.name}</td>
+              <td><Link to={`/categories/${category.id}/articles`}>
+        {category.name}
+      </Link></td>
               <td>
                 <ListGroup variant="flush">
                   {articlesByCategory[category.id] &&

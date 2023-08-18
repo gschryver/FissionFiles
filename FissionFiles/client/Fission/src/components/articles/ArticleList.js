@@ -10,13 +10,14 @@ import '../css/article.css';
 
 const ArticleList = () => {
   const { articles, getAllArticles, deleteArticle } = useContext(ArticleContext);
-  const { categories } = useContext(CategoryContext);
+  const { categories, getAllCategories } = useContext(CategoryContext);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const isAdmin = user && user.userTypeId === 1;
 
   useEffect(() => {
     getAllArticles();
+    getAllCategories();
     window.scrollTo(0, 0);
   }, []);
 

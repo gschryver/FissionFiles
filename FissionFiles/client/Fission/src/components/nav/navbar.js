@@ -35,19 +35,19 @@ const NavBar = ({ className, bgColor = "navbar-background", fadeInFromTop = fals
                   <>
                     <Nav.Item className="me-3">
                       <Nav.Link as={RRNavLink} to="/admin-dashboard" className="hover-underline-animation">
-                        Admin Dashboard
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className="me-3">
-                      <Nav.Link as={RRNavLink} to="/tags" className="hover-underline-animation">
-                        Tags
+                        Admin
                       </Nav.Link>
                     </Nav.Item>
                   </>
                 )}
                 <Nav.Item className="me-3">
-                  <Nav.Link as={RRNavLink} to="/articles" className="hover-underline-animation">
-                    Articles
+                  <Nav.Link as={RRNavLink} to="/categories/8/articles" className="hover-underline-animation">
+                    Key Locations
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="me-3">
+                  <Nav.Link as={RRNavLink} to="/categories/9/articles" className="hover-underline-animation">
+                    Significant Events
                   </Nav.Link>
                 </Nav.Item>
               </>
