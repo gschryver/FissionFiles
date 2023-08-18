@@ -67,7 +67,7 @@ const NavBar = ({ className, bgColor = "navbar-background", fadeInFromTop = fals
               <>
                 <Nav.Item className="me-3">
                   <Nav.Link as={RRNavLink} to="/scientists" className="hover-underline-animation">
-                    Scientists
+                    Important Figures
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item className="me-3">

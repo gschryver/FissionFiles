@@ -64,7 +64,7 @@ const UpdateScientist = () => {
                 <Form.Group as={Row} controlId="description">
                     <Form.Label column sm="2">Description</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="textarea" placeholder="Enter description" value={scientist.description} name="description" onChange={handleChange} />
+                        <Form.Control type="textarea" rows={3} placeholder="Enter description" value={scientist.description} name="description" onChange={handleChange} />
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="imageUrl">

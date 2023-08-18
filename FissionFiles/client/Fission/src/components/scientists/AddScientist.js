@@ -32,7 +32,7 @@ const AddScientist = () => {
 
     return (
         <Container className="mt-4">
-            <h2>Add Scientist</h2>
+            <h2>Add Important Figure</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group as={Row} controlId="fullName">
                     <Form.Label column sm="2">Full Name</Form.Label>

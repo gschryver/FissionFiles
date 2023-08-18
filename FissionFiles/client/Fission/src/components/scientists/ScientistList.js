@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ScientistContext } from '../../managers/ScientistManager';
 import { UserContext } from '../../managers/UserManager';
 import { Container, Table, Button } from 'react-bootstrap';
+import NavBar from '../nav/navbar';
 
 const ScientistList = () => {
     const { scientists, getAllScientists, deleteScientist } = useContext(ScientistContext);
@@ -13,7 +14,7 @@ const ScientistList = () => {
     useEffect(() => {
         getAllScientists();
     }, []);
-
+    
     // delete a scientist
     const handleDelete = (scientistId) => {
         if (window.confirm("WARNING:\n\nAre you sure you want to delete this scientist? This cannot be undone.")) {
@@ -24,31 +25,27 @@ const ScientistList = () => {
     }
 
     return (
-        <Container className="mt-4 scientist-list-container">
-            <h1>Scientists</h1>
+        <>
+        <NavBar/>
+        <Container className="scientist-list-container">
+            <h1>Important Figures</h1>
             {isAdmin && (
-            <Button className="mb-3" variant="secondary" as={Link} to={`/scientists/add`}>Add Scientist</Button>)}
+            <Button className="mb-3" variant="secondary" as={Link} to={`/scientists/add`}>Add an Important Figure</Button>)}
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Full Name</th>
                         <th>Title</th>
-                        <th>Description</th>
-                        <th>Achievements</th>
-                        {isAdmin && <th>Actions</th>}
+                        {isAdmin && <th>Admin Actions</th>}
                     </tr>
                 </thead>
                 <tbody>
                     {scientists.map(scientist => (
                         <tr key={scientist.id}>
-                            <td>{scientist.id}</td>
                             <td>
                                 <Link to={`/scientist/${scientist.id}`}>{scientist.fullName}</Link>
                             </td>
                             <td>{scientist.title}</td>
-                            <td>{scientist.description}</td>
-                            <td>{scientist.achievements}</td>
                             {isAdmin && <td>
                                 <Button variant="primary" onClick={() => navigate(`/scientists/edit/${scientist.id}`)}>Edit</Button>
                                 &nbsp;|&nbsp;
@@ -60,6 +57,7 @@ const ScientistList = () => {
                 </tbody>
             </Table>
         </Container>
+        </>
     );
 }
 
