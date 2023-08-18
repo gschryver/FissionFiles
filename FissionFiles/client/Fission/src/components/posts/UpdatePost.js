@@ -4,7 +4,8 @@ import { PostContext } from "../../managers/PostManager";
 import { ForumContext } from "../../managers/ForumManager";
 import { UserContext } from "../../managers/UserManager";
 import { TagContext } from "../../managers/TagManager";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import NavBar from "../nav/navbar";
 
 const UpdatePostForm = () => {
   const { updatePost, getPostById } = useContext(PostContext);
@@ -110,41 +111,50 @@ const UpdatePostForm = () => {
   };
 
   return (
-    <Container className="mt-4">
-      <h2>Update Post</h2>
+    <div class="add-general-page">
+    <NavBar/>
+    <Container className="mt-4 add-post-form p-5">
+      <h2 className="important-header">Update Post</h2>
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formTitle">
-          <Form.Label>Title</Form.Label>
+        <Form.Group as={Row} controlId="formTitle">
+         <Form.Label column sm="2">Title</Form.Label>
+         <Col sm="10">
           <Form.Control
             type="text"
             name="title"
             value={post.title}
             onChange={handleChange}
           />
+          </Col>
         </Form.Group>
 
-        <Form.Group controlId="formContent">
-          <Form.Label>Content</Form.Label>
+        <Form.Group as={Row} controlId="formContent">
+         <Form.Label column sm="2">Content</Form.Label>
+         <Col sm="10">
           <Form.Control
             as="textarea"
             name="content"
             value={post.content}
             onChange={handleChange}
           />
+          </Col>
         </Form.Group>
 
-        <Form.Group controlId="formHeaderImage">
-          <Form.Label>Header Image URL</Form.Label>
+        <Form.Group as={Row} controlId="formHeaderImage">
+         <Form.Label column sm="2">Header Image URL</Form.Label>
+          <Col sm="10">
           <Form.Control
             type="text"
             name="headerImage"
             value={post.headerImage}
             onChange={handleChange}
           />
+          </Col>
         </Form.Group>
 
-        <Form.Group controlId="formTags">
-          <Form.Label>Tags</Form.Label>
+        <Form.Group as={Row} className="mt-4 mb-4" controlId="formTags">
+         <Form.Label column sm="2">Tags</Form.Label>
+         <Col sm="10">
 
           {tags.map((tag) => (
             <Form.Check
@@ -158,13 +168,23 @@ const UpdatePostForm = () => {
               onChange={handleTagChange}
             />
           ))}
+          </Col>
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Update Post
+        <Button bsPrefix="add-figure-button" className="me-2" type="submit">
+          Update
+        </Button>
+        <Button
+          variant="secondary"
+          bsPrefix="cancel-figure-button"
+          className="ml-2"
+          onClick={() => navigate(`/post/${postId}`)}
+        >
+          Cancel
         </Button>
       </Form>
     </Container>
+    </div>
   );
 };
 

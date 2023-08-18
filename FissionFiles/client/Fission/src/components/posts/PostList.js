@@ -6,6 +6,7 @@ import { PostContext } from "../../managers/PostManager";
 import { UserContext } from "../../managers/UserManager";
 import { TagContext } from "../../managers/TagManager";
 import { Table, Button, Container, Badge } from "react-bootstrap";
+import NavBar from "../nav/navbar";
 
 const PostList = () => {
   const { getPostByForumId, getForumById } = useContext(ForumContext);
@@ -56,27 +57,33 @@ const PostList = () => {
   };
 
   return (
-    <Container className="mt-4">
-      <Link to="/forums">Back to Forums List</Link>
-      {forum && <h1>Posts for {forum.name}</h1>}
+    <div className="post-list-page">
+    <NavBar />
+    <Container className="general-list-container">
+      {forum && <h1 className="important-header mb-3">Posts for {forum.name}</h1>}
       {isAdmin && (
         <Button
-          className="mb-3"
-          variant="secondary"
-          as={Link}
-          to={`/posts/add`}
-        >
-          Add Post
-        </Button>
+        bsPrefix="edit-button"
+        className="me-2"
+        onClick={() => navigate(`/posts/add`)}
+      >
+        Add a New Post
+      </Button>
       )}
-      <Table striped bordered hover>
+      <Button 
+      bsPrefix="reactivate-button"
+      onClick={() => navigate(`/forums/`)}
+      >
+        Back to Forums
+      </Button>
+      <Table className="opaque-table mt-3">
         <thead>
           <tr>
             <th>Title</th>
             <th>Content</th>
             <th>Author</th>
             <th>Date</th>
-            <th>Tags</th>
+            {/* <th>Tags</th> */}
             {isAdmin && <th>Actions</th>}
           </tr>
         </thead>
@@ -89,21 +96,21 @@ const PostList = () => {
               <td>{post.content}</td>
               <td>{post.user ? post.user.displayName : "Unknown"}</td>
               <td>{new Date(post.timestamp).toLocaleDateString()}</td>
-              <td>
+              {/* <td>
   {Array.isArray(postTags[post.id]) &&
     postTags[post.id].map((tag) => (
       <Link key={tag.id} to={`/tags/${tag.id}/posts`} className="mr-2">
         <Badge variant="secondary" className="me-2">{tag.name}</Badge>
       </Link>
     ))}
-</td>
+</td> */}
               {isAdmin && (
                 <td>
-                  <Button variant="primary" onClick={() => goToEdit(post.id)}>
+                  <Button bsPrefix="edit-button" className="me-2" onClick={() => goToEdit(post.id)}>
                     Edit
                   </Button>
-                  &nbsp;|&nbsp;
                   <Button
+                    bsPrefix="delete-button"
                     variant="danger"
                     onClick={() => handleDelete(post.id)}
                   >
@@ -118,6 +125,7 @@ const PostList = () => {
         </tbody>
       </Table>
     </Container>
+    </div>
   );
 };
 
