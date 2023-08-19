@@ -47,7 +47,7 @@ const UpdateScientist = () => {
     }
 
     return (
-        <div className="add-scientist-page">
+        <div className="add-general-page">
         <NavBar />
         <Container className="mt-4 add-scientist-form p-5">
             <h2 className="important-header">Update Important Figure</h2>

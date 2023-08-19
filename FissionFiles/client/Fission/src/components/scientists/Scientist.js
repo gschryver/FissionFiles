@@ -4,7 +4,7 @@ import { ScientistContext } from '../../managers/ScientistManager';
 import { UserContext } from '../../managers/UserManager';
 import NavBar from '../nav/navbar';
 import '../css/scientist.css';
-import { Card, Container, Button, Row, Col, Image } from 'react-bootstrap';
+import { Container, Button, Row, Col, Image } from 'react-bootstrap';
 
 const Scientist = () => {
     const { scientistId } = useParams();
@@ -55,7 +55,7 @@ const Scientist = () => {
                             {isAdmin && 
                             <Button bsPrefix="white-button" className="me-2" onClick={() => navigate(`/scientists/edit/${scientist.id}`)}>Edit</Button>
                             }
-                            <Button bsPrefix="white-button" onClick={() => navigate(`/scientists`)}>Back to List</Button>    
+                            <Button bsPrefix="white-button" onClick={() => navigate(-1)}>Back to List</Button>    
                 </Col>
             </Row>
             </Container>

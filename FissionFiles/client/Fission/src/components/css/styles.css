@@ -1,25 +1,29 @@
+a {
+  text-decoration: none !important;
+}
+
 .general-list-page {
     background: url('/src/components/img/1920-article-list.jpg');
-    max-height: 100%;
+    min-height: 100%;
     height: 100vh;
   }
 
 .location-list-page {
     background: url('/src/components/img/1920-cat.jpg');
-    max-height: 100%;
+    min-height: 100%;
     height: 100vh;
   }
 
 .post-list-page {
   background: url('/src/components/img/1920-post.jpg');
   background-size: cover; 
-  max-height: 100%;
   height: 100vh;
+  min-height: 100%;
 }
 
   .forum-list-page {
     background: url('/src/components/img/1920-forum.jpg');
-    max-height: 100%;
+    min-height: 100%;
     height: 100vh;
   }
 
@@ -31,14 +35,32 @@
 .add-general-page {
     background: url('/src/components/img/1920-article-list.jpg');
     height: 100vh;
+    min-height: 100%;
     animation: fadeIn 1.5s;
   }
+
+.add-post-page {
+  background: url('/src/components/img/1920-post.jpg');
+  background-size: cover; 
+  min-height: 100vh;
+  height: 100%;
+  animation: fadeIn 1.5s;
+}
 
   .add-post-form {
     -webkit-backdrop-filter: blur(8px);  
     backdrop-filter: blur(8px); 
     box-shadow: 0px 10px 15px 10px rgb(0 0 0 / 15%);
     background-color: rgb(228 228 228 / 15%); 
+    font-family: 'GTWalsheimProLight';
+    color: #fff;
+  }
+
+  .post-background {
+    -webkit-backdrop-filter: blur(8px);  
+    backdrop-filter: blur(8px); 
+    box-shadow: 0px 10px 15px 10px rgb(0 0 0 / 15%);
+    background-color: rgba(6,10,9, .4); 
     font-family: 'GTWalsheimProLight';
     color: #fff;
   }
@@ -53,12 +75,15 @@
     color: #fff;
   }
   
-  .add-general-page .form-control::placeholder {
+  .add-general-page .form-control::placeholder,
+  .add-post-page .form-control::placeholder {
     color: #fff;
   }
   
   .add-general-page .form-control,
-  .add-general-page .form-control:focus {
+  .add-general-page .form-control:focus,
+  .add-post-page .form-control,
+  .add-post-page .form-control:focus {
     background: none;
     border: none;
     border-bottom: 1px solid #fff;
@@ -67,13 +92,15 @@
     padding-left: 0;
   }
   
-  .add-general-page .form-label {
+  .add-general-page .form-label,
+  .post-list-page .form-label {
     color: #fff;
     font-family: 'GtWaslsheimProCondensedMedium';
     text-transform: uppercase;
   }
 
   .deactivate-button {
+    font-family: 'GTWalsheimProLight', sans-serif;
     color: #fff;
     background: none;
     border: 2px solid #D3010A;
@@ -89,6 +116,7 @@
 }
 
 .reactivate-button {
+  font-family: 'GTWalsheimProLight', sans-serif;
     color: #fff;
     background: none;
     border: 2px solid #05C7F2;
@@ -103,7 +131,30 @@
     text-decoration: none;
 }
 
+.add-post-page .form-check-input:checked,
 .add-general-page .form-check-input:checked {
   background-color: #8C0343;
   border-color: #8C0343;
+}
+
+.add-post-page .card,
+.add-comment {
+  background: rgba(6,10,9, .4);
+  border-radius: 0;
+  color: #fff;
+  border: none;
+  padding: 10px;
+}
+
+.add-comment textarea.form-control,
+.add-post-page .card-body,
+.add-post-page .list-group-item {
+  background: rgba(6,10,9, .7);
+  color: #fff;
+  border: none;
+  padding: 10px;
+}
+
+.add-post-page .card > .card-body > .card-subtitle {
+  color: #fff !important;
 }

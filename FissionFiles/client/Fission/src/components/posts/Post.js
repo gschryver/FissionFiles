@@ -8,6 +8,7 @@ import { TagContext } from "../../managers/TagManager";
 import Comment from "../comments/Comment";
 import AddComment from "../comments/AddComment";
 import { Container, Card, ListGroup, Button, ButtonGroup, Badge} from "react-bootstrap";
+import NavBar from "../nav/navbar";
 
 const Post = () => {
   const { getPostById, deletePost } = useContext(PostContext);
@@ -112,16 +113,29 @@ const Post = () => {
   };
 
   return (
-    <Container className="mt-4">
+    <div className="add-post-page">
+    <NavBar/>
+    <Container className="mt-4 post-background p-5">
+    <div className="mb-4">
+        {forum && (
+          <Button
+            variant="secondary"
+            bsPrefix="edit-button"
+            onClick={() => navigate(`/forums/${forum.id}/posts`)}
+          >
+            Back to {forum.name}
+          </Button>
+        )}
+      </div>
       <Card className="mb-4">
         <Card.Header>
-          <h1>{post.title}</h1>
+          <h1 className="important-header">{post.title}</h1>
         </Card.Header>
         <Card.Body>
-        <Card.Subtitle className="mb-2 text-muted">
-            Author:{" "}
-            <Link to={`/user/${post.user.id}`}>{post.user.displayName}</Link> |
-            Date: {new Date(post.timestamp).toLocaleDateString()} | Tags: &nbsp;
+        <Card.Subtitle className="mt-2 mb-2 text-muted">
+            <span className="bold-mini-header">Author:</span>{" "}
+            <Link to={`/user/${post.user.id}`}>{post.user.displayName}</Link>&nbsp; |&nbsp;
+            <span className="bold-mini-header">Date:</span> {new Date(post.timestamp).toLocaleDateString()} &nbsp;|&nbsp;<span className="bold-mini-header">Tags:</span> &nbsp;
             {tags.length === 0 ? (
               <Badge bg="secondary" className="me-2">
                 No Tags
@@ -140,17 +154,18 @@ const Post = () => {
           <Card.Text>{post.content}</Card.Text>
 
           {isAdmin && (
-            <ButtonGroup className="mt-3">
+            <>
               <Button
-                variant="primary"
+                bsPrefix="edit-button"
+                className="me-2"
                 onClick={() => navigate(`/post/edit/${post.id}`)}
               >
                 Edit
               </Button>
-              <Button variant="danger" onClick={handleDelete}>
+              <Button bsPrefix="delete-button" onClick={handleDelete}>
                 Delete
               </Button>
-            </ButtonGroup>
+            </>
           )}
         </Card.Body>
       </Card>
@@ -162,7 +177,7 @@ const Post = () => {
       />
       <Card>
         <Card.Header>
-          <h2>Replies</h2>
+          <h2 className="important-header">Replies</h2>
         </Card.Header>
 
         {/* comments - edit comments is managed inline */}
@@ -187,18 +202,9 @@ const Post = () => {
           </ListGroup>
         )}
       </Card>
-      <div className="mt-3">
-        {forum && (
-          <Button
-            variant="secondary"
-            as={Link}
-            to={`/forums/${forum.id}/posts`}
-          >
-            Back to {forum.name}
-          </Button>
-        )}
-      </div>
+     
     </Container>
+    </div>
   );
 };
 

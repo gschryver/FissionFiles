@@ -32,7 +32,7 @@ const AddScientist = () => {
     };
 
     return (
-        <div class="add-scientist-page">
+        <div class="add-general-page">
         <NavBar />
         <Container className="mt-4 add-scientist-form p-5">
             <h2 className="important-header">Add Important Figure</h2>

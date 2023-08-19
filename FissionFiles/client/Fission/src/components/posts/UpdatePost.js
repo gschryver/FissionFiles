@@ -111,7 +111,7 @@ const UpdatePostForm = () => {
   };
 
   return (
-    <div class="add-general-page">
+    <div class="add-post-page">
     <NavBar/>
     <Container className="mt-4 add-post-form p-5">
       <h2 className="important-header">Update Post</h2>
@@ -178,7 +178,7 @@ const UpdatePostForm = () => {
           variant="secondary"
           bsPrefix="cancel-figure-button"
           className="ml-2"
-          onClick={() => navigate(`/post/${postId}`)}
+          onClick={() => navigate(-1)}
         >
           Cancel
         </Button>

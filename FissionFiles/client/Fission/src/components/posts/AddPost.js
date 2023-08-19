@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { UserContext } from "../../managers/UserManager";
 import { PostContext } from "../../managers/PostManager";
 import { TagContext } from "../../managers/TagManager";
 import { ForumContext } from "../../managers/ForumManager";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../nav/navbar";
 
 const NewPostForm = () => {
   const { user } = useContext(UserContext);
@@ -41,11 +42,17 @@ const NewPostForm = () => {
   };
 
   const handleTagChange = (evt) => {
-    const selectedOptions = Array.from(evt.target.selectedOptions);
-    const selectedTagIds = selectedOptions.map((option) =>
-      Number(option.value),
-    );
-    setNewPost({ ...newPost, selectedTags: selectedTagIds });
+    const value = Number(evt.target.value);
+    const isChecked = evt.target.checked;
+
+    // If the checkbox is checked and the value isn't in the array, add it
+    // Otherwise, if the checkbox is unchecked, remove the value from the array
+    setNewPost((prevPost) => ({
+      ...prevPost,
+      selectedTags: isChecked
+        ? [...prevPost.selectedTags, value]
+        : prevPost.selectedTags.filter((tagId) => tagId !== value),
+    }));
   };
 
   const handleSubmit = (evt) => {
@@ -62,64 +69,102 @@ const NewPostForm = () => {
   };
 
   return (
-    <Container className="mt-4">
-      <h2>Add New Post</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Label>Title</Form.Label>
-          <Form.Control type="text" id="title" onChange={handleFieldChange} />
-        </Form.Group>
+    <div className="add-post-page">
+      <NavBar />
+      <Container className="mt-4 add-general-form p-5">
+        <h2 className="important-header">Add New Post</h2>
 
-        <Form.Group>
-          <Form.Label>Content</Form.Label>
-          <Form.Control
-            as="textarea"
-            id="content"
-            onChange={handleFieldChange}
-          />
-        </Form.Group>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">
+              Title
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="text"
+                id="title"
+                onChange={handleFieldChange}
+              />
+            </Col>
+          </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Header Image</Form.Label>
-          <Form.Control
-            type="text"
-            id="headerImage"
-            onChange={handleFieldChange}
-          />
-        </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">
+              Content
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                as="textarea"
+                id="content"
+                onChange={handleFieldChange}
+              />
+            </Col>
+          </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Forum</Form.Label>
-          <Form.Control as="select" id="forumId" onChange={handleForumChange}>
-            <option value="">Select a forum</option>
-            {forums.map((forum) => (
-              <option key={forum.id} value={forum.id}>
-                {forum.name}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Select Tags</Form.Label>
-          <Form.Control
-            as="select"
-            multiple
-            id="selectedTags"
-            onChange={handleTagChange}
-          >
-            {tags.map((tag) => (
-              <option key={tag.id} value={tag.id}>
-                {tag.name}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">
+              Header Image
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="text"
+                id="headerImage"
+                onChange={handleFieldChange}
+              />
+            </Col>
+          </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-    </Container>
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">
+              Forum
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                as="select"
+                id="forumId"
+                onChange={handleForumChange}
+              >
+                <option value="">Select a forum</option>
+                {forums.map((forum) => (
+                  <option key={forum.id} value={forum.id}>
+                    {forum.name}
+                  </option>
+                ))}
+              </Form.Control>
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row} className="mb-4">
+            <Form.Label column sm="2">
+              Select Tags
+            </Form.Label>
+            <Col sm="10">
+              {tags.map((tag) => (
+                <Form.Check
+                  key={tag.id}
+                  type="checkbox"
+                  label={tag.name}
+                  value={tag.id}
+                  onChange={handleTagChange}
+                />
+              ))}
+            </Col>
+          </Form.Group>
+
+          <Button bsPrefix="add-figure-button" className="me-2" type="submit">
+            Add
+          </Button>
+          <Button
+  variant="secondary"
+  bsPrefix="cancel-figure-button"
+  className="ml-2"
+  onClick={() => navigate(-1)}
+>
+  Cancel
+</Button>
+        </Form>
+      </Container>
+    </div>
   );
 };
 

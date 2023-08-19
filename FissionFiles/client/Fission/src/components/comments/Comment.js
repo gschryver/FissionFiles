@@ -57,10 +57,10 @@ const Comment = ({ comment, user, isAdmin, handleUpdate, handleDelete, handleRem
 
       {comment.userId === user.id && !editing && (
         <>
-          <Button variant="primary" onClick={handleEdit}>
+          <Button bsPrefix="edit-button me-2" onClick={handleEdit}>
             Edit
           </Button>
-          <Button variant="danger" onClick={() => handleDelete(comment.id)}>
+          <Button bsPrefix="delete-button me-2" onClick={() => handleDelete(comment.id)}>
             Delete
           </Button>
         </>
@@ -68,10 +68,10 @@ const Comment = ({ comment, user, isAdmin, handleUpdate, handleDelete, handleRem
 
       {isAdmin && !editing && (
         <>
-          <Button variant="warning" onClick={() => handleRemove(comment.id)}>
+          <Button bsPrefix="deactivate-button me-2" onClick={() => handleRemove(comment.id)}>
             Remove
           </Button>
-          <Button variant="danger" onClick={() => handleBan(comment.userId)}>
+          <Button bsPrefix="deactivate-button me-2" onClick={() => handleBan(comment.userId)}>
             Ban User
           </Button>
         </>

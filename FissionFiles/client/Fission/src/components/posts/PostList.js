@@ -11,7 +11,7 @@ import NavBar from "../nav/navbar";
 const PostList = () => {
   const { getPostByForumId, getForumById } = useContext(ForumContext);
   const { getTagsForPost } = useContext(TagContext);
-  const { post, deletePost } = useContext(PostContext);
+  const { post, deletePost, getAllPosts } = useContext(PostContext);
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [forum, setForum] = useState(null);
@@ -22,6 +22,8 @@ const PostList = () => {
 
   useEffect(() => {
     getPostByForumId(forumId).then((fetchedPosts) => {
+      console.log('Fetched Posts:', fetchedPosts);
+
       setPosts(fetchedPosts);
 
       fetchedPosts.forEach(async (post) => {
@@ -80,7 +82,6 @@ const PostList = () => {
         <thead>
           <tr>
             <th>Title</th>
-            <th>Content</th>
             <th>Author</th>
             <th>Date</th>
             {/* <th>Tags</th> */}
@@ -93,7 +94,6 @@ const PostList = () => {
               <td>
                 <Link to={`/post/${post.id}`}>{post.title}</Link>
               </td>
-              <td>{post.content}</td>
               <td>{post.user ? post.user.displayName : "Unknown"}</td>
               <td>{new Date(post.timestamp).toLocaleDateString()}</td>
               {/* <td>

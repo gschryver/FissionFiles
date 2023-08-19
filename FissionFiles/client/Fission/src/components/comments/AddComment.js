@@ -28,17 +28,18 @@ const AddComment = ({ postId, onCommentAdded }) => {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="commentContent">
-                <Form.Label>Add a Comment</Form.Label>
+            <Form.Group className="add-comment" controlId="commentContent">
+                <Form.Label className="bold-mini-header">Add a Comment</Form.Label>
                 <Form.Control 
                     as="textarea" 
+                    className="add-comment"
                     rows={3}
                     value={content} 
                     onChange={e => setContent(e.target.value)}
                     placeholder="Write your comment here..." 
                 />
             </Form.Group>
-            <Button type="submit" className="mb-4">Submit</Button>
+            <Button type="submit" bsPrefix="edit-button" className="mt-2 mb-4">Submit</Button>
         </Form>
     );
 };

@@ -25,3 +25,8 @@
     font-family: 'GTWalsheimProLight';
     src: url('../fonts/GT-Walsheim-Pro-Light.ttf'); 
 }
+
+.bold-mini-header {
+    font-family: 'GtWaslsheimProCondensedMedium';
+    text-transform: uppercase;
+}

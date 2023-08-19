@@ -173,6 +173,7 @@
 }
 
 .edit-button {
+    font-family: 'GTWalsheimProLight', sans-serif;
     color: #fff;
     background: none;
     border: 2px solid #8C0343;
@@ -205,6 +206,7 @@
 }
 
 .delete-button {
+    font-family: 'GTWalsheimProLight', sans-serif;
     color: #fff;
     background: none;
     border: 2px solid #506266;
@@ -218,8 +220,6 @@
     box-shadow: inset 400px 0 0 0 #506266;
     text-decoration: none;
 }
-
-
 
 .add-scientist-page .form-control::placeholder {
     color: #fff;
